@@ -1,3 +1,10 @@
 species	hp	mp	ag	st	exp	gold
 goblin	7	2	3	3	10	3
 feline	5	5	5	2	20	5
+cyclops	10	10	1	1	40	10
+soldier	5	5	5	5	20	8
+dragon	10	10	10	10	50	15
+rat	1	1	1	1	2	2
+bat	2	2	3	1	3	3
+christian	10	10	5	2	20	15
+machine	10	1	3	10	20	20
