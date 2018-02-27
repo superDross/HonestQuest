@@ -5,6 +5,7 @@ import time
 
 
 def main(screen):
+    ''' Overworld animation.'''
     world = OverWorld(30)
     n = 0
     while n != 1:
@@ -17,8 +18,9 @@ def main(screen):
 
 
 def battle(screen):
+    ''' Battle transition sequence.'''
     n = 0
-    while n != 100:
+    while n != 50:
         screen.addstr(n, n, 'BATTLE')
         screen.refresh()
         time.sleep(0.02)
