@@ -6,4 +6,5 @@ leveling = {1: 0, 2: 6, 3: 23, 4: 47, 5: 110, 6: 220, 7: 450, 8: 800, 9: 1300,
 spells = {2: 'heal', 4: 'flame'}
 
 
-# something that allows one to add spell methods when level has been reached
+# something that allows one to add spell methods when level has been reached.
+# consider having the Human class as a composition of HumanStats and HumanActions.
