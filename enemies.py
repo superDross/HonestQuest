@@ -44,10 +44,11 @@ class Rodent(Enemy):
         Enemy.__init__(self, name, lv, species='rat')
 
     def bite(self, target):
-        self.black_magic(target, multiplier=1.5, att_name='Bite', mp_cost=1)
+        self.black_magic(target=target, att_name='bite', stat='hp',
+                         num=1, mp_cost=1)
 
     def heal(self):
-        self.white_magic(multiplier=1, att_name='Lick Wounds', mp_cost=1)
+        self.white_magic(att_name='Lick Wounds', stat='hp', num=1,  mp_cost=1)
 
 
 class Goblin(Enemy):
@@ -59,25 +60,35 @@ class Goblin(Enemy):
                          att_name='Goblin Punch', mp_cost=2)
 
     def anger(self):
-        num = round(self.lv, -1)/10 if self.lv >= 10 else 1
+        num = round(self.lv, -1) / 10 if self.lv >= 10 else 1
         mp = num * 2 if self.lv >= 10 else 1
         self.white_magic(att_name='Fury', stat='st', num=num, mp_cost=mp)
 
+    def drain(self, target):
+        self.black_magic(target=target, att_name='Intemidate', stat='st',
+                         num=1, mp_cost=1)
 
-Guy = Human('Gohan',  1)
+
+Guy = Human('Gohan',  4)
 print(Guy)
-G = Goblin('RedGoblin', 40)
+G = Goblin('RedGoblin', 1)
+print(G)
 Guy - G
-Guy - G
-print(G.mp, G.st)
-G.anger()
-print(G.mp, G.st)
-# Rat = Rodent('Rat', 3)
-# Rat.bite(Guy)
+# print(G.mp, G.st)
+# G.anger()
+# print(G.mp, G.st)
+Rat = Rodent('Rat', 3)
+Rat.bite(Guy)
+print(Guy)
+G.drain(Guy)
+print(Guy)
 # Guy - Rat
 # Rat.heal()
 Guy.heal()
 print(Guy)
+Guy.rage()
+print(Guy)
+print(G)
 # Guy - Rat
 # Guy - Rat
 # Guy - Rat

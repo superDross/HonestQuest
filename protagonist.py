@@ -70,11 +70,11 @@ class Actions(Character):
     def heal(self):
         # self.white_magic(multiplier=1, att_name='heal', mp_cost=1)
         self.white_magic(att_name='heal', stat='hp', num=1,
-                         mp_cost=1, inc=True)
+                         mp_cost=1)
 
     def rage(self):
         self.white_magic(att_name='rage', stat='st', num=1,
-                         mp_cost=1, inc=True)
+                         mp_cost=1)
 
     def death(self, *args):
         print('GAME OVER!!!!')
@@ -84,7 +84,3 @@ class Actions(Character):
 class Human(Stats, Actions):
     def __init__(self, name, lv, items=[]):
         super().__init__(name, lv, items)
-
-    def __str__(self):
-        return '{}(Level={}, HP={}, MP={}, ST={}, AG={})\n'.format(
-            self.name, self.lv, self.hp, self.mp, self.st, self.ag)

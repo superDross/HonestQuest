@@ -1,4 +1,5 @@
 ''' Base class for all playable characters and enemies.'''
+from custom_exceptions import StatError
 import operator
 
 
@@ -13,11 +14,13 @@ class Character(object):
         self._max_hp = hp
         self._max_mp = mp
         self.gold = 0
+        self._target = None
 
-    def __sub__(self, target):
-        self._attack(target)
+    def __str__(self):
+        return '{}(LV={}, HP={}, MP={}, ST={}, AG={})\n'.format(
+            self.name, self.lv, self.hp, self.mp, self.st, self.ag)
 
-    def _attack(self, target, multiplier=1):
+    def __sub__(self, target, multiplier=1):
         att = self.st * multiplier
         target.hp = target.hp - att
         msg = '{} does {} damage to {}'.format(
@@ -28,7 +31,20 @@ class Character(object):
             print('{} is dead!\n'.format(target.name))
             target.death(self)
 
-    def _magic(self, att_name, mp_cost):
+    def black_magic(self, att_name, stat, num, mp_cost, target=None):
+        inc = False
+        self._magic(att_name, stat, num, mp_cost, inc, target)
+
+    def white_magic(self, att_name, stat, num, mp_cost, target=None):
+        inc = True
+        self._magic(att_name, stat, num, mp_cost, inc, target)
+
+    def _magic(self, att_name, stat, num, mp_cost, inc, target):
+        per = self._reduce_mp(att_name, mp_cost)
+        if per:
+            self._alter_stat(stat=stat, num=num, inc=inc, target=target)
+
+    def _reduce_mp(self, att_name, mp_cost):
         if self.mp >= mp_cost:
             self.mp -= mp_cost
             print('{} uses {}!'.format(self.name, att_name))
@@ -37,52 +53,39 @@ class Character(object):
             print("You don't have enough mp to use {}.\n".format(att_name))
             return False
 
-    def black_magic(self, target, multiplier, att_name, mp_cost):
-        per = self._magic(att_name, mp_cost)
-        if per:
-            self._attack(target, multiplier)
-
-    def white_magic(self, att_name, stat, num, mp_cost, inc=True):
-        per = self._magic(att_name, mp_cost)
-        if per:
-            self._alter_stat(stat, num, inc)
-
-    def _alter_stat(self, stat, num, inc=True):
-        ''' Alter this objects hp, mp, st or ag attributes.
-
-        Note: currently only used to increase own stats.
-        '''
-        self.stat_error(stat)
+    def _alter_stat(self, stat, num, inc=True, target=None):
+        ''' Alter a Character objects hp, mp, st or ag attribute.'''
+        stat_dict = {'hp': self._alter_hp,
+                     'mp': self._alter_mp,
+                     'st': self._alter_st,
+                     'ag': self._alter_ag}
+        if stat not in ['hp', 'mp', 'st', 'ag']:
+            raise StatError(stat)
+        self._target = self if not target else target
         op = operator.add if inc else operator.sub
-        max_stat = self.get_max_stat(stat)
-        # Tried placing the below nonsense in a dict ('hp': self.hp...}
-        # but it doesn't work as it returns the value of self.hp rather
-        # than the object self.hp itself
-        if stat == 'hp':
-            if num+self.hp > max_stat:
-                self.hp = max_stat
-            else:
-                self.hp = op(self.hp, num)
-        elif stat == 'mp':
-            if num+self.mp > max_stat:
-                self.mp = max_stat
-            else:
-                self.mp = op(self.mp, num)
-        elif stat == 'st':
-            self.st = op(self.st, num)
-        elif stat == 'ag':
-            self.ag = op(self.ag, num)
-
-        msg = '{} {} increases by {}\n'.format(self.name, stat.upper(), num)
+        alter_stat_method = stat_dict[stat]
+        alter_stat_method(num, op)
+        upordown = 'increases' if op == operator.add else 'decreases'
+        msg = '{} {} {} by {}\n'.format(self._target.name, stat.upper(),
+                                        upordown, num)
         print(msg)
 
-    def stat_error(self, stat):
-        stats = ['hp', 'mp', 'st', 'ag']
-        if stat not in stats:
-            msg = 'The statistic variable must be one of {}'
-            raise ValueError(msg.format(', '.join(stats)))
+    def _alter_hp(self, num, op):
+        max_stat = self._target._max_hp
+        if num + self._target.hp > max_stat and op == operator.add:
+            self._target.hp = max_stat
+        else:
+            self._target.hp = op(self._target.hp, num)
 
-    def get_max_stat(self, stat):
-        max_stat_d = {'hp': self._max_hp, 'mp': self._max_mp,
-                      'st': self.st, 'ag': self.ag}
-        return max_stat_d[stat]
+    def _alter_mp(self, num, op):
+        max_stat = self._target._max_mp
+        if num + self._target.mp > max_stat and op == operator.add:
+            self._target.mp = max_stat
+        else:
+            self._target.mp = op(self._target.mp, num)
+
+    def _alter_st(self, num, op):
+        self._target.st = op(self._target.st, num)
+
+    def _alter_ag(self, num, op):
+        self._target.ag = op(self._target.ag, num)
