@@ -73,7 +73,7 @@ Guy = Human('Gohan',  4)
 print(Guy)
 G = Goblin('RedGoblin', 1)
 print(G)
-Guy - G
+Guy.attack(G)
 # print(G.mp, G.st)
 # G.anger()
 # print(G.mp, G.st)

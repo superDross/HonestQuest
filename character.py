@@ -15,6 +15,7 @@ class Character(object):
         self._max_mp = mp
         self.gold = 0
         self._target = None
+        self._items = {}
 
     def __str__(self):
         return '{}(LV={}, HP={}, MP={}, ST={}, AG={})\n'.format(
@@ -30,6 +31,27 @@ class Character(object):
         if target.hp <= 0:
             print('{} is dead!\n'.format(target.name))
             target.death(self)
+
+    @property
+    def items(self):
+        return self._items
+
+    @items.setter
+    def items(self, items):
+        if not isinstance(items, list):
+            items = [items, ]
+        for item in items:
+            self._items[item.name] = item
+            print('{} added to inventory.'.format(item.name))
+
+    def use_item(self, item_name):
+        item = self._items.get(item_name)
+        print('{} Used {}'.format(self.name, item_name))
+        self._alter_stat(item.stat, item.value, inc=True)
+        del self._items[item_name]
+
+    def attack(self, target, multiplier=1):
+        self.__sub__(target, multiplier)
 
     def black_magic(self, att_name, stat, num, mp_cost, target=None):
         inc = False

@@ -14,9 +14,10 @@ import sys
 
 
 class Stats(Character):
-    def __init__(self, name, lv, items=[]):
+    ''' Stats '''
+
+    def __init__(self, name, lv):
         Character.__init__(self, name, 1, 1, 1, 1, lv)
-        self.items = items
         self.leveling = stats.leveling
         self._exp = 0
         self._determine_stats()
@@ -54,6 +55,7 @@ class Stats(Character):
                     break
 
     def get_exp(self):
+        ''' Print EXP.'''
         msg = '{} has {} exp\n{} exp to the next level'
         next_lv_exp = self.leveling.get(self.lv + 1)
         exp_to_next_lv = next_lv_exp - self.exp
@@ -61,14 +63,15 @@ class Stats(Character):
 
 
 class Actions(Character):
-    def __init__(self, name, lv, items=[]):
+    def __init__(self, name, lv):
         hp, mp, ag, st = self._determine_stats(lv)
         Character.__init__(self, name, hp, mp, st, ag, lv)
-        self.items = items
-        self.leveling = stats.leveling
+        # some weird stuff going on
+        # the below attr (test) isnt initilised. dunno why.
+        # INVESTIGATE
+        self.test = 1
 
     def heal(self):
-        # self.white_magic(multiplier=1, att_name='heal', mp_cost=1)
         self.white_magic(att_name='heal', stat='hp', num=1,
                          mp_cost=1)
 
@@ -82,5 +85,5 @@ class Actions(Character):
 
 
 class Human(Stats, Actions):
-    def __init__(self, name, lv, items=[]):
-        super().__init__(name, lv, items)
+    def __init__(self, name, lv):
+        super().__init__(name, lv)
