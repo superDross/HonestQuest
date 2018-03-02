@@ -1,4 +1,5 @@
 ''' Base class for all playable characters and enemies.'''
+import operator
 
 
 class Character(object):
@@ -27,7 +28,7 @@ class Character(object):
             print('{} is dead!\n'.format(target.name))
             target.death(self)
 
-    def _magic(self, multiplier, att_name, mp_cost):
+    def _magic(self, att_name, mp_cost):
         if self.mp >= mp_cost:
             self.mp -= mp_cost
             print('{} uses {}!'.format(self.name, att_name))
@@ -37,19 +38,51 @@ class Character(object):
             return False
 
     def black_magic(self, target, multiplier, att_name, mp_cost):
-        per = self._magic(multiplier, att_name, mp_cost)
+        per = self._magic(att_name, mp_cost)
         if per:
             self._attack(target, multiplier)
 
-    def white_magic(self, multiplier, att_name, mp_cost):
-        per = self._magic(multiplier, att_name, mp_cost)
+    def white_magic(self, att_name, stat, num, mp_cost, inc=True):
+        per = self._magic(att_name, mp_cost)
         if per:
-            self._increase_hp(multiplier)
+            self._alter_stat(stat, num, inc)
 
-    def _increase_hp(self, inc):
-        self.hp += inc
-        if self.hp > self._max_hp:
-            self.hp = self._max_hp
-        msg = '{} hp increases by {}'.format(self.name, inc)
+    def _alter_stat(self, stat, num, inc=True):
+        ''' Alter this objects hp, mp, st or ag attributes.
+
+        Note: currently only used to increase own stats.
+        '''
+        self.stat_error(stat)
+        op = operator.add if inc else operator.sub
+        max_stat = self.get_max_stat(stat)
+        # Tried placing the below nonsense in a dict ('hp': self.hp...}
+        # but it doesn't work as it returns the value of self.hp rather
+        # than the object self.hp itself
+        if stat == 'hp':
+            if num+self.hp > max_stat:
+                self.hp = max_stat
+            else:
+                self.hp = op(self.hp, num)
+        elif stat == 'mp':
+            if num+self.mp > max_stat:
+                self.mp = max_stat
+            else:
+                self.mp = op(self.mp, num)
+        elif stat == 'st':
+            self.st = op(self.st, num)
+        elif stat == 'ag':
+            self.ag = op(self.ag, num)
+
+        msg = '{} {} increases by {}\n'.format(self.name, stat.upper(), num)
         print(msg)
-        print('{} HP = {}\n'.format(self.name, self.hp))
+
+    def stat_error(self, stat):
+        stats = ['hp', 'mp', 'st', 'ag']
+        if stat not in stats:
+            msg = 'The statistic variable must be one of {}'
+            raise ValueError(msg.format(', '.join(stats)))
+
+    def get_max_stat(self, stat):
+        max_stat_d = {'hp': self._max_hp, 'mp': self._max_mp,
+                      'st': self.st, 'ag': self.ag}
+        return max_stat_d[stat]

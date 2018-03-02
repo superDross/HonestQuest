@@ -59,22 +59,25 @@ class Goblin(Enemy):
                          att_name='Goblin Punch', mp_cost=2)
 
     def anger(self):
-        inc = (self.lv/2) * self.st
-        self.st += inc
-        msg = '{} uses {}!\nStrength increase by {}\n'
-        print(msg.format(self.name, 'Fury', inc))
+        num = round(self.lv, -1)/10 if self.lv >= 10 else 1
+        mp = num * 2 if self.lv >= 10 else 1
+        self.white_magic(att_name='Fury', stat='st', num=num, mp_cost=mp)
 
 
 Guy = Human('Gohan',  1)
-G = Goblin('RedGoblin', 1)
+print(Guy)
+G = Goblin('RedGoblin', 40)
 Guy - G
 Guy - G
-G.punch(Guy)
+print(G.mp, G.st)
+G.anger()
+print(G.mp, G.st)
 # Rat = Rodent('Rat', 3)
 # Rat.bite(Guy)
 # Guy - Rat
 # Rat.heal()
-# Guy.heal()
+Guy.heal()
+print(Guy)
 # Guy - Rat
 # Guy - Rat
 # Guy - Rat

@@ -2,8 +2,9 @@
 
 A diamond shape MixIn is used here where Stats and Actions both inherit from
 Chracter base class before bing mixed together as Human. In C++ this is called
-the diamond of dread as it can result in base class methods being called
-twice. This doesn't seem to be a problem here (virtual inheritence in python
+the diamond of dread as it can result in base class methods being called twice.
+Another problem would be if Stats and Actions have a method with the same name.
+This doesn't seem to be a problem here (virtual inheritence in python
 maybe?). However, there is probably a better way to design this all as it is
 currently a glorified vesion of multiple inheritence.
 '''
@@ -67,7 +68,13 @@ class Actions(Character):
         self.leveling = stats.leveling
 
     def heal(self):
-        self.white_magic(multiplier=1, att_name='heal', mp_cost=1)
+        # self.white_magic(multiplier=1, att_name='heal', mp_cost=1)
+        self.white_magic(att_name='heal', stat='hp', num=1,
+                         mp_cost=1, inc=True)
+
+    def rage(self):
+        self.white_magic(att_name='rage', stat='st', num=1,
+                         mp_cost=1, inc=True)
 
     def death(self, *args):
         print('GAME OVER!!!!')
