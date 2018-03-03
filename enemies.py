@@ -56,8 +56,8 @@ class Goblin(Enemy):
         Enemy.__init__(self, name, lv, species='goblin')
 
     def punch(self, target):
-        self.black_magic(target, multiplier=1.5,
-                         att_name='Goblin Punch', mp_cost=2)
+        self.black_magic(target=target, att_name='Goblin Punch',
+                         stat='hp', num=2, mp_cost=2)
 
     def anger(self):
         num = round(self.lv, -1) / 10 if self.lv >= 10 else 1

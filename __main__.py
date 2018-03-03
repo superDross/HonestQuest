@@ -2,11 +2,13 @@ from movement import OverWorld
 import curses
 import random
 import time
+import os
 
 
 def main(screen):
     ''' Overworld animation.'''
-    world = OverWorld(30)
+    size = os.get_terminal_size()
+    world = OverWorld(height=int(size.lines/2), width=int(size.columns/2))
     n = 0
     while n != 1:
         screen.addstr(world.render())
@@ -14,7 +16,7 @@ def main(screen):
         world.move(button)
         screen.refresh()
         screen.clear()
-        n = random.randint(1, 10)
+        n = random.randint(1, 20)
 
 
 def battle(screen):

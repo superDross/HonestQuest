@@ -2,15 +2,17 @@ import curses
 
 
 class Field(object):
-    def __init__(self, size=10):
+    def __init__(self, height, width):
         self.hero = u"\U0001F6B6"
         self.tile = '.'
-        self.size = size
+        self.height = height
+        self.width = width
         self._field = None
 
     @property
     def field(self):
-        f = [[self.tile for j in range(self.size)] for i in range(self.size)]
+        print(self.height, self.width)
+        f = [[self.tile for j in range(self.width)] for i in range(self.height)]
         self._field = f
         return f
 
@@ -39,8 +41,8 @@ class Movement(object):
 
 
 class OverWorld(Field, Movement):
-    def __init__(self, size=10):
-        Field.__init__(self, size)
+    def __init__(self, height, width):
+        Field.__init__(self, height, width)
         Movement.__init__(self)
 
     def render(self):
