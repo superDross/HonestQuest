@@ -15,7 +15,7 @@ class Character(object):
         self._max_mp = mp
         self.gold = 0
         self._target = None
-        self._items = {}
+        self._inventory = {}
 
     def __str__(self):
         return '{}(LV={}, HP={}, MP={}, ST={}, AG={})\n'.format(
@@ -32,41 +32,47 @@ class Character(object):
             print('{} is dead!\n'.format(target.name))
             target.death(self)
 
-    @property
-    def items(self):
-        return self._items
-
-    @items.setter
-    def items(self, items):
-        if not isinstance(items, list):
-            items = [items, ]
-        for item in items:
-            self._items[item.name] = item
-            print('{} added to inventory.'.format(item.name))
-
-    def use_item(self, item_name):
-        item = self._items.get(item_name)
-        print('{} Used {}'.format(self.name, item_name))
-        self._alter_stat(item.stat, item.value, inc=True)
-        del self._items[item_name]
-
     def attack(self, target, multiplier=1):
         self.__sub__(target, multiplier)
 
+    @property
+    def items(self):
+        return self._inventory
+
+    @items.setter
+    def items(self, items):
+        ''' Add items to the inventory.'''
+        if not isinstance(items, list):
+            items = [items, ]
+        for item in items:
+            self._inventory[item.name] = item
+            print('{} added to inventory.'.format(item.name))
+
+    def use_item(self, item_name):
+        ''' Use an item in your inventory.'''
+        item = self._inventory.get(item_name)
+        print('{} Used {}'.format(self.name, item_name))
+        self._alter_stat(item.stat, item.value, inc=True)
+        del self._inventory[item_name]
+
     def black_magic(self, att_name, stat, num, mp_cost, target=None):
+        ''' Magic that reduces a targets given stat attribute.'''
         inc = False
         self._magic(att_name, stat, num, mp_cost, inc, target)
 
     def white_magic(self, att_name, stat, num, mp_cost, target=None):
+        ''' Magic that increases a targets given stat attribute.'''
         inc = True
         self._magic(att_name, stat, num, mp_cost, inc, target)
 
     def _magic(self, att_name, stat, num, mp_cost, inc, target):
+        ''' Performs magic and depletes mp.'''
         per = self._reduce_mp(att_name, mp_cost)
         if per:
             self._alter_stat(stat=stat, num=num, inc=inc, target=target)
 
     def _reduce_mp(self, att_name, mp_cost):
+        ''' Lower MP by a given value.'''
         if self.mp >= mp_cost:
             self.mp -= mp_cost
             print('{} uses {}!'.format(self.name, att_name))
@@ -77,37 +83,13 @@ class Character(object):
 
     def _alter_stat(self, stat, num, inc=True, target=None):
         ''' Alter a Character objects hp, mp, st or ag attribute.'''
-        stat_dict = {'hp': self._alter_hp,
-                     'mp': self._alter_mp,
-                     'st': self._alter_st,
-                     'ag': self._alter_ag}
         if stat not in ['hp', 'mp', 'st', 'ag']:
             raise StatError(stat)
         self._target = self if not target else target
         op = operator.add if inc else operator.sub
-        alter_stat_method = stat_dict[stat]
-        alter_stat_method(num, op)
+        calc = op(getattr(self._target, stat), num)
+        setattr(self._target, stat, calc)
         upordown = 'increases' if op == operator.add else 'decreases'
         msg = '{} {} {} by {}\n'.format(self._target.name, stat.upper(),
                                         upordown, num)
         print(msg)
-
-    def _alter_hp(self, num, op):
-        max_stat = self._target._max_hp
-        if num + self._target.hp > max_stat and op == operator.add:
-            self._target.hp = max_stat
-        else:
-            self._target.hp = op(self._target.hp, num)
-
-    def _alter_mp(self, num, op):
-        max_stat = self._target._max_mp
-        if num + self._target.mp > max_stat and op == operator.add:
-            self._target.mp = max_stat
-        else:
-            self._target.mp = op(self._target.mp, num)
-
-    def _alter_st(self, num, op):
-        self._target.st = op(self._target.st, num)
-
-    def _alter_ag(self, num, op):
-        self._target.ag = op(self._target.ag, num)
