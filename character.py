@@ -1,5 +1,5 @@
 ''' Base class for all playable characters and enemies.'''
-from custom_exceptions import StatError
+from custom_exceptions import StatError, InvalidTarget
 import operator
 
 
@@ -34,6 +34,20 @@ class Character(object):
 
     def attack(self, target, multiplier=1):
         self.__sub__(target, multiplier)
+
+    @property
+    def target(self):
+        return self._target
+
+    @target.setter
+    def target(self, target=None):
+        valid_targets = (Character, type(None))
+        if not isinstance(target, valid_targets):
+            raise InvalidTarget(target, valid_targets)
+        if target:
+            self._target = target
+        else:
+            self._target = self
 
     @property
     def items(self):
@@ -85,7 +99,7 @@ class Character(object):
         ''' Alter a Character objects hp, mp, st or ag attribute.'''
         if stat not in ['hp', 'mp', 'st', 'ag']:
             raise StatError(stat)
-        self._target = self if not target else target
+        self.target = target
         op = operator.add if inc else operator.sub
         calc = op(getattr(self._target, stat), num)
         setattr(self._target, stat, calc)
