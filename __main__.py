@@ -11,7 +11,7 @@ import os
 def main(screen):
     ''' Overworld animation.'''
     size = os.get_terminal_size()
-    world = OverWorld(height=int(size.lines/2), width=int(size.columns/2))
+    world = OverWorld(height=int(size.lines / 2), width=int(size.columns / 2))
     n = 0
     while n != 1:
         screen.addstr(world.render())
@@ -22,7 +22,7 @@ def main(screen):
         n = random.randint(1, 20)
 
 
-def battle(screen):
+def battle_transition(screen):
     ''' Battle transition sequence.'''
     n = 0
     while n != 50:
@@ -32,11 +32,16 @@ def battle(screen):
         n += 1
 
 
+def battle(character, enemy):
+    ''' Initiate battle menu.'''
+    menu = Menu(character, enemy)
+    menu.battle_menu()
+
+
 if __name__ == '__main__':
     guy = Human('Guy', 2)
     rat = Rodent('rat', 2)
     while True:
         curses.wrapper(main)
-        curses.wrapper(battle)
-        menu = Menu(guy, rat)
-        menu.battle_menu()
+        curses.wrapper(battle_transition)
+        battle(guy, rat)
