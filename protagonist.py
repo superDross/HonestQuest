@@ -1,21 +1,11 @@
-''' Protagonist (Human) classes.
-
-A diamond shape MixIn is used here where Stats and Actions both inherit from
-Chracter base class before bing mixed together as Human. In C++ this is called
-the diamond of dread as it can result in base class methods being called twice.
-Another problem would be if Stats and Actions have a method with the same name.
-This doesn't seem to be a problem here (virtual inheritence in python
-maybe?). However, there is probably a better way to design this all as it is
-currently a glorified vesion of multiple inheritence.
-'''
+''' Protagonist (Human) classes.'''
 from character import Character
+import magic as mg
 import stats
 import sys
 
 
-class Stats(Character):
-    ''' Stats '''
-
+class Human(Character):
     def __init__(self, name, lv):
         Character.__init__(self, name, 1, 1, 1, 1, lv)
         self.leveling = stats.leveling
@@ -29,6 +19,17 @@ class Stats(Character):
         self._max_mp = self.lv * 2
         self.ag = self.lv * 1
         self.st = self.lv * 1
+
+    @property
+    def magic(self):
+        # perhaps better with a range anf if elif statements
+        class_dict = {1: mg.LV1, 2: mg.LV2}
+        spells = class_dict[self.lv](self)
+        return spells
+
+    def death(self, *args):
+        print('GAME OVER!!!!')
+        sys.exit()
 
     @property
     def exp(self):
@@ -60,30 +61,3 @@ class Stats(Character):
         next_lv_exp = self.leveling.get(self.lv + 1)
         exp_to_next_lv = next_lv_exp - self.exp
         print(msg.format(self.name, self.exp, exp_to_next_lv))
-
-
-class Actions(Character):
-    def __init__(self, name, lv):
-        hp, mp, ag, st = self._determine_stats(lv)
-        Character.__init__(self, name, hp, mp, st, ag, lv)
-        # some weird stuff going on
-        # the below attr (test) isnt initilised. dunno why.
-        # INVESTIGATE
-        self.test = 1
-
-    def heal(self):
-        self.white_magic(att_name='heal', stat='hp', num=1,
-                         mp_cost=1)
-
-    def rage(self):
-        self.white_magic(att_name='rage', stat='st', num=1,
-                         mp_cost=1)
-
-
-class Human(Stats, Actions):
-    def __init__(self, name, lv):
-        super().__init__(name, lv)
-
-    def death(self, *args):
-        print('GAME OVER!!!!')
-        sys.exit()
