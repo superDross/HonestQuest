@@ -1,6 +1,7 @@
 ''' Base class for all playable characters and enemies.'''
 from custom_exceptions import StatError, InvalidTarget
 import operator
+import time
 
 
 class Character(object):
@@ -77,6 +78,11 @@ class Character(object):
     def white_magic(self, att_name, stat, num, mp_cost, target=None):
         ''' Magic that increases a targets given stat attribute.'''
         inc = True
+        if (stat == 'hp' and (num + self.hp >= self._max_hp)) \
+                or (stat == 'mp' and (num + self.mp >= self._max_mp)):
+            print('{} is already at the maximum value'.format(stat))
+            time.sleep(0.5)
+            return
         self._magic(att_name, stat, num, mp_cost, inc, target)
 
     def _magic(self, att_name, stat, num, mp_cost, inc, target):
