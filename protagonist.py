@@ -79,11 +79,11 @@ class Actions(Character):
         self.white_magic(att_name='rage', stat='st', num=1,
                          mp_cost=1)
 
-    def death(self, *args):
-        print('GAME OVER!!!!')
-        sys.exit()
-
 
 class Human(Stats, Actions):
     def __init__(self, name, lv):
         super().__init__(name, lv)
+
+    def death(self, *args):
+        print('GAME OVER!!!!')
+        sys.exit()

@@ -1,4 +1,7 @@
 from movement import OverWorld
+from protagonist import Human
+from enemies import Rodent
+from menu import Menu
 import curses
 import random
 import time
@@ -30,5 +33,10 @@ def battle(screen):
 
 
 if __name__ == '__main__':
-    curses.wrapper(main)
-    curses.wrapper(battle)
+    guy = Human('Guy', 2)
+    rat = Rodent('rat', 2)
+    while True:
+        curses.wrapper(main)
+        curses.wrapper(battle)
+        menu = Menu(guy, rat)
+        menu.battle_menu()

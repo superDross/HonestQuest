@@ -101,6 +101,7 @@ class Character(object):
             raise StatError(stat)
         self.target = target
         op = operator.add if inc else operator.sub
+        # if stat == hp or mp...
         calc = op(getattr(self._target, stat), num)
         setattr(self._target, stat, calc)
         upordown = 'increases' if op == operator.add else 'decreases'

@@ -69,27 +69,27 @@ class Goblin(Enemy):
                          num=1, mp_cost=1)
 
 
-Guy = Human('Gohan',  4)
-print(Guy)
-G = Goblin('RedGoblin', 1)
-print(G)
-Guy.attack(G)
-# print(G.mp, G.st)
-# G.anger()
-# print(G.mp, G.st)
-Rat = Rodent('Rat', 3)
-Rat.bite(Guy)
-print(Guy)
-G.drain(Guy)
-print(Guy)
-# Guy - Rat
-# Rat.heal()
-Guy.heal()
-print(Guy)
-Guy.rage()
-print(Guy)
-print(G)
-# Guy - Rat
-# Guy - Rat
-# Guy - Rat
-# Guy - Rat
+# Guy = Human('Gohan',  4)
+# print(Guy)
+# G = Goblin('RedGoblin', 1)
+# print(G)
+# Guy.attack(G)
+# # print(G.mp, G.st)
+# # G.anger()
+# # print(G.mp, G.st)
+# Rat = Rodent('Rat', 3)
+# Rat.bite(Guy)
+# print(Guy)
+# G.drain(Guy)
+# print(Guy)
+# # Guy - Rat
+# # Rat.heal()
+# Guy.heal()
+# print(Guy)
+# Guy.rage()
+# print(Guy)
+# print(G)
+# # Guy - Rat
+# # Guy - Rat
+# # Guy - Rat
+# # Guy - Rat
