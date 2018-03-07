@@ -7,6 +7,18 @@ import time
 import os
 
 
+def get_name():
+    # need to do something if not y/n
+    os.system('clear')
+    name = input('Type your name: ')
+    print('Are you sure you want the name {}?'.format(name))
+    decision = input('Press any y to confirm or n to renenter.\n')
+    if decision == 'y':
+        return name
+    elif decision == 'n':
+        get_name()
+
+
 def main():
     ''' Overworld animation.'''
     size = os.get_terminal_size()
@@ -27,11 +39,11 @@ def battle_transition():
     size = os.get_terminal_size()
     w = int(size.columns)
     h = int(size.lines)
-    nothing = ' '*(int(w/2)-1)
-    nl = '\n'*(int(h/2))
+    nothing = ' ' * (int(w / 2) - 1)
+    nl = '\n' * (int(h / 2))
     for battle in ['battle', 'Battle!', 'BATTLE!!!']:
         os.system('clear')
-        print(nl+nothing+battle+nothing)
+        print(nl + nothing + battle + nothing)
         time.sleep(0.4)
 
 
@@ -42,7 +54,8 @@ def battle(character, enemy):
 
 
 if __name__ == '__main__':
-    guy = Human('Guy', 1)
+    name = get_name()
+    guy = Human(name, 1)
     while True:
         # some func thatrandomly generates enemy
         rat = Rodent('rat', 2)
