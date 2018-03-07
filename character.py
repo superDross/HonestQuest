@@ -26,13 +26,14 @@ class Character(object):
         ''' Basic attack command.'''
         att = self.st * multiplier
         target.hp = target.hp - att
-        msg = '{} does {} damage to {}'.format(
+        msg = '\n{} does {} damage to {}'.format(
             self.name, att, target.name)
         print(msg)
         print('{} HP = {}\n'.format(target.name, target.hp))
         if target.hp <= 0:
             print('{} is dead!\n'.format(target.name))
             target.death(self)
+        time.sleep(1)
 
     def attack(self, target, multiplier=1):
         self.__sub__(target, multiplier)
@@ -109,7 +110,6 @@ class Character(object):
             raise StatError(stat)
         self.target = target
         op = operator.add if inc else operator.sub
-        # if stat == hp or mp...
         calc = op(getattr(self._target, stat), num)
         setattr(self._target, stat, calc)
         upordown = 'increases' if op == operator.add else 'decreases'

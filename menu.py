@@ -7,11 +7,9 @@ from enemies import Rodent
 
 
 class Menu(object):
-    def __init__(self, character, target):
-        self.character = character
-        # is target neccesarry if self.characetr.target is avaliable to use?
-        # self.character.target = target; self.target = self.character.target
-        self.target = target
+    def __init__(self, hero, target):
+        hero.target = target
+        self.hero = hero
         self.all_magic = self._get_all_magic()
         self._choice = None
 
@@ -19,11 +17,11 @@ class Menu(object):
         ''' Decorator that prints stuff and clears
             screen after every action.'''
         def inner(self):
-            if self.target.dead:
+            if self.hero.target.dead:
                 time.sleep(4)
                 return None
             os.system('clear')
-            print('\n{}\n{}\n'.format(self.character, self.target))
+            print('\n{}\n{}\n'.format(self.hero, self.hero.target))
             func(self)
             self.choice = None
             self.battle_menu()
@@ -35,6 +33,7 @@ class Menu(object):
 
     @choice.setter
     def choice(self, value):
+        ''' Ensures choice is a digit before setting.'''
         if value:
             if value.isdigit():
                 self._choice = value
@@ -43,9 +42,9 @@ class Menu(object):
                 self.choice = input('>> ')
 
     def _get_all_magic(self):
-        ''' Returns all characters magic spells and stores in a list.'''
-        all_magic = [x for x in dir(self.character.magic)
-                     if not re.search(r'_|character', x)]
+        ''' Returns all heros magic spells and stores in a list.'''
+        all_magic = [x for x in dir(self.hero.magic)
+                     if not re.search(r'_|hero', x)]
         return all_magic
 
     def _magic_spell_string(self):
@@ -58,10 +57,11 @@ class Menu(object):
 
     def _magic_spell_dict(self):
         ''' Dict that has numbers (k) assigned to
-            characters magic spell methods (v).'''
+            heros magic spell methods (v).'''
         numbers = range(1, len(self.all_magic) + 1)
-        d = {str(k): getattr(self.character.magic, v)
+        d = {str(k): getattr(self.hero.magic, v)
              for k, v in zip(numbers, self.all_magic)}
+        # add an extra option for going back to the battle_menu
         d[str(max(numbers) + 1)] = self.battle_menu
         return d
 
@@ -82,7 +82,7 @@ class Menu(object):
         spell()
 
     def attack(self):
-        self.character.attack(self.target)
+        self.hero.attack(self.hero.target)
 
     def exec_menu(self):
         # need to add items

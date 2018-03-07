@@ -1,28 +1,32 @@
 from movement import OverWorld
 from protagonist import Human
-from enemies import Rodent
 from menu import Menu
+import enemies
 import random
 import time
 import os
 
 
 def get_name():
-    # need to do something if not y/n
     os.system('clear')
     name = input('Type your name: ')
     print('Are you sure you want the name {}?'.format(name))
+    confirm_name(name)
+    return name
+
+
+def confirm_name(name):
     decision = input('Press any y to confirm or n to renenter.\n')
     if decision == 'y':
         return name
     elif decision == 'n':
         get_name()
+    else:
+        return confirm_name(name)
 
 
-def main():
+def main(world):
     ''' Overworld animation.'''
-    size = os.get_terminal_size()
-    world = OverWorld(height=int(size.lines / 2), width=int(size.columns / 2))
     n = 0
     while n != 1:
         os.system('clear')
@@ -47,6 +51,14 @@ def battle_transition():
         time.sleep(0.4)
 
 
+def enemy_generator(hero):
+    ''' Random enemy generator.'''
+    lv = hero.lv
+    baddies = [enemies.Rodent('Rat', lv),
+               enemies.Goblin('Red Goblin', lv)]
+    return random.choice(baddies)
+
+
 def battle(character, enemy):
     ''' Initiate battle menu.'''
     menu = Menu(character, enemy)
@@ -56,9 +68,10 @@ def battle(character, enemy):
 if __name__ == '__main__':
     name = get_name()
     guy = Human(name, 1)
+    size = os.get_terminal_size()
+    world = OverWorld(height=int(size.lines / 2), width=int(size.columns / 2))
     while True:
-        # some func thatrandomly generates enemy
-        rat = Rodent('rat', 2)
-        main()
+        enemy = enemy_generator(guy)
+        main(world)
         battle_transition()
-        battle(guy, rat)
+        battle(guy, enemy)
