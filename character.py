@@ -23,6 +23,7 @@ class Character(object):
             self.name, self.lv, self.hp, self.mp, self.st, self.ag)
 
     def __sub__(self, target, multiplier=1):
+        ''' Basic attack command.'''
         att = self.st * multiplier
         target.hp = target.hp - att
         msg = '{} does {} damage to {}'.format(
@@ -42,6 +43,7 @@ class Character(object):
 
     @target.setter
     def target(self, target=None):
+        ''' Store an opposing Character object as an attribute.'''
         valid_targets = (Character, type(None))
         if not isinstance(target, valid_targets):
             raise InvalidTarget(target, valid_targets)
@@ -56,7 +58,7 @@ class Character(object):
 
     @items.setter
     def items(self, items):
-        ''' Add items to the inventory.'''
+        ''' Add Item objects to the inventory.'''
         if not isinstance(items, list):
             items = [items, ]
         for item in items:
@@ -64,7 +66,7 @@ class Character(object):
             print('{} added to inventory.'.format(item.name))
 
     def use_item(self, item_name):
-        ''' Use an item in your inventory.'''
+        ''' Use an Item object in your inventory.'''
         item = self._inventory.get(item_name)
         print('{} Used {}'.format(self.name, item_name))
         self._alter_stat(item.stat, item.value, inc=True)

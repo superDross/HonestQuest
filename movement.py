@@ -1,4 +1,9 @@
-import curses
+''' Overworld and movement.'''
+import os
+import sys
+import termios
+import tty
+import time
 
 
 class Field(object):
@@ -11,8 +16,8 @@ class Field(object):
 
     @property
     def field(self):
-        print(self.height, self.width)
-        f = [[self.tile for j in range(self.width)] for i in range(self.height)]
+        f = [[self.tile for j in range(self.width)]
+             for i in range(self.height)]
         self._field = f
         return f
 
@@ -21,23 +26,36 @@ class Movement(object):
     def __init__(self):
         self.x = 0
         self.y = 0
+        self.direction = None
 
-    def set_move(self, button):
-        if button in [curses.KEY_UP, curses.KEY_DOWN,
-                      curses.KEY_LEFT, curses.KEY_RIGHT]:
-            self.direction = button
+    def set_move(self):
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        tty.setraw(sys.stdin.fileno())
+        ch = sys.stdin.read(1)
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+        if ch in ['w', 'a', 's', 'd']:
+            self.direction = ch
         else:
-            raise IOError('Button must be an arrow key')
+            os.system('clear')
+            print('Press WASD to move.')
+            time.sleep(1)
+            print(self.render())
+            self.set_move()
 
-    def move(self, direction):
-        if direction == curses.KEY_UP:
-            self.x = max(0, (self.x - 1))
-        elif direction == curses.KEY_DOWN:
-            self.x = max(0, (self.x + 1))
-        elif direction == curses.KEY_RIGHT:
-            self.y = max(0, (self.y + 1))
-        elif direction == curses.KEY_LEFT:
-            self.y = max(0, (self.y - 1))
+    def move(self):
+        if self.direction == 'w':
+            self.x = self._min_max(self.x-1, 0, self.height-1)
+        elif self.direction == 's':
+            self.x = self._min_max(self.x+1, 0, self.height-1)
+        elif self.direction == 'd':
+            self.y = self._min_max(self.y+1, 0, self.width-1)
+        elif self.direction == 'a':
+            self.y = self._min_max(self.y-1, 0, self.width-1)
+
+    @staticmethod
+    def _min_max(n, minn, maxn):
+        return max(min(maxn, n), minn)
 
 
 class OverWorld(Field, Movement):
@@ -48,7 +66,6 @@ class OverWorld(Field, Movement):
     def render(self):
         mapped = ''
         new_field = self.field
-        print(new_field)
         new_field[self.x][self.y] = self.hero
         for i in new_field:
             i.append('\n')

@@ -2,23 +2,24 @@ from movement import OverWorld
 from protagonist import Human
 from enemies import Rodent
 from menu import Menu
-import curses
+# import curses
 import random
 import time
 import os
 
 
-def main(screen):
+def main():
     ''' Overworld animation.'''
     size = os.get_terminal_size()
-    world = OverWorld(height=int(size.lines / 2), width=int(size.columns / 2))
+    world = OverWorld(height=int(size.lines/2), width=int(size.columns/2))
     n = 0
     while n != 1:
-        screen.addstr(world.render())
-        button = screen.getch()
-        world.move(button)
-        screen.refresh()
-        screen.clear()
+        os.system('clear')
+        print(world.x, world.y)
+        print(world.height, world.width)
+        print(world.render())
+        world.set_move()
+        world.move()
         n = random.randint(1, 20)
 
 
@@ -41,7 +42,9 @@ def battle(character, enemy):
 if __name__ == '__main__':
     guy = Human('Guy', 2)
     rat = Rodent('rat', 2)
-    while True:
-        curses.wrapper(main)
-        curses.wrapper(battle_transition)
+    num = 1
+    while num == 1:
+        main()
+        # curses.wrapper(battle_transition)
         battle(guy, rat)
+        print(num)

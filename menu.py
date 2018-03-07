@@ -8,6 +8,8 @@ from enemies import Rodent
 class Menu(object):
     def __init__(self, character, target):
         self.character = character
+        # is target neccesarry if self.characetr.target is avaliable to use?
+        # self.character.target = target; self.target = self.character.target
         self.target = target
         self.all_magic = self._get_all_magic()
         self.choice = None
@@ -15,7 +17,6 @@ class Menu(object):
     def _print_stats(func):
         ''' Decorator that prints stuff and clears
             screen after every action.'''
-
         def inner(self):
             os.system('clear')
             print('\n{}\n{}\n'.format(self.character, self.target))
@@ -25,7 +26,7 @@ class Menu(object):
         return inner
 
     def _get_all_magic(self):
-        ''' Returns all characters magic as a list.'''
+        ''' Returns all characters magic spells and stores in a list.'''
         all_magic = [x for x in dir(self.character.magic)
                      if not re.search(r'_|character', x)]
         return all_magic
@@ -67,6 +68,7 @@ class Menu(object):
         self.character.attack(self.target)
 
     def exec_menu(self):
+        # need to add items
         exec_dict = {'1': self.attack,
                      '2': self.magic_menu}
         action = exec_dict[self.choice]
