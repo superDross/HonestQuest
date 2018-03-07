@@ -1,6 +1,7 @@
 ''' Class for battle menu.'''
 import os
 import re
+import time
 from protagonist import Human
 from enemies import Rodent
 
@@ -12,18 +13,34 @@ class Menu(object):
         # self.character.target = target; self.target = self.character.target
         self.target = target
         self.all_magic = self._get_all_magic()
-        self.choice = None
+        self._choice = None
 
     def _print_stats(func):
         ''' Decorator that prints stuff and clears
             screen after every action.'''
         def inner(self):
+            if self.target.dead:
+                time.sleep(4)
+                return None
             os.system('clear')
             print('\n{}\n{}\n'.format(self.character, self.target))
             func(self)
             self.choice = None
             self.battle_menu()
         return inner
+
+    @property
+    def choice(self):
+        return self._choice
+
+    @choice.setter
+    def choice(self, value):
+        if value:
+            if value.isdigit():
+                self._choice = value
+            else:
+                print('Enter a digit')
+                self.choice = input('>> ')
 
     def _get_all_magic(self):
         ''' Returns all characters magic spells and stores in a list.'''

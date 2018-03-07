@@ -1,7 +1,6 @@
 ''' All enemy classes.'''
 from character import Character
 from protagonist import Human
-import sys
 import csv
 
 
@@ -14,6 +13,7 @@ class Enemy(Character):
         Character.__init__(self, name, hp, mp, st, ag, lv)
         self.exp = exp
         self.gold = gold
+        self.dead = False
 
     @staticmethod
     def _species_stats_dict():
@@ -36,7 +36,7 @@ class Enemy(Character):
         print(msg.format(target.name, self.exp, self.gold))
         target.exp += self.exp
         target.gold += self.gold
-        sys.exit()
+        self.dead = True
 
 
 class Rodent(Enemy):
