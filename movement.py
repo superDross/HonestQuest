@@ -34,7 +34,7 @@ class Movement(object):
         tty.setraw(sys.stdin.fileno())
         ch = sys.stdin.read(1)
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-        if ch in ['w', 'a', 's', 'd']:
+        if ch in ['w', 'W', 'a', 'A', 's', 'S', 'd', 'D']:
             self.direction = ch
         else:
             os.system('clear')
@@ -44,13 +44,13 @@ class Movement(object):
             self.set_move()
 
     def move(self):
-        if self.direction == 'w':
+        if self.direction in ['w', 'W']:
             self.x = self._min_max(self.x-1, 0, self.height-1)
-        elif self.direction == 's':
+        elif self.direction in ['s', 'S']:
             self.x = self._min_max(self.x+1, 0, self.height-1)
-        elif self.direction == 'd':
+        elif self.direction in ['d', 'D']:
             self.y = self._min_max(self.y+1, 0, self.width-1)
-        elif self.direction == 'a':
+        elif self.direction in ['a', 'A']:
             self.y = self._min_max(self.y-1, 0, self.width-1)
 
     @staticmethod
