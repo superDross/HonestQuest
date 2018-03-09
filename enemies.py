@@ -39,6 +39,7 @@ class Enemy(Character):
         self.dead = True
 
 
+# perhaps make a factory class this will make it easier for the AI e.g. class enemy that takes args for species, mp depletion and stat to increase
 class Rodent(Enemy):
     def __init__(self, name, lv):
         Enemy.__init__(self, name, lv, species='rat')
@@ -67,32 +68,3 @@ class Goblin(Enemy):
     def drain(self, target):
         self.black_magic(target=target, att_name='Intemidate', stat='st',
                          num=1, mp_cost=1)
-
-
-# Guy = Human('Gohan',  2)
-# print(Guy)
-# # G = Goblin('RedGoblin', 1)
-# # print(G)
-# # Guy.attack(G)
-# # # print(G.mp, G.st)
-# # # G.anger()
-# # # print(G.mp, G.st)
-# Rat = Rodent('Rat', 3)
-# # Rat.bite(Guy)
-# # print(Guy)
-# # G.drain(Guy)
-# # print(Guy)
-# Guy - Rat
-# Guy.magic.heal()
-# print(Guy)
-# Guy.magic.rage()
-# # Rat.heal()
-# Guy.heal()
-# print(Guy)
-# Guy.rage()
-# print(Guy)
-# print(G)
-# # Guy - Rat
-# # Guy - Rat
-# # Guy - Rat
-# # Guy - Rat

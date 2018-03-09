@@ -9,7 +9,9 @@ from enemies import Rodent
 class Menu(object):
     def __init__(self, hero, target):
         hero.target = target
+        target.target = hero
         self.hero = hero
+        self.target = target
         self.all_magic = self._get_all_magic()
         self._choice = None
 
@@ -80,9 +82,11 @@ class Menu(object):
         self.choice = input('>> ')
         spell = magic_dict[self.choice]
         spell()
+        self.enemy_turn()
 
     def attack(self):
         self.hero.attack(self.hero.target)
+        self.enemy_turn()
 
     def exec_menu(self):
         # need to add items
@@ -90,6 +94,10 @@ class Menu(object):
                      '2': self.magic_menu}
         action = exec_dict[self.choice]
         action()
+
+    def enemy_turn(self):
+        if not self.target.dead:
+            self.target.attack(self.target.target)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,6 @@
+- Tell player new spells learned during leveling up
+- rebalance stats
+- enemy class factory
+- create a real AI system for enemy
+- item implemntation in battle menu
+- create a store in map (transistions into menu to buy stuff)

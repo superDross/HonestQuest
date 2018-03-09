@@ -38,17 +38,18 @@ def main(world):
         n = random.randint(1, 20)
 
 
-def battle_transition():
-    ''' Battle transition sequence.'''
+def print_middle(strings, t=0.4):
+    ''' Prints list of strings in the middle of
+        the screen at a given time interval.'''
     size = os.get_terminal_size()
     w = int(size.columns)
     h = int(size.lines)
     nothing = ' ' * (int(w / 2) - 1)
     nl = '\n' * (int(h / 2))
-    for battle in ['battle', 'Battle!', 'BATTLE!!!']:
+    for battle in strings:
         os.system('clear')
         print(nl + nothing + battle + nothing)
-        time.sleep(0.4)
+        time.sleep(t)
 
 
 def enemy_generator(hero):
@@ -65,6 +66,10 @@ def battle(character, enemy):
     menu.battle_menu()
 
 
+def AI(enemy):
+    enemy.attack(enemy.target)
+
+
 if __name__ == '__main__':
     name = get_name()
     guy = Human(name, 1)
@@ -73,5 +78,5 @@ if __name__ == '__main__':
     while True:
         enemy = enemy_generator(guy)
         main(world)
-        battle_transition()
+        print_middle(strings=['battle', 'Battle!', 'BATTLE!!!'])
         battle(guy, enemy)
