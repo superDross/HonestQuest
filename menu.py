@@ -63,7 +63,7 @@ class Menu(object):
         numbers = range(1, len(self.all_magic) + 1)
         d = {str(k): getattr(self.hero.magic, v)
              for k, v in zip(numbers, self.all_magic)}
-        # add an extra option for going back to the battle_menu
+        # adds an extra option for going back to the battle_menu
         d[str(max(numbers) + 1)] = self.battle_menu
         return d
 

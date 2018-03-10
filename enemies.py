@@ -5,7 +5,7 @@ import csv
 
 
 class Enemy(Character):
-    ''' Randomly creates an enemy from species stats sheet.'''
+    ''' Randomly creates an enemy from the species stats sheet.'''
 
     def __init__(self, lv):
         self.species = self._determine_species()
@@ -19,7 +19,9 @@ class Enemy(Character):
 
     @staticmethod
     def _species_stats_dict():
-        ''' Open the stats sheet as a dict.'''
+        ''' Open the stats sheet as a nested dict.
+            {species: {stat: value, ...}
+        '''
         all_species_dict = {}
         with open('species_stats.csv', mode='r') as infile:
             reader = csv.reader(infile, delimiter='\t')
@@ -33,9 +35,15 @@ class Enemy(Character):
         ''' Weighted random determination of the enemy species.'''
         species2rate = {k: int(v['random'])
                         for k, v in self._species_stats_dict().items()}
-        species = random.choice(
-            [k for k in species2rate for dummy in range(species2rate[k])])
+        # species = random.choice(
+        #     [k for k in species2rate for dummy in range(species2rate[k])])
+        species = self.weighted_choice(species2rate)
         return species
+
+    @staticmethod
+    def weighted_choice(d):
+        choice = random.choice([k for k in d for _ in range(d[k])])
+        return choice
 
     def get_species_stats(self, lv):
         ''' Determine monster stats based on species and level.'''
@@ -69,10 +77,12 @@ class Enemy(Character):
 
 if __name__ == '__main__':
     enemy = Enemy(lv=1)
-    from protagonist import Human
-    hero = Human('guy', 2)
-    print(enemy, hero)
-    hero - enemy
     print(enemy)
-    enemy.buff()
-    enemy.debuff(hero)
+    if enemy.mp > enemy.lv*2:
+        spells = {'big_attack': 10, 'buff': 2, 'debuff': 1}
+        choice = enemy.weighted_choice(spells)
+        print(choice)
+        getattr(enemy, choice)()
+
+
+
