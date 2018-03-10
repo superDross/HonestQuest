@@ -2,5 +2,4 @@
 - rebalance stats
 - item implemntation in battle menu
 - create a store in map (transistions into menu to buy stuff)
-- enemy big_attck, etc. dont print a message when executed.
-- disallow typing when sleep.time active
+- enemy big\_attck, etc. dont print a message when executed.

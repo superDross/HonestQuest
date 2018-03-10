@@ -2,6 +2,8 @@
 import os
 import re
 import time
+import sys
+from termios import tcflush, TCIFLUSH
 from protagonist import Human
 from enemies import Enemy
 
@@ -27,6 +29,7 @@ class Menu(object):
                 return None
             os.system('clear')
             print('\n{}\n{}\n'.format(self.hero, self.enemy))
+            tcflush(sys.stdin, TCIFLUSH)  # clears input
             func(self)
             self.choice = None
             self.battle_menu()
