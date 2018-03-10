@@ -93,10 +93,16 @@ class Menu(object):
 
     def exec_menu(self):
         # need to add items
-        exec_dict = {'1': self.attack,
-                     '2': self.magic_menu}
-        action = exec_dict[self.choice]
-        action()
+        try:
+            exec_dict = {'1': self.attack,
+                         '2': self.magic_menu}
+            action = exec_dict[self.choice]
+            action()
+        except:
+            msg = '{} is not a valid choice. Try again.'
+            print(msg.format(self.choice))
+            time.sleep(2)
+            self.battle_menu()
 
     def enemy_turn(self):
         ''' Enemy action determined by if else block.'''
