@@ -72,12 +72,11 @@ class Character(object):
     def white_magic(self, att_name, stat, num, mp_cost):
         ''' Magic that increases a targets given stat attribute.'''
         inc = True
-        print(self.hp, num+self.hp, self._max_hp)
         time.sleep(2)
         if (stat == 'hp' and (num + self.hp > self._max_hp)) \
                 or (stat == 'mp' and (num + self.mp >= self._max_mp)):
             print('{} is already at the maximum value'.format(stat.upper()))
-            time.sleep(0.5)
+            time.sleep(1)
             return
         self._magic(att_name, stat, num, mp_cost, inc, target=False)
 

@@ -39,7 +39,7 @@ class Menu(object):
             print('\n{}\n{}\n'.format(self.hero, self.enemy))
             tcflush(sys.stdin, TCIFLUSH)  # clears input
             func(self)
-            self.choice = None
+            self._choice = None
             self.battle_menu()
         return inner
 
