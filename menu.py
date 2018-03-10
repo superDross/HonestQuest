@@ -9,6 +9,12 @@ from enemies import Enemy
 
 
 class Menu(object):
+    ''' Battle menu.
+
+    NOTE: to intiate battle sequence;
+          battle = Menu(hero, enemy)
+          battle.battle_menu()
+    '''
     def __init__(self, hero, enemy):
         self.hero = hero
         self.enemy = enemy
@@ -17,6 +23,7 @@ class Menu(object):
         self._choice = None
 
     def _target_each_other(self):
+        ''' Hero and enemy store one another as a target attr.'''
         self.hero.target = self.enemy
         self.enemy.target = self.hero
 
@@ -24,9 +31,10 @@ class Menu(object):
         ''' Decorator that prints stuff and clears
             screen after every action.'''
         def inner(self):
-            if self.hero.target.dead:
+            # this if is needed otherwise an infinte loop of battle
+            if self.enemy.dead:
                 time.sleep(4)
-                return None
+                return
             os.system('clear')
             print('\n{}\n{}\n'.format(self.hero, self.enemy))
             tcflush(sys.stdin, TCIFLUSH)  # clears input
@@ -101,7 +109,7 @@ class Menu(object):
                          '2': self.magic_menu}
             action = exec_dict[self.choice]
             action()
-        except:
+        except KeyError:
             msg = '{} is not a valid choice. Try again.'
             print(msg.format(self.choice))
             time.sleep(2)
