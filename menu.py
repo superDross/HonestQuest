@@ -23,7 +23,7 @@ class Menu(object):
                 time.sleep(4)
                 return None
             os.system('clear')
-            print('\n{}\n{}\n'.format(self.hero, self.hero.target))
+            print('\n{}\n{}\n'.format(self.hero, self.target))
             func(self)
             self.choice = None
             self.battle_menu()
@@ -53,7 +53,7 @@ class Menu(object):
         ''' Return all magic spells as a string with numbers.'''
         numbers = range(1, len(self.all_magic) + 2)
         options = self.all_magic + ['Back']
-        all_magic_num = ['{}. {}'.format(x, y)
+        all_magic_num = ['{}. {}'.format(x, y.title())
                          for x, y in zip(numbers, options)]
         return '\n'.join(all_magic_num)
 

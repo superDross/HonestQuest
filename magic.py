@@ -11,14 +11,50 @@ class LV1(Spells):
         super().__init__(character)
 
     def heal(self):
-        self.character.white_magic(att_name='heal', stat='hp', num=1,
+        self.character.white_magic(att_name='Heal', stat='hp', num=1,
                                    mp_cost=1)
 
 
-class LV2(LV1):
+class LV3(LV1):
     def __init__(self, character):
         super().__init__(character)
 
     def rage(self):
-        self.character.white_magic(att_name='rage', stat='st', num=1,
+        self.character.white_magic(att_name='Rage', stat='st', num=1,
                                    mp_cost=1)
+
+
+class LV6(LV3):
+    def __init__(self, character):
+        super().__init__(character)
+
+    def fireball(self):
+        self.character.black_magic(att_name='Fireball', stat='hp', num=3,
+                                   mp_cost=3)
+
+
+class LV10(LV6):
+    def __init__(self, character):
+        super().__init__(character)
+
+    def midheal(self):
+        self.character.white_magic(att_name='Midheal', stat='hp', num=5,
+                                   mp_cost=5)
+
+
+class LV15(LV10):
+    def __init__(self, character):
+        super().__init__(character)
+
+    def coke(self):
+        self.character.white_magic(att_name='Snort Coke', stat='ag', num=5,
+                                   mp_cost=5)
+
+
+class LV20(LV15):
+    def __init__(self, character):
+        super().__init__(character)
+
+    def firewhirl(self):
+        self.character.black_magic(att_name='Fire Whirl', stat='hp', num=10,
+                                   mp_cost=10)

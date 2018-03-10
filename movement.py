@@ -9,6 +9,7 @@ import time
 class Field(object):
     def __init__(self, height, width):
         self.hero = u"\U0001F6B6"
+        self.store = u"\u2302"
         self.tile = '.'
         self.height = height
         self.width = width
@@ -67,6 +68,7 @@ class OverWorld(Field, Movement):
         mapped = ''
         new_field = self.field
         new_field[self.x][self.y] = self.hero
+        new_field[int(self.height/2)][int(self.width/2)] = self.store
         for i in new_field:
             i.append('\n')
             mapped += ' '.join(i)

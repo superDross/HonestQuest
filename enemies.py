@@ -35,8 +35,6 @@ class Enemy(Character):
         ''' Weighted random determination of the enemy species.'''
         species2rate = {k: int(v['random'])
                         for k, v in self._species_stats_dict().items()}
-        # species = random.choice(
-        #     [k for k in species2rate for dummy in range(species2rate[k])])
         species = self.weighted_choice(species2rate)
         return species
 
@@ -52,6 +50,7 @@ class Enemy(Character):
         for stat in d.get(self.species):
             if stat.isdigit():
                 stats.append(int(stat) * lv)
+        # last element is a random numeriser
         return stats[:-1]
 
     def death(self, target):
@@ -78,11 +77,11 @@ class Enemy(Character):
 if __name__ == '__main__':
     enemy = Enemy(lv=1)
     print(enemy)
-    if enemy.mp > enemy.lv*2:
+    if enemy.mp > 0:
         spells = {'big_attack': 10, 'buff': 2, 'debuff': 1}
         choice = enemy.weighted_choice(spells)
-        print(choice)
-        getattr(enemy, choice)()
+        spell = getattr(enemy, choice)
+        spell()
 
 
 

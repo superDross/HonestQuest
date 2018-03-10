@@ -11,6 +11,7 @@ class Human(Character):
         self.leveling = stats.leveling
         self._exp = 0
         self._determine_stats()
+        self.dead = False
 
     def _determine_stats(self):
         self.hp = (self.lv * 5) - (self._max_hp - self.hp)
@@ -22,13 +23,19 @@ class Human(Character):
 
     @property
     def magic(self):
-        # perhaps better with a range anf if elif statements
-        class_dict = {1: mg.LV1, 2: mg.LV2}
-        spells = class_dict[self.lv](self)
-        return spells
+        class_dict = {tuple(range(0, 3)): mg.LV1,
+                      tuple(range(3, 6)): mg.LV3,
+                      tuple(range(6, 10)): mg.LV6,
+                      tuple(range(10, 15)): mg.LV10,
+                      tuple(range(15, 20)): mg.LV15,
+                      tuple(range(20, 24)): mg.LV20}
+        for k, v in class_dict.items():
+            if k[0] <= self.lv <= k[-1]:
+                return v(self)
 
     def death(self, *args):
         print('GAME OVER!!!!')
+        self.dead = True
         sys.exit()
 
     @property
@@ -43,6 +50,7 @@ class Human(Character):
 
     def _determine_level(self):
         ''' Determine level based upon exp value.'''
+        before_mglv = self.magic
         next_level_exp = self.leveling.get(self.lv + 1)
         for leveled, experience in self.leveling.items():
             if self._exp >= next_level_exp:
@@ -52,6 +60,9 @@ class Human(Character):
                         self.name, self.lv)
                     self._determine_stats()
                     print(msg)
+                    if type(before_mglv) != type(self.magic):
+                        new_spell = set(dir(self.magic)) - set(dir(before_mglv))
+                        print('Learned {}!'.format(list(new_spell)[0].title()))
                     print(self)
                     break
 
