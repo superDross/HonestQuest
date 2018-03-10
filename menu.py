@@ -7,13 +7,16 @@ from enemies import Enemy
 
 
 class Menu(object):
-    def __init__(self, hero, target):
-        hero.target = target
-        target.target = hero
+    def __init__(self, hero, enemy):
         self.hero = hero
-        self.target = target
+        self.enemy = enemy
+        self._target_each_other()
         self.all_magic = self._get_all_magic()
         self._choice = None
+
+    def _target_each_other(self):
+        self.hero.target = self.enemy
+        self.enemy.target = self.hero
 
     def _print_stats(func):
         ''' Decorator that prints stuff and clears
@@ -23,7 +26,7 @@ class Menu(object):
                 time.sleep(4)
                 return None
             os.system('clear')
-            print('\n{}\n{}\n'.format(self.hero, self.target))
+            print('\n{}\n{}\n'.format(self.hero, self.enemy))
             func(self)
             self.choice = None
             self.battle_menu()
@@ -85,7 +88,7 @@ class Menu(object):
         self.enemy_turn()
 
     def attack(self):
-        self.hero.attack(self.hero.target)
+        self.hero.attack()
         self.enemy_turn()
 
     def exec_menu(self):
@@ -96,8 +99,8 @@ class Menu(object):
         action()
 
     def enemy_turn(self):
-        if not self.target.dead:
-            self.target.attack(self.target.target)
+        if not self.enemy.dead:
+            self.enemy.attack()
 
 
 if __name__ == '__main__':

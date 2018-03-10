@@ -53,35 +53,33 @@ class Enemy(Character):
         # last element is a random numeriser
         return stats[:-1]
 
-    def death(self, target):
+    def death(self):
         ''' Protagonist rewards upon death.'''
         msg = '{} gained {} exp and {} gold\n'
-        print(msg.format(target.name, self.exp, self.gold))
-        target.exp += self.exp
-        target.gold += self.gold
+        print(msg.format(self.target.name, self.exp, self.gold))
+        self.target.exp += self.exp
+        self.target.gold += self.gold
         self.dead = True
 
-    def big_attack(self, target):
-        self.black_magic(target=target, att_name=self.attack_name,
+    def big_attack(self):
+        self.black_magic(att_name=self.attack_name,
                          stat='hp', num=2 * self.lv, mp_cost=2 * self.lv)
 
     def buff(self):
         self.white_magic(att_name=self.buff_name, stat=self.stat,
                          num=2 * self.lv, mp_cost=2 * self.lv)
 
-    def debuff(self, target):
-        self.black_magic(target=target, att_name=self.debuff_name,
-                         stat=self.stat, num=2 * self.lv, mp_cost=2*self.lv)
+    def debuff(self):
+        self.black_magic(att_name=self.debuff_name, stat=self.stat,
+                         num=2 * self.lv, mp_cost=2 * self.lv)
 
 
 if __name__ == '__main__':
     enemy = Enemy(lv=1)
+    enemy.target = enemy
     print(enemy)
     if enemy.mp > 0:
         spells = {'big_attack': 10, 'buff': 2, 'debuff': 1}
         choice = enemy.weighted_choice(spells)
         spell = getattr(enemy, choice)
         spell()
-
-
-

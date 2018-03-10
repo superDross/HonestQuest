@@ -22,21 +22,17 @@ class Character(object):
         return '{}(LV={}, HP={}, MP={}, ST={}, AG={})\n'.format(
             self.name, self.lv, self.hp, self.mp, self.st, self.ag)
 
-    def __sub__(self, target, multiplier=1):
-        ''' Basic attack command.'''
-        att = self.st * multiplier
-        target.hp = target.hp - att
+    def attack(self, multiplier=1):
+        # self.__sub__(self.target, multiplier)
+        self.target.hp -= self.st
         msg = '\n{} does {} damage to {}'.format(
-            self.name, att, target.name)
+            self.name, self.st, self.target.name)
         print(msg)
-        print('{} HP = {}\n'.format(target.name, target.hp))
-        if target.hp <= 0:
-            print('{} is dead!\n'.format(target.name))
-            target.death(self)
+        print('{} HP = {}\n'.format(self.target.name, self.target.hp))
+        if self.target.hp <= 0:
+            print('{} is dead!\n'.format(self.target.name))
+            self.target.death()
         time.sleep(1)
-
-    def attack(self, target, multiplier=1):
-        self.__sub__(target, multiplier)
 
     @property
     def target(self):
@@ -73,12 +69,12 @@ class Character(object):
         self._alter_stat(item.stat, item.value, inc=True)
         del self._inventory[item_name]
 
-    def black_magic(self, att_name, stat, num, mp_cost, target=None):
+    def black_magic(self, att_name, stat, num, mp_cost):
         ''' Magic that reduces a targets given stat attribute.'''
         inc = False
-        self._magic(att_name, stat, num, mp_cost, inc, target)
+        self._magic(att_name, stat, num, mp_cost, inc, self.target)
 
-    def white_magic(self, att_name, stat, num, mp_cost, target=None):
+    def white_magic(self, att_name, stat, num, mp_cost):
         ''' Magic that increases a targets given stat attribute.'''
         inc = True
         if (stat == 'hp' and (num + self.hp >= self._max_hp)) \
@@ -86,7 +82,7 @@ class Character(object):
             print('{} is already at the maximum value'.format(stat))
             time.sleep(0.5)
             return
-        self._magic(att_name, stat, num, mp_cost, inc, target)
+        self._magic(att_name, stat, num, mp_cost, inc, self)
 
     def _magic(self, att_name, stat, num, mp_cost, inc, target):
         ''' Performs magic and depletes mp.'''
