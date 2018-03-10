@@ -112,3 +112,4 @@ class Character(object):
         msg = '{} {} {} by {}\n'.format(reciever.name, stat.upper(),
                                         upordown, num)
         print(msg)
+        time.sleep(1)
