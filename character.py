@@ -74,7 +74,7 @@ class Character(object):
         inc = True
         print(self.hp, num+self.hp, self._max_hp)
         time.sleep(2)
-        if (stat == 'hp' and (num + self.hp >= self._max_hp)) \
+        if (stat == 'hp' and (num + self.hp > self._max_hp)) \
                 or (stat == 'mp' and (num + self.mp >= self._max_mp)):
             print('{} is already at the maximum value'.format(stat.upper()))
             time.sleep(0.5)

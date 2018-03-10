@@ -1,4 +1,3 @@
-- When using magic then switch to attack player does damage to self.
 - rebalance stats
 - item implemntation in battle menu
 - create a store in map (transistions into menu to buy stuff)
