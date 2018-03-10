@@ -3,7 +3,7 @@ import os
 import re
 import time
 from protagonist import Human
-from enemies import Rodent
+from enemies import Enemy
 
 
 class Menu(object):
@@ -46,7 +46,7 @@ class Menu(object):
     def _get_all_magic(self):
         ''' Returns all heros magic spells and stores in a list.'''
         all_magic = [x for x in dir(self.hero.magic)
-                     if not re.search(r'_|hero', x)]
+                     if not re.search(r'_|hero|character', x)]
         return all_magic
 
     def _magic_spell_string(self):
@@ -102,6 +102,6 @@ class Menu(object):
 
 if __name__ == '__main__':
     guy = Human('Guy', 2)
-    rat = Rodent('Rat', 10)
+    rat = Enemy(10)
     menu = Menu(guy, rat)
     menu.battle_menu()

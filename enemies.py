@@ -1,34 +1,50 @@
 ''' All enemy classes.'''
 from character import Character
-from protagonist import Human
+import random
 import csv
 
 
 class Enemy(Character):
-    ''' Base class for all enemies.'''
+    ''' Randomly creates an enemy from species stats sheet.'''
 
-    def __init__(self, name, lv, species):
-        self.species = species
-        hp, mp, ag, st, exp, gold = self.get_species_stats(lv)
-        Character.__init__(self, name, hp, mp, st, ag, lv)
-        self.exp = exp
-        self.gold = gold
+    def __init__(self, lv):
+        self.species = self._determine_species()
+        species_dict = self._species_stats_dict()[self.species]
+        for k, v in species_dict.items():
+            v = int(v) if v.isdigit() else v
+            setattr(self, k, v)
+        Character.__init__(self, self.species, self.hp, self.mp,
+                           self.st, self.ag, lv)
         self.dead = False
 
     @staticmethod
     def _species_stats_dict():
         ''' Open the stats sheet as a dict.'''
+        all_species_dict = {}
         with open('species_stats.csv', mode='r') as infile:
             reader = csv.reader(infile, delimiter='\t')
-            next(reader)
-            mydict = {rows[0]: rows[1:] for rows in reader}
-            return mydict
+            header = next(reader)
+            for line in reader:
+                mydict = dict(zip(header, line))
+                all_species_dict[mydict['species']] = mydict
+        return all_species_dict
+
+    def _determine_species(self):
+        ''' Weighted random determination of the enemy species.'''
+        species2rate = {k: int(v['random'])
+                        for k, v in self._species_stats_dict().items()}
+        species = random.choice(
+            [k for k in species2rate for dummy in range(species2rate[k])])
+        return species
 
     def get_species_stats(self, lv):
         ''' Determine monster stats based on species and level.'''
         d = self._species_stats_dict()
-        stats = [int(x) * lv for x in d.get(self.species)]
-        return stats
+        stats = []
+        for stat in d.get(self.species):
+            if stat.isdigit():
+                stats.append(int(stat) * lv)
+        return stats[:-1]
 
     def death(self, target):
         ''' Protagonist rewards upon death.'''
@@ -38,33 +54,25 @@ class Enemy(Character):
         target.gold += self.gold
         self.dead = True
 
+    def big_attack(self, target):
+        self.black_magic(target=target, att_name=self.attack_name,
+                         stat='hp', num=2 * self.lv, mp_cost=2 * self.lv)
 
-# perhaps make a factory class this will make it easier for the AI e.g. class enemy that takes args for species, mp depletion and stat to increase
-class Rodent(Enemy):
-    def __init__(self, name, lv):
-        Enemy.__init__(self, name, lv, species='rat')
+    def buff(self):
+        self.white_magic(att_name=self.buff_name, stat=self.stat,
+                         num=2 * self.lv, mp_cost=2 * self.lv)
 
-    def bite(self, target):
-        self.black_magic(target=target, att_name='bite', stat='hp',
-                         num=1, mp_cost=1)
-
-    def heal(self):
-        self.white_magic(att_name='Lick Wounds', stat='hp', num=1,  mp_cost=1)
+    def debuff(self, target):
+        self.black_magic(target=target, att_name=self.debuff_name,
+                         stat=self.stat, num=2 * self.lv, mp_cost=2*self.lv)
 
 
-class Goblin(Enemy):
-    def __init__(self, name, lv):
-        Enemy.__init__(self, name, lv, species='goblin')
-
-    def punch(self, target):
-        self.black_magic(target=target, att_name='Goblin Punch',
-                         stat='hp', num=2, mp_cost=2)
-
-    def anger(self):
-        num = round(self.lv, -1) / 10 if self.lv >= 10 else 1
-        mp = num * 2 if self.lv >= 10 else 1
-        self.white_magic(att_name='Fury', stat='st', num=num, mp_cost=mp)
-
-    def drain(self, target):
-        self.black_magic(target=target, att_name='Intemidate', stat='st',
-                         num=1, mp_cost=1)
+if __name__ == '__main__':
+    enemy = Enemy(lv=1)
+    from protagonist import Human
+    hero = Human('guy', 2)
+    print(enemy, hero)
+    hero - enemy
+    print(enemy)
+    enemy.buff()
+    enemy.debuff(hero)

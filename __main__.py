@@ -1,7 +1,7 @@
 from movement import OverWorld
 from protagonist import Human
+from enemies import Enemy
 from menu import Menu
-import enemies
 import random
 import time
 import os
@@ -54,10 +54,7 @@ def print_middle(strings, t=0.4):
 
 def enemy_generator(hero):
     ''' Random enemy generator.'''
-    lv = hero.lv
-    baddies = [enemies.Rodent('Rat', lv),
-               enemies.Goblin('Red Goblin', lv)]
-    return random.choice(baddies)
+    return Enemy(hero.lv)
 
 
 def battle(character, enemy):

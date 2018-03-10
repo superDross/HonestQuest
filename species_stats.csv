@@ -1,10 +1,8 @@
-species	hp	mp	ag	st	exp	gold
-goblin	3	2	3	2	6	3
-feline	5	5	5	2	20	5
-cyclops	10	10	1	1	40	10
-soldier	5	5	5	5	20	8
-dragon	10	10	10	10	50	15
-rat	1	1	1	1	2	2
-bat	2	2	3	1	3	3
-christian	10	10	5	2	20	15
-machine	10	1	3	10	20	20
+species	hp	mp	ag	st	exp	gold	stat	attack_name	buff_name	debuff_name	random
+goblin	3	2	3	2	6	3	st	goblin_punch	anger	intimidate	7
+feline	5	5	5	2	20	5	ag	scratch	cat_nip	run_circles	6
+soldier	5	5	5	5	20	8	hp	slash	bandage	omnislash	5
+dragon	10	10	10	10	50	15	st	fire	rage	roar	1
+rat	1	1	1	1	2	2	hp	bite	lick_wounds	jump_attack	10
+bat	2	2	3	1	3	3	mp	bite	drink_fruit	drain	10
+christian	10	10	5	2	20	15	hp	throw_bible	pray	highlight_sins	4
