@@ -23,7 +23,6 @@ class Character(object):
             self.name, self.lv, self.hp, self.mp, self.st, self.ag)
 
     def attack(self, multiplier=1):
-        # self.__sub__(self.target, multiplier)
         self.target.hp -= self.st
         msg = '\n{} does {} damage to {}'.format(
             self.name, self.st, self.target.name)
@@ -79,7 +78,7 @@ class Character(object):
         inc = True
         if (stat == 'hp' and (num + self.hp >= self._max_hp)) \
                 or (stat == 'mp' and (num + self.mp >= self._max_mp)):
-            print('{} is already at the maximum value'.format(stat))
+            print('{} is already at the maximum value'.format(stat.upper()))
             time.sleep(0.5)
             return
         self._magic(att_name, stat, num, mp_cost, inc, self)

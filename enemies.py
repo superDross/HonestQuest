@@ -11,7 +11,7 @@ class Enemy(Character):
         self.species = self._determine_species()
         species_dict = self._species_stats_dict()[self.species]
         for k, v in species_dict.items():
-            v = int(v) if v.isdigit() else v
+            v = int(int(v)*lv*0.5) if v.isdigit() else v
             setattr(self, k, v)
         Character.__init__(self, self.species, self.hp, self.mp,
                            self.st, self.ag, lv)
@@ -40,6 +40,7 @@ class Enemy(Character):
 
     @staticmethod
     def weighted_choice(d):
+        # ths shoudl belong else where as its used by other classes
         choice = random.choice([k for k in d for _ in range(d[k])])
         return choice
 
@@ -78,8 +79,12 @@ if __name__ == '__main__':
     enemy = Enemy(lv=1)
     enemy.target = enemy
     print(enemy)
-    if enemy.mp > 0:
+    actions = {'attack': 10, 'magic': 2}
+    action = enemy.weighted_choice(actions)
+    if enemy.mp > 1 and action == 'magic':
         spells = {'big_attack': 10, 'buff': 2, 'debuff': 1}
         choice = enemy.weighted_choice(spells)
         spell = getattr(enemy, choice)
         spell()
+    else:
+        enemy.attack()

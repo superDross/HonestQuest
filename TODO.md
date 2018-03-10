@@ -1,5 +1,5 @@
+- When using magic then switch to attack player does damage to self.
 - rebalance stats
-- create a real AI system for enemy
 - item implemntation in battle menu
 - create a store in map (transistions into menu to buy stuff)
-- sort out the self.target thing. causing bugs needs to be consitstant
+- enemy big_attck, etc. dont print a message when executed.

@@ -99,8 +99,18 @@ class Menu(object):
         action()
 
     def enemy_turn(self):
+        ''' Enemy action determined by if else block.'''
+        # Is this the right place for this method??
         if not self.enemy.dead:
-            self.enemy.attack()
+            actions = {'attack': 10, 'magic': 3}
+            action = self.enemy.weighted_choice(actions)
+            if self.enemy.mp > 1 and action == 'magic':
+                spells = {'big_attack': 10, 'buff': 2, 'debuff': 1}
+                choice = self.enemy.weighted_choice(spells)
+                spell = getattr(self.enemy, choice)
+                spell()
+            else:
+                self.enemy.attack()
 
 
 if __name__ == '__main__':
