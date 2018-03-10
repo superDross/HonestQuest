@@ -77,3 +77,4 @@ if __name__ == '__main__':
         main(world)
         print_middle(strings=['battle', 'Battle!', 'BATTLE!!!'])
         battle(guy, enemy)
+        guy.hp = guy._max_hp

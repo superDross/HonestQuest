@@ -38,15 +38,11 @@ class Character(object):
         return self._target
 
     @target.setter
-    def target(self, target=None):
+    def target(self, target):
         ''' Store an opposing Character object as an attribute.'''
-        valid_targets = (Character, type(None))
-        if not isinstance(target, valid_targets):
-            raise InvalidTarget(target, valid_targets)
-        if target:
-            self._target = target
-        else:
-            self._target = self
+        if not isinstance(target, Character):
+            raise InvalidTarget(target, Character)
+        self._target = target
 
     @property
     def items(self):
@@ -71,17 +67,19 @@ class Character(object):
     def black_magic(self, att_name, stat, num, mp_cost):
         ''' Magic that reduces a targets given stat attribute.'''
         inc = False
-        self._magic(att_name, stat, num, mp_cost, inc, self.target)
+        self._magic(att_name, stat, num, mp_cost, inc, target=True)
 
     def white_magic(self, att_name, stat, num, mp_cost):
         ''' Magic that increases a targets given stat attribute.'''
         inc = True
+        print(self.hp, num+self.hp, self._max_hp)
+        time.sleep(2)
         if (stat == 'hp' and (num + self.hp >= self._max_hp)) \
                 or (stat == 'mp' and (num + self.mp >= self._max_mp)):
             print('{} is already at the maximum value'.format(stat.upper()))
             time.sleep(0.5)
             return
-        self._magic(att_name, stat, num, mp_cost, inc, self)
+        self._magic(att_name, stat, num, mp_cost, inc, target=False)
 
     def _magic(self, att_name, stat, num, mp_cost, inc, target):
         ''' Performs magic and depletes mp.'''
@@ -99,15 +97,19 @@ class Character(object):
             print("You don't have enough mp to use {}.\n".format(att_name))
             return False
 
-    def _alter_stat(self, stat, num, inc=True, target=None):
+    def _alter_stat(self, stat, num, inc=True, target=False):
         ''' Alter a Character objects hp, mp, st or ag attribute.'''
         if stat not in ['hp', 'mp', 'st', 'ag']:
             raise StatError(stat)
-        self.target = target
+        if target:
+            reciever = self.target
+        else:
+            reciever = self
+        # self.target = target
         op = operator.add if inc else operator.sub
-        calc = op(getattr(self._target, stat), num)
-        setattr(self._target, stat, calc)
+        calc = op(getattr(reciever, stat), num)
+        setattr(reciever, stat, calc)
         upordown = 'increases' if op == operator.add else 'decreases'
-        msg = '{} {} {} by {}\n'.format(self._target.name, stat.upper(),
+        msg = '{} {} {} by {}\n'.format(reciever.name, stat.upper(),
                                         upordown, num)
         print(msg)

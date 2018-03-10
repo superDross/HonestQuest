@@ -35,7 +35,7 @@ class Human(Character):
 
     def death(self, *args):
         print('GAME OVER!!!!')
-        self.dead = True
+        # self.dead = True
         sys.exit()
 
     @property
@@ -72,3 +72,21 @@ class Human(Character):
         next_lv_exp = self.leveling.get(self.lv + 1)
         exp_to_next_lv = next_lv_exp - self.exp
         print(msg.format(self.name, self.exp, exp_to_next_lv))
+
+
+if __name__ == '__main__':
+    guy = Human('GUY', 2)
+    from enemies import Enemy
+    enemy = Enemy(2)
+    enemy.mp = 20
+    guy.target = enemy
+    enemy.target = guy
+    print(guy)
+    print(enemy)
+    enemy.attack()
+    guy.magic.heal()
+    print(guy)
+    guy.attack()
+    enemy.buff()
+    enemy.debuff()
+    enemy.big_attack()

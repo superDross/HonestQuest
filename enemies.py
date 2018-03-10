@@ -11,7 +11,7 @@ class Enemy(Character):
         self.species = self._determine_species()
         species_dict = self._species_stats_dict()[self.species]
         for k, v in species_dict.items():
-            v = int(int(v)*lv*0.5) if v.isdigit() else v
+            v = int(int(v)*lv) if v.isdigit() else v
             setattr(self, k, v)
         Character.__init__(self, self.species, self.hp, self.mp,
                            self.st, self.ag, lv)
