@@ -5,13 +5,22 @@ import csv
 
 
 class Enemy(Character):
-    ''' Randomly creates an enemy from the species stats sheet.'''
+    ''' Randomly creates an enemy from the species stats csv.
+
+    Attr:
+        lv: enemy level
+
+    Note:
+        The rest of the set attributes are derived from the
+        species_stats.csv file.
+    '''
 
     def __init__(self, lv):
         self.species = self._determine_species()
         species_dict = self._species_stats_dict()[self.species]
         for k, v in species_dict.items():
-            v = int(int(v)*lv) if v.isdigit() else v
+            # increase stats based on level
+            v = int(int(v) * lv) if v.isdigit() else v
             setattr(self, k, v)
         Character.__init__(self, self.species, self.hp, self.mp,
                            self.st, self.ag, lv)
@@ -40,6 +49,10 @@ class Enemy(Character):
 
     @staticmethod
     def weighted_choice(d):
+        ''' A weighted version of random.choice that takes a dict
+            where key is what needs to be randomised and the value
+            is the weight of the key.
+        '''
         # ths shoudl belong else where as its used by other classes
         choice = random.choice([k for k in d for _ in range(d[k])])
         return choice
