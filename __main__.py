@@ -1,7 +1,7 @@
 from movement import OverWorld
-from protagonist import Human
+from hero import Hero
 from enemies import Enemy
-from menu import Menu
+from battle_menu import BattleMenu
 import pickle
 import random
 import time
@@ -11,13 +11,10 @@ import os
 
 def main():
     guy = generate_hero()
-    size = os.get_terminal_size()
-    # sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=32, cols=100))
-    # world = OverWorld(height=int(32*.9), width=int(100/2))
-    world = OverWorld(height=int(size.lines * .9), width=int(size.columns / 2))
+    overworld = intiate_overworld()
     while True:
         enemy = enemy_generator(guy)
-        animate_overworld(world)
+        animate_overworld(overworld, guy)
         battle_animation()
         battle(guy, enemy)
         guy.hp = guy._max_hp
@@ -31,7 +28,7 @@ def generate_hero():
         return loaded_data
     else:
         name = get_name()
-        guy = Human(name, 1)
+        guy = Hero(name, 1)
         return guy
 
 
@@ -66,18 +63,27 @@ def confirm_name(name):
         return confirm_name(name)
 
 
+def intiate_overworld():
+    ''' Initiate OverWorld class using terminal height and width as input.'''
+    size = os.get_terminal_size()
+    # sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=32, cols=100))
+    # world = OverWorld(height=int(32*.9), width=int(100/2))
+    world = OverWorld(height=int(size.lines * .9), width=int(size.columns / 2))
+    return world
+
+
 def enemy_generator(hero):
     ''' Random enemy generator.'''
     return Enemy(hero.lv)
 
 
-def animate_overworld(world):
+def animate_overworld(world, guy):
     ''' Overworld animation.'''
     n = 0
     while n != 1:
         os.system('clear')
+        print(guy)
         print(world.x, world.y)
-        print(world.height, world.width)
         print(world.render())
         world.set_move()
         world.move()
@@ -125,7 +131,7 @@ def battle_animation():
 
 def battle(character, enemy):
     ''' Initiate battle menu.'''
-    menu = Menu(character, enemy)
+    menu = BattleMenu(character, enemy)
     menu.battle_menu()
 
 

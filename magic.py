@@ -29,8 +29,8 @@ class LV6(LV3):
         super().__init__(character)
 
     def fireball(self):
-        self.character.black_magic(att_name='Fireball', stat='hp', num=3,
-                                   mp_cost=3)
+        self.character.black_magic(att_name='Fireball', stat='hp', num=10,
+                                   mp_cost=10)
 
 
 class LV10(LV6):
@@ -56,5 +56,5 @@ class LV20(LV15):
         super().__init__(character)
 
     def firewhirl(self):
-        self.character.black_magic(att_name='Fire Whirl', stat='hp', num=10,
-                                   mp_cost=10)
+        self.character.black_magic(att_name='Fire Whirl', stat='hp', num=25,
+                                   mp_cost=25)

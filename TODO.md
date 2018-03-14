@@ -2,3 +2,5 @@
 - item implemntation in battle menu
 - create a store in map (transistions into menu to buy stuff)
 - enemy big\_attck, etc. dont print a message when executed.
+- print battle screen in middle of screen
+- monster animations

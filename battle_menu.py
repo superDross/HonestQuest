@@ -4,11 +4,9 @@ import re
 import time
 import sys
 from termios import tcflush, TCIFLUSH
-from protagonist import Human
-from enemies import Enemy
 
 
-class Menu(object):
+class BattleMenu(object):
     ''' Battle menu.
 
     NOTE: to intiate battle sequence;
@@ -36,6 +34,7 @@ class Menu(object):
                 time.sleep(4)
                 return
             os.system('clear')
+            print('Dragon')
             print('\n{}\n{}\n'.format(self.hero, self.enemy))
             tcflush(sys.stdin, TCIFLUSH)  # clears input
             func(self)
@@ -128,10 +127,3 @@ class Menu(object):
                 spell()
             else:
                 self.enemy.attack()
-
-
-if __name__ == '__main__':
-    guy = Human('Guy', 2)
-    rat = Enemy(10)
-    menu = Menu(guy, rat)
-    menu.battle_menu()

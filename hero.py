@@ -1,4 +1,4 @@
-''' Protagonist (Human) classes.'''
+''' Protagonist (Hero) classes.'''
 from character import Character
 import magic as mg
 import pickle
@@ -7,7 +7,7 @@ import sys
 import os
 
 
-class Human(Character):
+class Hero(Character):
     def __init__(self, name, lv):
         Character.__init__(self, name, 1, 1, 1, 1, lv)
         self.leveling = stats.leveling
@@ -89,9 +89,9 @@ class Human(Character):
 
 
 if __name__ == '__main__':
-    t = Human('name', 2)
+    t = Hero('name', 2)
     t.save()
-    d = Human('n', 3)
+    d = Hero('n', 3)
     d.load()
     print(d.lv)
 
