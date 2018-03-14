@@ -18,13 +18,14 @@ def main():
     while True:
         enemy = enemy_generator(guy)
         animate_overworld(world)
-        print_middle(strings=['battle', 'Battle!', 'BATTLE!!!'])
+        battle_animation()
         battle(guy, enemy)
         guy.hp = guy._max_hp
         guy.save()
 
 
 def generate_hero():
+    ''' Create hero object or load hero data from save file.'''
     loaded_data = load()
     if loaded_data:
         return loaded_data
@@ -42,21 +43,32 @@ def load():
 
 
 def get_name():
+    ''' Ask player for hero name.'''
     os.system('clear')
-    name = input('Type your name: ')
-    print('\nAre you sure you want the name {}?'.format(name))
+    msg = 'Type your name.\n'
+    print_middle(msg)
+    name = input(midscreen(msg))
     confirm_name(name)
     return name
 
 
 def confirm_name(name):
-    decision = input('\nPress any Y to confirm or N to renenter.\n>>> ')
+    ''' Ask player to confirm name or to re-enter name.'''
+    os.system('clear')
+    print_middle('Are you sure you want the name {}?'.format(name))
+    print(centre_string((('Press Y to confirm or N to renenter\n.'))))
+    decision = input(midscreen(''))
     if decision in ['y', 'Y']:
         return name
     elif decision in ['n', 'N']:
         get_name()
     else:
         return confirm_name(name)
+
+
+def enemy_generator(hero):
+    ''' Random enemy generator.'''
+    return Enemy(hero.lv)
 
 
 def animate_overworld(world):
@@ -72,23 +84,43 @@ def animate_overworld(world):
         n = random.randint(1, 20)
 
 
-def print_middle(strings, t=0.4):
-    ''' Prints list of strings in the middle of
-        the screen at a given time interval.'''
-    size = os.get_terminal_size()
-    w = int(size.columns)
-    h = int(size.lines)
-    nothing = ' ' * (int(w / 2) - 1)
+def print_middle(string):
+    ''' Prints a string at the center of the terminal.'''
+    h = get_terminal_height()
+    centered = centre_string(string)
     nl = '\n' * (int(h / 2))
-    for battle in strings:
+    print(nl + centered)
+
+
+def centre_string(string):
+    ''' Place the string in the middle of a terminal line.'''
+    nothing = midscreen(string)
+    centered_string = nothing + string + nothing
+    return centered_string
+
+
+def midscreen(string):
+    w = get_terminal_width()
+    nothing = ' ' * int(((int(w - len(string)) - 1) / 2))
+    return nothing
+
+
+def get_terminal_width():
+    size = os.get_terminal_size()
+    return int(size.columns)
+
+
+def get_terminal_height():
+    size = os.get_terminal_size()
+    return int(size.lines)
+
+
+def battle_animation():
+    ''' Animation that precedes battle.'''
+    for battle in ['battle', 'Battle!', 'BATTLE!!!']:
         os.system('clear')
-        print(nl + nothing + battle + nothing)
-        time.sleep(t)
-
-
-def enemy_generator(hero):
-    ''' Random enemy generator.'''
-    return Enemy(hero.lv)
+        print_middle(battle)
+        time.sleep(0.4)
 
 
 def battle(character, enemy):
