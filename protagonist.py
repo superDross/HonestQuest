@@ -23,6 +23,7 @@ class Human(Character):
 
     @property
     def magic(self):
+        ''' Returns magic spells available to players current level.'''
         class_dict = {tuple(range(0, 3)): mg.LV1,
                       tuple(range(3, 6)): mg.LV3,
                       tuple(range(6, 10)): mg.LV6,
@@ -60,11 +61,16 @@ class Human(Character):
                         self.name, self.lv)
                     self._determine_stats()
                     print(msg)
-                    if type(before_mglv) != type(self.magic):
-                        new_spell = set(dir(self.magic)) - set(dir(before_mglv))
-                        print('Learned {}!'.format(list(new_spell)[0].title()))
+                    self._determine_new_magic(before_mglv)
                     print(self)
                     break
+
+    def _determine_new_magic(self, before_mglv):
+        ''' Communicate new speel learned after leveling up.'''
+        if type(before_mglv) != type(self.magic):
+            new_spell = set(dir(self.magic)) - \
+                set(dir(before_mglv))
+            print('\nLearned {}!\n'.format(list(new_spell)[0].title()))
 
     def get_exp(self):
         ''' Print EXP.'''
