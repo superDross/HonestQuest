@@ -1,3 +1,4 @@
+''' Dict that helps determine player level based upon total Exp value.'''
 # k = level, v = experience
 leveling = {1: 0, 2: 6, 3: 23, 4: 47, 5: 110, 6: 220, 7: 450, 8: 800, 9: 1300,
             10: 2000, 11: 2900, 12: 4000, 13: 5500, 14: 7500, 15: 10000,
