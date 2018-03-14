@@ -1,8 +1,10 @@
 ''' Protagonist (Human) classes.'''
 from character import Character
 import magic as mg
+import pickle
 import stats
 import sys
+import os
 
 
 class Human(Character):
@@ -12,6 +14,7 @@ class Human(Character):
         self._exp = 0
         self._determine_stats()
         self.dead = False
+        self.save_file = 'save_file.pkl'
 
     def _determine_stats(self):
         self.hp = (self.lv * 5) - (self._max_hp - self.hp)
@@ -79,20 +82,28 @@ class Human(Character):
         exp_to_next_lv = next_lv_exp - self.exp
         print(msg.format(self.name, self.exp, exp_to_next_lv))
 
+    def save(self):
+        ''' Save protagonist attributes to a pickle file.'''
+        with open(self.save_file, 'wb') as outfile:
+            pickle.dump(self, outfile, pickle.HIGHEST_PROTOCOL)
+
 
 if __name__ == '__main__':
-    guy = Human('GUY', 2)
-    from enemies import Enemy
-    enemy = Enemy(2)
-    enemy.mp = 20
-    guy.target = enemy
-    enemy.target = guy
-    print(guy)
-    print(enemy)
-    enemy.attack()
-    guy.magic.heal()
-    print(guy)
-    guy.attack()
-    enemy.buff()
-    enemy.debuff()
-    enemy.big_attack()
+    t = Human('name', 2)
+    t.save()
+    d = Human('n', 3)
+    d.load()
+    print(d.lv)
+
+
+
+
+
+
+
+
+
+
+
+
+

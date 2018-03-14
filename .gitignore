@@ -2,6 +2,7 @@
 *txt
 *.swp
 *.log
+*.pkl
 temp_test/
 test_files/
 

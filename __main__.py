@@ -2,30 +2,64 @@ from movement import OverWorld
 from protagonist import Human
 from enemies import Enemy
 from menu import Menu
+import pickle
 import random
 import time
+import sys
 import os
+
+
+def main():
+    guy = generate_hero()
+    size = os.get_terminal_size()
+    # sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=32, cols=100))
+    # world = OverWorld(height=int(32*.9), width=int(100/2))
+    world = OverWorld(height=int(size.lines * .9), width=int(size.columns / 2))
+    while True:
+        enemy = enemy_generator(guy)
+        animate_overworld(world)
+        print_middle(strings=['battle', 'Battle!', 'BATTLE!!!'])
+        battle(guy, enemy)
+        guy.hp = guy._max_hp
+        guy.save()
+
+
+def generate_hero():
+    loaded_data = load()
+    if loaded_data:
+        return loaded_data
+    else:
+        name = get_name()
+        guy = Human(name, 1)
+        return guy
+
+
+def load():
+    ''' Load character data from save file.'''
+    if os.path.exists('save_file.pkl'):
+        with open('save_file.pkl', 'rb') as infile:
+            return pickle.load(infile)
 
 
 def get_name():
     os.system('clear')
     name = input('Type your name: ')
-    print('Are you sure you want the name {}?'.format(name))
+    print('\nAre you sure you want the name {}?'.format(name))
     confirm_name(name)
     return name
 
 
 def confirm_name(name):
-    decision = input('Press any y to confirm or n to renenter.\n')
-    if decision == 'y':
+    decision = input('\nPress any Y to confirm or N to renenter.\n>>> ')
+    if decision in ['y', 'Y']:
         return name
-    elif decision == 'n':
+    elif decision in ['n', 'N']:
         get_name()
     else:
         return confirm_name(name)
 
 
-def main(world):
+def animate_overworld(world):
     ''' Overworld animation.'''
     n = 0
     while n != 1:
@@ -63,18 +97,5 @@ def battle(character, enemy):
     menu.battle_menu()
 
 
-def AI(enemy):
-    enemy.attack(enemy.target)
-
-
 if __name__ == '__main__':
-    name = get_name()
-    guy = Human(name, 1)
-    size = os.get_terminal_size()
-    world = OverWorld(height=int(size.lines / 2), width=int(size.columns / 2))
-    while True:
-        enemy = enemy_generator(guy)
-        main(world)
-        print_middle(strings=['battle', 'Battle!', 'BATTLE!!!'])
-        battle(guy, enemy)
-        guy.hp = guy._max_hp
+    main()
