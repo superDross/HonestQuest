@@ -67,10 +67,10 @@ def confirm_name(name):
 
 def intiate_overworld():
     ''' Initiate OverWorld class using terminal height and width as input.'''
-    # size = os.get_terminal_size()
     sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=40, cols=93))
     world = OverWorld(height=int(40 * .9),
                       width=int(93 / 2))
+    # size = os.get_terminal_size()
     # world = OverWorld(height=int(size.lines * .9),
     #                   width=int(size.columns / 2))
     return world

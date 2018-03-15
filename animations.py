@@ -1,3 +1,27 @@
+''' Animations used for battle and store menu.
+
+All ascii art was taken from https://www.asciiart.eu/
+'''
+
+shopkeep = ["""                       """,
+            """        .-""-.         """,
+            """       /-.{}  \        """,
+            """       | _\__.|        """,
+            """       \/^)^ \/        """,
+            """        \ =  /         """,
+            """   .---./`--`\.--._    """,
+            """  /     `;--'`     \   """,
+            """ ;        /`       ;   """,
+            """ |       |*        |   """,
+            """ /   |   |     |    \  """,
+            """ |    \  |*    /    |  """,
+            """ \_   |\_|____/|  __/  """,
+            """   \__//======\\__/    """,
+            """   / //_      _\\ \    """,
+            """   -'  |`""""`|  `-    """,
+            """-----------------------""",
+            """                       """]
+
 goblin = ["""                              """,
           """        .-"""".               """,
           """       /       \              """,
@@ -113,4 +137,4 @@ christian = ["""                   """,
 
 animations = {'Goblin': goblin, 'Feline': feline, 'Bat': bat,
               'Rat': rat, 'Soldier': soldier, 'Dragon': dragon,
-              'Christian': christian}
+              'Christian': christian, 'Shopkeep': shopkeep}

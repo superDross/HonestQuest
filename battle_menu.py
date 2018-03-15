@@ -7,41 +7,18 @@ from termios import tcflush, TCIFLUSH
 from print_text import print_centre
 
 
-class BattleMenu(object):
-    ''' Battle menu.
+class Menu(object):
+    ''' Base class for all menus.
 
-    NOTE: to intiate battle sequence;
-          battle = Menu(hero, enemy)
-          battle.battle_menu()
+    Note: self.main_menu should be
+          an assigned when the
+          child class is intalised
     '''
-    def __init__(self, hero, enemy):
+
+    def __init__(self, hero):
         self.hero = hero
-        self.enemy = enemy
-        self._target_each_other()
-        self.all_magic = self._get_all_magic()
+        self.main_menu = None
         self._choice = None
-
-    def _target_each_other(self):
-        ''' Hero and enemy store one another as a target attr.'''
-        self.hero.target = self.enemy
-        self.enemy.target = self.hero
-
-    def _print_centre_stats(func):
-        ''' Decorator that print_centres stuff and clears
-            screen after every action.'''
-        def inner(self):
-            # this if is needed otherwise an infinte loop of battle
-            if self.enemy.dead:
-                time.sleep(4)
-                return
-            os.system('clear')
-            print_centre(self.enemy.animation)
-            print_centre('\n{}\n{}\n'.format(self.hero, self.enemy))
-            tcflush(sys.stdin, TCIFLUSH)  # clears input
-            func(self)
-            self._choice = None
-            self.battle_menu()
-        return inner
 
     @property
     def choice(self):
@@ -56,6 +33,57 @@ class BattleMenu(object):
             else:
                 print_centre('Enter a digit')
                 self.choice = input('>> ')
+
+    def get_menu_item(self, exec_dict):
+        ''' choose a key from the parsed dict and
+            execute its corresponding item.'''
+        try:
+            item = exec_dict[self.choice]
+            return item
+        except KeyError:
+            msg = '{} is not a valid choice. Try again.'
+            print_centre(msg.format(self.choice))
+            time.sleep(2)
+            self.main_menu
+
+
+class BattleMenu(Menu):
+    ''' Battle menu.
+
+    NOTE: to intiate battle sequence;
+          battle = Menu(hero, enemy)
+          battle.battle_menu()
+    '''
+
+    def __init__(self, hero, enemy):
+        Menu.__init__(self, hero)
+        self.enemy = enemy
+        self._target_each_other()
+        self.all_magic = self._get_all_magic()
+        self.main_menu = self.battle_menu()
+
+    def _target_each_other(self):
+        ''' Hero and enemy store one another as a target attr.'''
+        self.hero.target = self.enemy
+        self.enemy.target = self.hero
+
+    def _print_centre_stats(func):
+        ''' Decorator that print_centres stuff and clears
+            screen after every action.'''
+
+        def inner(self):
+            # this if is needed otherwise an infinte loop of battle
+            if self.enemy.dead:
+                time.sleep(4)
+                return
+            os.system('clear')
+            print_centre(self.enemy.animation)
+            print_centre('\n{}\n{}\n'.format(self.hero, self.enemy))
+            tcflush(sys.stdin, TCIFLUSH)  # clears input
+            func(self)
+            self._choice = None
+            self.battle_menu()
+        return inner
 
     def _get_all_magic(self):
         ''' Returns all heros magic spells and stores in a list.'''
@@ -86,7 +114,10 @@ class BattleMenu(object):
         ''' Main battle menu.'''
         print_centre('1. Attack\n2. Magic\n3. Item')
         self.choice = input('>> ')
-        self.exec_menu()
+        exec_dict = {'1': self.attack,
+                     '2': self.magic_menu}
+        action = self.get_menu_item(exec_dict)
+        action()
 
     @_print_centre_stats
     def magic_menu(self):
@@ -101,19 +132,6 @@ class BattleMenu(object):
     def attack(self):
         self.hero.attack()
         self.enemy_turn()
-
-    def exec_menu(self):
-        # need to add items
-        try:
-            exec_dict = {'1': self.attack,
-                         '2': self.magic_menu}
-            action = exec_dict[self.choice]
-            action()
-        except KeyError:
-            msg = '{} is not a valid choice. Try again.'
-            print_centre(msg.format(self.choice))
-            time.sleep(2)
-            self.battle_menu()
 
     def enemy_turn(self):
         ''' Enemy action determined by if else block.'''
