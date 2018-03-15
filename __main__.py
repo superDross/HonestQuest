@@ -78,7 +78,9 @@ def intiate_overworld():
 
 def enemy_generator(hero):
     ''' Random enemy generator.'''
-    lv = random.randint(hero.lv - 2, hero.lv + 2)
+    low = hero.lv - 2 if hero.lv > 2 else 1
+    high = hero.lv + 2
+    lv = random.randint(low, high)
     return Enemy(lv)
 
 
