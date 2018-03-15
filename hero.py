@@ -63,7 +63,6 @@ class Hero(Character):
                     self._determine_stats()
                     print_centre(msg)
                     self._determine_new_magic(before_mglv)
-                    # print_centre(self)
                     break
 
     def _determine_new_magic(self, before_mglv):

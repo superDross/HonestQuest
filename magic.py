@@ -46,7 +46,7 @@ class LV15(LV10):
     def __init__(self, character):
         super().__init__(character)
 
-    def coke(self):
+    def snort_coke(self):
         self.character.white_magic(att_name='Snort Coke', stat='ag', num=5,
                                    mp_cost=5)
 

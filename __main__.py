@@ -78,7 +78,8 @@ def intiate_overworld():
 
 def enemy_generator(hero):
     ''' Random enemy generator.'''
-    return Enemy(hero.lv)
+    lv = random.randint(hero.lv - 2, hero.lv + 2)
+    return Enemy(lv)
 
 
 def animate_overworld(world, guy):
