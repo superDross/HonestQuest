@@ -1,6 +1,7 @@
 ''' All enemy classes.'''
 from character import Character
 from animations import animations
+from print_text import print_centre
 import random
 import csv
 
@@ -72,7 +73,7 @@ class Enemy(Character):
     def death(self):
         ''' Protagonist rewards upon death.'''
         msg = '{} gained {} exp and {} gold\n'
-        print(msg.format(self.target.name, self.exp, self.gold))
+        print_centre(msg.format(self.target.name, self.exp, self.gold))
         self.target.exp += self.exp
         self.target.gold += self.gold
         self.dead = True

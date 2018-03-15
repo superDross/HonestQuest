@@ -1,5 +1,6 @@
 ''' Protagonist (Hero) classes.'''
 from character import Character
+from print_text import print_centre
 import magic as mg
 import pickle
 import stats
@@ -13,8 +14,6 @@ class Hero(Character):
         self.leveling = stats.leveling
         self._exp = 0
         self._determine_stats()
-        self.dead = False
-        self.save_file = 'save_file.pkl'
 
     def _determine_stats(self):
         self.hp = (self.lv * 5) - (self._max_hp - self.hp)
@@ -38,8 +37,7 @@ class Hero(Character):
                 return v(self)
 
     def death(self, *args):
-        print('GAME OVER!!!!')
-        # self.dead = True
+        print_centre('GAME OVER!!!!')
         sys.exit()
 
     @property
@@ -63,9 +61,9 @@ class Hero(Character):
                     msg = '{} has reached level {}!'.format(
                         self.name, self.lv)
                     self._determine_stats()
-                    print(msg)
+                    print_centre(msg)
                     self._determine_new_magic(before_mglv)
-                    print(self)
+                    # print_centre(self)
                     break
 
     def _determine_new_magic(self, before_mglv):
@@ -73,18 +71,18 @@ class Hero(Character):
         if type(before_mglv) != type(self.magic):
             new_spell = set(dir(self.magic)) - \
                 set(dir(before_mglv))
-            print('\nLearned {}!\n'.format(list(new_spell)[0].title()))
+            print_centre('\nLearned {}!\n'.format(list(new_spell)[0].title()))
 
     def get_exp(self):
         ''' Print EXP.'''
         msg = '{} has {} exp\n{} exp to the next level'
         next_lv_exp = self.leveling.get(self.lv + 1)
         exp_to_next_lv = next_lv_exp - self.exp
-        print(msg.format(self.name, self.exp, exp_to_next_lv))
+        print_centre(msg.format(self.name, self.exp, exp_to_next_lv))
 
     def save(self):
         ''' Save protagonist attributes to a pickle file.'''
-        with open(self.save_file, 'wb') as outfile:
+        with open('save_file.pkl', 'wb') as outfile:
             pickle.dump(self, outfile, pickle.HIGHEST_PROTOCOL)
 
 

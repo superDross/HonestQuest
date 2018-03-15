@@ -2,6 +2,7 @@ from movement import OverWorld
 from hero import Hero
 from enemies import Enemy
 from battle_menu import BattleMenu
+from print_text import print_middle, midscreen, centre_string
 import pickle
 import random
 import time
@@ -18,6 +19,7 @@ def main():
         battle_animation()
         battle(guy, enemy)
         guy.hp = guy._max_hp
+        guy.mp = guy._max_mp
         guy.save()
 
 
@@ -65,10 +67,12 @@ def confirm_name(name):
 
 def intiate_overworld():
     ''' Initiate OverWorld class using terminal height and width as input.'''
-    size = os.get_terminal_size()
-    # sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=32, cols=100))
-    # world = OverWorld(height=int(32*.9), width=int(100/2))
-    world = OverWorld(height=int(size.lines * .9), width=int(size.columns / 2))
+    # size = os.get_terminal_size()
+    sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=40, cols=93))
+    world = OverWorld(height=int(40 * .9),
+                      width=int(93 / 2))
+    # world = OverWorld(height=int(size.lines * .9),
+    #                   width=int(size.columns / 2))
     return world
 
 
@@ -88,37 +92,6 @@ def animate_overworld(world, guy):
         world.set_move()
         world.move()
         n = random.randint(1, 20)
-
-
-def print_middle(string):
-    ''' Prints a string at the center of the terminal.'''
-    h = get_terminal_height()
-    centered = centre_string(string)
-    nl = '\n' * (int(h / 2))
-    print(nl + centered)
-
-
-def centre_string(string):
-    ''' Place the string in the middle of a terminal line.'''
-    nothing = midscreen(string)
-    centered_string = nothing + string + nothing
-    return centered_string
-
-
-def midscreen(string):
-    w = get_terminal_width()
-    nothing = ' ' * int(((int(w - len(string)) - 1) / 2))
-    return nothing
-
-
-def get_terminal_width():
-    size = os.get_terminal_size()
-    return int(size.columns)
-
-
-def get_terminal_height():
-    size = os.get_terminal_size()
-    return int(size.lines)
 
 
 def battle_animation():

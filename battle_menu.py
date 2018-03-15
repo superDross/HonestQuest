@@ -4,6 +4,7 @@ import re
 import time
 import sys
 from termios import tcflush, TCIFLUSH
+from print_text import print_centre
 
 
 class BattleMenu(object):
@@ -25,8 +26,8 @@ class BattleMenu(object):
         self.hero.target = self.enemy
         self.enemy.target = self.hero
 
-    def _print_stats(func):
-        ''' Decorator that prints stuff and clears
+    def _print_centre_stats(func):
+        ''' Decorator that print_centres stuff and clears
             screen after every action.'''
         def inner(self):
             # this if is needed otherwise an infinte loop of battle
@@ -34,8 +35,8 @@ class BattleMenu(object):
                 time.sleep(4)
                 return
             os.system('clear')
-            print('Dragon')
-            print('\n{}\n{}\n'.format(self.hero, self.enemy))
+            print_centre(self.enemy.animation)
+            print_centre('\n{}\n{}\n'.format(self.hero, self.enemy))
             tcflush(sys.stdin, TCIFLUSH)  # clears input
             func(self)
             self._choice = None
@@ -53,7 +54,7 @@ class BattleMenu(object):
             if value.isdigit():
                 self._choice = value
             else:
-                print('Enter a digit')
+                print_centre('Enter a digit')
                 self.choice = input('>> ')
 
     def _get_all_magic(self):
@@ -80,18 +81,18 @@ class BattleMenu(object):
         d[str(max(numbers) + 1)] = self.battle_menu
         return d
 
-    @_print_stats
+    @_print_centre_stats
     def battle_menu(self):
         ''' Main battle menu.'''
-        print('1. Attack\n2. Magic\n3. Item')
+        print_centre('1. Attack\n2. Magic\n3. Item')
         self.choice = input('>> ')
         self.exec_menu()
 
-    @_print_stats
+    @_print_centre_stats
     def magic_menu(self):
         ''' Submenu for magic spells.'''
         magic_dict = self._magic_spell_dict()
-        print(self._magic_spell_string())
+        print_centre(self._magic_spell_string())
         self.choice = input('>> ')
         spell = magic_dict[self.choice]
         spell()
@@ -110,7 +111,7 @@ class BattleMenu(object):
             action()
         except KeyError:
             msg = '{} is not a valid choice. Try again.'
-            print(msg.format(self.choice))
+            print_centre(msg.format(self.choice))
             time.sleep(2)
             self.battle_menu()
 

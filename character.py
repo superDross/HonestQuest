@@ -1,5 +1,6 @@
 ''' Base class for all playable characters and enemies.'''
 from custom_exceptions import StatError, InvalidTarget
+from print_text import print_centre
 import operator
 import time
 
@@ -28,10 +29,10 @@ class Character(object):
         self.target.hp -= self.st
         msg = '\n{} does {} damage to {}'.format(
             self.name, self.st, self.target.name)
-        print(msg)
-        print('{} HP = {}\n'.format(self.target.name, self.target.hp))
+        print_centre(msg)
+        print_centre('{} HP = {}\n'.format(self.target.name, self.target.hp))
         if self.target.hp <= 0:
-            print('{} is dead!\n'.format(self.target.name))
+            print_centre('{} is dead!\n'.format(self.target.name))
             self.target.death()
         time.sleep(2)
 
@@ -57,12 +58,12 @@ class Character(object):
             items = [items, ]
         for item in items:
             self._inventory[item.name] = item
-            print('{} added to inventory.'.format(item.name))
+            print_centre('{} added to inventory.'.format(item.name))
 
     def use_item(self, item_name):
         ''' Use an Item object in your inventory.'''
         item = self._inventory.get(item_name)
-        print('{} Used {}'.format(self.name, item_name))
+        print_centre('{} Used {}'.format(self.name, item_name))
         self._alter_stat(item.stat, item.value, inc=True)
         del self._inventory[item_name]
 
@@ -76,7 +77,7 @@ class Character(object):
         inc = True
         if (stat == 'hp' and (num + self.hp > self._max_hp)) \
                 or (stat == 'mp' and (num + self.mp >= self._max_mp)):
-            print('{} is already at the maximum value'.format(stat.upper()))
+            print_centre('{} is already at the maximum value'.format(stat.upper()))
             time.sleep(2)
             return
         self._magic(att_name, stat, num, mp_cost, inc, target=False)
@@ -91,10 +92,10 @@ class Character(object):
         ''' Lower MP by a given value.'''
         if self.mp >= mp_cost:
             self.mp -= mp_cost
-            print('{} uses {}!'.format(self.name, att_name))
+            print_centre('{} uses {}!'.format(self.name, att_name))
             return True
         elif self.mp < mp_cost:
-            print("You don't have enough mp to use {}.\n".format(att_name))
+            print_centre("You don't have enough mp to use {}.\n".format(att_name))
             return False
 
     def _alter_stat(self, stat, num, inc=True, target=False):
@@ -112,5 +113,5 @@ class Character(object):
         upordown = 'increases' if op == operator.add else 'decreases'
         msg = '{} {} {} by {}\n'.format(reciever.name, stat.upper(),
                                         upordown, num)
-        print(msg)
+        print_centre(msg)
         time.sleep(2)
