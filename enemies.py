@@ -1,5 +1,6 @@
 ''' All enemy classes.'''
 from character import Character
+from animations import animations
 import random
 import csv
 
@@ -25,6 +26,7 @@ class Enemy(Character):
         Character.__init__(self, self.species, self.hp, self.mp,
                            self.st, self.ag, lv)
         self.dead = False
+        self.animation = animations[self.species]
 
     @staticmethod
     def _species_stats_dict():
@@ -101,3 +103,5 @@ if __name__ == '__main__':
         spell()
     else:
         enemy.attack()
+    for l in enemy.animation:
+        print(l)
