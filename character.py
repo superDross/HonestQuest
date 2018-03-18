@@ -31,6 +31,10 @@ class Character(object):
             self.name, self.st, self.target.name)
         print_centre(msg)
         print_centre('{} HP = {}\n'.format(self.target.name, self.target.hp))
+        self.check_hp()
+
+    def check_hp(self):
+        ''' Determine whether opponent is dead.'''
         if self.target.hp <= 0:
             print_centre('{} is dead!\n'.format(self.target.name))
             self.target.death()
@@ -71,6 +75,7 @@ class Character(object):
         ''' Magic that reduces a targets given stat attribute.'''
         inc = False
         self._magic(att_name, stat, num, mp_cost, inc, target=True)
+        self.check_hp()
 
     def white_magic(self, att_name, stat, num, mp_cost):
         ''' Magic that increases a targets given stat attribute.'''
@@ -106,7 +111,6 @@ class Character(object):
             reciever = self.target
         else:
             reciever = self
-        # self.target = target
         op = operator.add if inc else operator.sub
         calc = op(getattr(reciever, stat), num)
         setattr(reciever, stat, calc)
