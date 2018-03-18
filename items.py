@@ -13,13 +13,3 @@ class Item(object):
 
     def __str__(self):
         return '{}:\t{}'.format(self.name, self.description)
-
-
-class Consumable(Item):
-    def __init__(self, name, stat, value, description):
-        super().__init__(name, stat, value, description)
-
-
-class Weapon(Item):
-    def __init__(self, name, stat, value, description):
-        super().__init__(name, stat, value, description)

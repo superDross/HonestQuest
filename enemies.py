@@ -89,20 +89,3 @@ class Enemy(Character):
     def debuff(self):
         self.black_magic(att_name=self.debuff_name, stat=self.stat,
                          num=2 * self.lv, mp_cost=2 * self.lv)
-
-
-if __name__ == '__main__':
-    enemy = Enemy(lv=1)
-    enemy.target = enemy
-    print(enemy)
-    actions = {'attack': 10, 'magic': 2}
-    action = enemy.weighted_choice(actions)
-    if enemy.mp > 1 and action == 'magic':
-        spells = {'big_attack': 10, 'buff': 2, 'debuff': 1}
-        choice = enemy.weighted_choice(spells)
-        spell = getattr(enemy, choice)
-        spell()
-    else:
-        enemy.attack()
-    for l in enemy.animation:
-        print(l)

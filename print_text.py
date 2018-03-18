@@ -2,20 +2,21 @@
 import os
 
 
-def print_middle(string):
-    ''' Prints a string at the center of the terminal.'''
-    if isinstance(string, list):
-        print_middle(string[0])
-        for s in string[1:]:
+def print_middle(text):
+    ''' Prints a text/list at the center of the terminal.'''
+    if isinstance(text, list):
+        print_middle(text[0])
+        for s in text[1:]:
             print(centre_string(s))
     else:
         h = get_terminal_height()
-        centered = centre_string(string)
+        centered = centre_string(text)
         nl = '\n' * (int(h / 2))
         print(nl + centered)
 
 
 def print_centre(string):
+    ''' Print the string in the middle of a terminal line.'''
     if '\n' in string:
         string = [x for x in string.split('\n')]
     if isinstance(string, list):
@@ -33,6 +34,8 @@ def centre_string(string):
 
 
 def midscreen(string):
+    ''' Return a string of whitespace to centre a
+        text on the terminals line.'''
     w = get_terminal_width()
     nothing = ' ' * int(((int(w - len(string)) - 1) / 2))
     return nothing

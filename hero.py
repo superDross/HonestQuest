@@ -83,24 +83,3 @@ class Hero(Character):
         ''' Save protagonist attributes to a pickle file.'''
         with open('save_file.pkl', 'wb') as outfile:
             pickle.dump(self, outfile, pickle.HIGHEST_PROTOCOL)
-
-
-if __name__ == '__main__':
-    t = Hero('name', 2)
-    t.save()
-    d = Hero('n', 3)
-    d.load()
-    print(d.lv)
-
-
-
-
-
-
-
-
-
-
-
-
-
