@@ -96,7 +96,7 @@ def enemy_generator(hero):
         high = hero.lv + 2
         lv = random.randint(low, high)
     else:
-        lv = 1
+        lv = hero.lv
     return Enemy(lv)
 
 
