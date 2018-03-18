@@ -29,12 +29,16 @@ class Movement(object):
         self.y = 0
         self.direction = None
 
-    def set_move(self):
+    def record_keypress(self):
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
         tty.setraw(sys.stdin.fileno())
         ch = sys.stdin.read(1)
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+        return ch
+
+    def set_move(self):
+        ch = self.record_keypress()
         if ch in ['w', 'W', 'a', 'A', 's', 'S', 'd', 'D']:
             self.direction = ch
         else:
