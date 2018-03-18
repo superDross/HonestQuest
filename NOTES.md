@@ -10,6 +10,8 @@ Human --
 	|
 	 ---> Actions -> Character
 ```
+### Idea
+Perhaps have everything as a class (Stats, Attack, Movement, Overworld, Magic, Item) and a Character is stored in the Items e.g. self.character. 
 
 ### Classes
 Character:

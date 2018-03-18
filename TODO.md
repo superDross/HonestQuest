@@ -1,5 +1,4 @@
 - rebalance stats
 - item implemntation in battle menu
 - create a store in map (transistions into menu to buy stuff)
-- Turn name selection into a class
 - more key inputs at the overworld screen? e.g. x to exit
