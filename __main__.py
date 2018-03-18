@@ -2,6 +2,7 @@ from movement import OverWorld
 from hero import Hero
 from enemies import Enemy
 from battle_menu import BattleMenu
+from animations import animations
 from print_text import print_middle, midscreen, centre_string
 import pickle
 import random
@@ -11,8 +12,11 @@ import os
 
 
 def main():
+    h, w = (40, 93)
+    resize_terminal(h, w)
+    title_animation()
     guy = generate_hero()
-    overworld = intiate_overworld()
+    overworld = intiate_overworld(h, w)
     while True:
         enemy = enemy_generator(guy)
         animate_overworld(overworld, guy)
@@ -21,6 +25,16 @@ def main():
         guy.hp = guy._max_hp
         guy.mp = guy._max_mp
         guy.save()
+
+
+def title_animation():
+    os.system('clear')
+    print_middle(animations['Title'])
+    time.sleep(4)
+
+
+def resize_terminal(height=40, width=93):
+    sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=height, cols=width))
 
 
 def generate_hero():
@@ -65,11 +79,10 @@ def confirm_name(name):
         return confirm_name(name)
 
 
-def intiate_overworld():
+def intiate_overworld(height=40, width=93):
     ''' Initiate OverWorld class using terminal height and width as input.'''
-    sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=40, cols=93))
-    world = OverWorld(height=int(40 * .9),
-                      width=int(93 / 2))
+    world = OverWorld(height=int(height * .9),
+                      width=int(width / 2))
     # size = os.get_terminal_size()
     # world = OverWorld(height=int(size.lines * .9),
     #                   width=int(size.columns / 2))
