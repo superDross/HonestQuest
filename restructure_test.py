@@ -33,8 +33,10 @@
                 animations.py
 '''
 from animations import animations
+from print_text import print_centre
+from common import weighted_choice
 import operator
-import random
+import time
 import sys
 import csv
 
@@ -65,7 +67,7 @@ class Character(object):
         self._max_hp = hp
         self._max_mp = mp
         self.gold = gold
-        self.attack = Attack(self, None)
+        self.attack = Attack(self)
         self.dead = False
 
     def __str__(self):
@@ -75,39 +77,30 @@ class Character(object):
     def check_hp(self):
         ''' Determine whether object is dead.'''
         if self.hp <= 0:
-            print('{} is dead!\n'.format(self.name))
             self.death()
 
     def death(self):
-        print('{} is dead!'.format(self.name))
+        print_centre('{} is dead!'.format(self.name))
         self.dead = True
 
 
-# Is this really necessary
-class Base(object):
-    def __init__(self, character, _data=None):
-        self._character = character
-        if _data:
-            for attribute, value in _data.items():
-                setattr(self, attribute, value)
-
-
 # magic/attack.py
-class Attack(Base):
+class Attack(object):
     ''' Basic physical attack.
 
     Attributes:
         target (Character): object to deduct hp from.
     '''
+    def __init__(self, character):
+        self._character = character
 
     def __call__(self, target):
         ''' Basic attack which reduces target HP by ST value.'''
-        print(target.hp, self._character.st)
         target.hp -= self._character.st
         msg = '\n{} does {} damage to {}'.format(
             self._character.name, self._character.st, target.name)
-        print(msg)
-        print('{} HP = {}\n'.format(target.name, target.hp))
+        print_centre(msg)
+        print_centre('{} HP = {}\n'.format(target.name, target.hp))
         target.check_hp()
 
 
@@ -151,8 +144,8 @@ class Magic(object):
                                    > self._character._max_hp)) \
             or (self.stat == 'mp' and (self.num + self._character.mp
                                        >= self._character._max_mp)):
-            print('{} is already at the maximum value'.format(
-                  self.stat.upper()))
+            print_centre('{} is already at the maximum value'.format(
+                         self.stat.upper()))
             return
         self._magic()
 
@@ -166,10 +159,11 @@ class Magic(object):
         ''' Lower _character mp by a given value.'''
         if self._character.mp >= self.mp_cost:
             self._character.mp -= self.mp_cost
-            print('{} uses {}!'.format(self._character.name, self.att_name))
+            print_centre('{} uses {}!'.format(self._character.name,
+                                              self.att_name))
             return True
         elif self._character.mp < self.mp_cost:
-            print("You don't have enough mp to use {}.\n".format(
+            print_centre("You don't have enough mp to use {}.\n".format(
                   self.att_name))
             return False
 
@@ -186,7 +180,7 @@ class Magic(object):
         upordown = 'increases' if op == operator.add else 'decreases'
         msg = '{} {} {} by {}\n'.format(self.target.name, self.stat.upper(),
                                         upordown, self.num)
-        print(msg)
+        print_centre(msg)
 
 
 # magic/enemy_magic.py
@@ -246,12 +240,15 @@ class EnemyMagic(object):
 # magic/hero_magic.py
 ''' Magic to be assigned to Hero object upon accension to the described level.
 
-Attributes:
+Args:
     target (Character): character to cast spell upon.
 '''
 
 
-class LV1(Base):
+class LV1(object):
+    def __init__(self, character):
+        self._character = character
+
     def heal(self, target):
         ''' Increase hp attribute of target object.'''
         mag = Magic(character=self._character, att_name='Heal', stat='hp',
@@ -297,7 +294,7 @@ class Hero(Character):
         Character.__init__(self, name, 1, 1, 1, 1, lv)
 
     def death(self):
-        print('{} is dead!'.format(self.name))
+        print_centre('{} is dead!'.format(self.name))
         self.dead = True
         sys.exit()
 
@@ -309,7 +306,7 @@ class Hero(Character):
                       tuple(range(6, 9)): LV6}
         for k, v in class_dict.items():
             if k[0] <= self.lv <= k[-1]:
-                return v(self, None)
+                return v(self)
 
 
 # character/enemy.py
@@ -347,9 +344,25 @@ class Enemy(Character):
         self.magic = EnemyMagic(self, magic_names)
 
     def death(self):
-        print('{} is dead!'.format(self.name))
-        print('I got gold and exp to give!')
+        print_centre('{} is dead!'.format(self.name))
+        print_centre('I got gold and exp to give!')
         self.dead = True
+
+    def ai(self, target):
+        ''' Enemy action determined by if else block.'''
+        if not self.dead:
+            actions = {'attack': 10, 'magic': 3}
+            action = weighted_choice(actions)
+            if self.mp > 1 and action == 'magic':
+                spells = {'big_attack': 10, 'buff': 2, 'debuff': 1}
+                choice = weighted_choice(spells)
+                spell = getattr(self.magic, choice)
+                target = target if choice != 'buff' else self
+                spell(target)
+                time.sleep(1.5)
+            else:
+                self.attack(target)
+                time.sleep(1.5)
 
 
 class EnemyFactory(object):
@@ -403,7 +416,7 @@ class EnemyFactory(object):
         if not species:
             species2rate = {k: int(v['random'])
                             for k, v in self._species_stats_dict().items()}
-            species = self.weighted_choice(species2rate)
+            species = weighted_choice(species2rate)
         return species
 
     @staticmethod
@@ -427,21 +440,11 @@ class EnemyFactory(object):
                 all_species_dict[mydict['species']] = mydict
         return all_species_dict
 
-    @staticmethod
-    def weighted_choice(d):
-        ''' A weighted version of random.choice that takes a dict
-            where key is what needs to be randomised and the value
-            is the weight of the key.
-        '''
-        # this should belong else where as its used by other classes
-        choice = random.choice([k for k in d for _ in range(d[k])])
-        return choice
-
 
 # TESTING
 # Create Objects
-generator = EnemyFactory(2, 'Goblin')
-enemy = generator.generate()
+factory = EnemyFactory(2, 'Goblin')
+enemy = factory.generate()
 guy = Hero('Guy', 7)
 
 # Set HP & MP for Test
