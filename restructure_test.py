@@ -80,6 +80,7 @@ class Character(object):
             self.death()
 
     def death(self):
+        ''' Communicate death to user and change state.'''
         print_centre('{} is dead!'.format(self.name))
         self.dead = True
 
@@ -199,16 +200,15 @@ class EnemyMagic(object):
     def __init__(self, enemy, magic_names):
         '''
         Parameters:
-            _magic_names (dict): holds the values to the attack_name,
-                                 buff_name and debuff_name sttributes.
+            magic_names (dict): holds the values to the attack_name,
+                                buff_name and debuff_name attributes.
         '''
         self.enemy = enemy
-        self._magic_names = magic_names
-        self._set_attributes()
+        self._set_attributes(magic_names)
 
-    def _set_attributes(self):
+    def _set_attributes(self, magic_names):
         ''' Transforms _magic_names dict into attributes.'''
-        for k, v in self._magic_names.items():
+        for k, v in magic_names.items():
             if not v.isdigit():
                 setattr(self, k, v)
 
@@ -294,6 +294,7 @@ class Hero(Character):
         Character.__init__(self, name, 1, 1, 1, 1, lv)
 
     def death(self):
+        ''' Communicate death to user and change state.'''
         print_centre('{} is dead!'.format(self.name))
         self.dead = True
         sys.exit()
@@ -344,6 +345,7 @@ class Enemy(Character):
         self.magic = EnemyMagic(self, magic_names)
 
     def death(self):
+        ''' Communicate death to user and change state.'''
         print_centre('{} is dead!'.format(self.name))
         print_centre('I got gold and exp to give!')
         self.dead = True
