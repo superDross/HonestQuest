@@ -29,10 +29,10 @@ class Menu(object):
             item = self._options[choice]
             return item
         except KeyError:
-            msg = '{} is not a valid choice. Try again.'
+            msg = '{} is not a valid choice. Try again.\n'
             print_centre(msg.format(choice))
             self.sleep()
-            self.handle_options()
+            return self.handle_options()
 
     def sleep(self):
         time.sleep(1.5)
@@ -50,8 +50,38 @@ class Menu(object):
         return cls(options, choices)
 
 
+class SubMenu(Menu):
+    ''' Base class for a Menu underneath a parent Menu.
+
+    Attributes:
+        parent (Menu): menu object above this sub menu
+        _options (dict): {option (str): method (func)}
+        choices (str): string representation of _options
+    '''
+
+    def __init__(self, options, choices, parent):
+        self.parent = parent
+        self.options = self.add_parent_to_options(options)
+        self.choices = self.add_back_to_choices(choices)
+        Menu.__init__(self, self.options, self.choices)
+
+    def add_parent_to_options(self, options):
+        ''' Modify options to include parent menu.'''
+        if not isinstance(self.parent, Menu):
+            raise ValueError('{} is not Menu type'.format(self.parent))
+        number_options = len(options)
+        new_option_key = str(number_options + 1)
+        options[new_option_key] = self.parent
+        return options
+
+    def add_back_to_choices(self, choices):
+        ''' Modify choices to ince back option.'''
+        num = len(self.options)
+        return choices + '\n{}. Back'.format(num)
+
+
 # menu/battle_menu.py
-class MagicMenu(Menu):
+class MagicMenu(SubMenu):
     ''' Menu allowing player to select and use Hero magic.
 
     Attributes:
@@ -64,11 +94,10 @@ class MagicMenu(Menu):
     def __init__(self, parent, hero, enemy):
         self.hero = hero
         self.enemy = enemy
-        self.parent = parent
         self.all_magic = self._get_all_magic()
-        options = self._magic_spell_dict()
+        options = self._magic_spell_options()
         choices = self._magic_spell_string()
-        Menu.__init__(self, options, choices)
+        SubMenu.__init__(self, options, choices, parent)
 
     def _get_all_magic(self):
         ''' Returns all heros magic spells and stores in a list.
@@ -79,34 +108,32 @@ class MagicMenu(Menu):
                      if not re.search(r'_|hero|character', x)]
         return all_magic
 
-    def _magic_spell_dict(self):
+    def _magic_spell_options(self):
         ''' Returns dict that has numbers (k) assigned to
             heros magic spell methods (v).
             E.g.
                 {'1': self.hero.magic.fireball,
                  '2': self.hero.magic.heal}
         '''
-        numbers = range(1, len(self.all_magic) + 1)
-        d = {str(k): getattr(self.hero.magic, v)
-             for k, v in zip(numbers, self.all_magic)}
-        # adds an extra option for going back to the battle_menu
-        d[str(max(numbers) + 1)] = self.parent
-        return d
+        options = {str(k + 1): getattr(self.hero.magic, v)
+                   for k, v in enumerate(self.all_magic)}
+        return options
 
     def _magic_spell_string(self):
         ''' Return all magic spells as a string with numbers.
             E.g.
                 '1. Fireball\n2. Heal'
         '''
-        numbers = range(1, len(self.all_magic) + 2)
-        options = self.all_magic + ['Back']
-        all_magic_num = ['{}. {}'.format(x, y.title())
-                         for x, y in zip(numbers, options)]
+        all_magic_num = ['{}. {}'.format(x + 1, y.title())
+                         for x, y in enumerate(self.all_magic)]
         return '\n'.join(all_magic_num)
 
 
 class TopMenu(Menu):
-    ''' Top battle menu which executes the battle sequence.
+    ''' Top level battle menu.
+
+    Holds all battle sub-menus in its _options
+    attribute.
 
     Attributes:
         hero (Hero): the players avatar object.
@@ -147,6 +174,7 @@ class TopMenu(Menu):
             return
 
 
+# battle/battle_sequence.py
 class BattleSequence(object):
     ''' Ititiates battle.
 
