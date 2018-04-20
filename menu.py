@@ -109,6 +109,7 @@ class MainMenu(BaseMenu):
         '''
         self.magic_menu = MagicMenu(self, hero, enemy)
         self.item_menu = None
+        # self.main_menu = MainMenu(hero, enemy)
         options = {'1': self.attack,
                    '2': self.magic_menu,
                    '3': self.item_menu,
@@ -122,6 +123,7 @@ class MainMenu(BaseMenu):
             self.construct_battle_screen()
             option = self.handle_options()
             choice = option()
+            self.transfer_gold_exp()
             if choice != self:
                 self.enemy.ai(self.hero)
 
@@ -141,8 +143,17 @@ class MainMenu(BaseMenu):
             print_centre('{} successfully ran away!\n'.format(self.hero.name))
             sys.exit()
         else:
-            print_centre("{} couldn't get away!".format(self.hero.name))
+            print_centre("{} couldn't get away!\n".format(self.hero.name))
             return
+
+    def transfer_gold_exp(self):
+        ''' Transfer gold and exp from enemy to hero if enemy is dead.'''
+        if self.enemy.dead:
+            msg = '{} recieved {} exp and {} gold!\n'
+            msg = msg.format(self.hero.name, self.enemy.exp, self.enemy.gold)
+            print_centre(msg)
+            self.hero.exp += self.enemy.exp
+            self.hero.gold += self.enemy.gold
 
 
 class MagicMenu(BaseMenu):
@@ -212,13 +223,14 @@ class MagicMenu(BaseMenu):
 # Create Objects
 factory = EnemyFactory(2, 'Goblin')
 enemy = factory.generate()
-guy = Hero('Guy', 7)
+guy = Hero('Guy', 1)
 
 # Set HP & MP for Test
 guy.mp = 200
 guy.hp = 200
-guy._max_hp = 5
+guy.st = 10
 enemy.mp = 200
+enemy.exp = 200
 
 
 m = MainMenu(guy, enemy)
