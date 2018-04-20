@@ -16,12 +16,10 @@ class Menu(object):
         _options (dict): {option (str): method (func)}
         choices (str): string representation of _options
     '''
+
     def __init__(self, options, choices):
         self._options = options
         self.choices = choices
-
-    def __call__(self):
-        self.handle_options()
 
     def handle_options(self):
         ''' Extract and execute a method from self._options.'''
@@ -53,79 +51,81 @@ class Menu(object):
 
 
 # menu/battle_menu.py
-class BaseMenu(Menu):
-    ''' Base class for all menus used during the battle sequence.
+class MagicMenu(Menu):
+    ''' Menu allowing player to select and use Hero magic.
 
     Attributes:
         hero (Hero): the players avatar object.
-        target (Enemy): the players in battle enemy.
+        enemy (Enemy): the players enemy.
+        parent (BaseMenu): menu above this menu.
+        all_magic (list: Magic): list of all hero.magic methods available.
     '''
-    def __init__(self, hero, enemy, options, choices):
-        '''Parameters:
-              _options (dict): {option (str): method (func)}
-              choices (str): string representation of _options
-        '''
-        Menu.__init__(self, options, choices)
+
+    def __init__(self, parent, hero, enemy):
         self.hero = hero
         self.enemy = enemy
+        self.parent = parent
+        self.all_magic = self._get_all_magic()
+        options = self._magic_spell_dict()
+        choices = self._magic_spell_string()
+        Menu.__init__(self, options, choices)
 
-    def construct_battle_screen(self):
-        ''' Clears screen and input, prints characters stats and animations.'''
-        os.system('clear')
-        print_centre(self.enemy.animation)
-        print_centre('\n{}\n{}\n'.format(self.hero, self.enemy))
-        tcflush(sys.stdin, TCIFLUSH)  # clears input
-
-    def handle_options(self):
-        ''' Extract and execute a method from self._options.'''
-        self.construct_battle_screen()
-        return Menu.handle_options(self)
-
-    def select_target(self):
-        ''' Generates a Menu that asks user to select hero
-            or enemy attribute and returns choice.
+    def _get_all_magic(self):
+        ''' Returns all heros magic spells and stores in a list.
+            E.g.
+                [self.hero.magic.fireball, self.hero.magic.heal]
         '''
-        print_centre('Select target:\n')
-        target_menu = Menu.from_list([self.hero, self.enemy])
-        target = target_menu.handle_options()
-        return target
+        all_magic = [x for x in dir(self.hero.magic)
+                     if not re.search(r'_|hero|character', x)]
+        return all_magic
+
+    def _magic_spell_dict(self):
+        ''' Returns dict that has numbers (k) assigned to
+            heros magic spell methods (v).
+            E.g.
+                {'1': self.hero.magic.fireball,
+                 '2': self.hero.magic.heal}
+        '''
+        numbers = range(1, len(self.all_magic) + 1)
+        d = {str(k): getattr(self.hero.magic, v)
+             for k, v in zip(numbers, self.all_magic)}
+        # adds an extra option for going back to the battle_menu
+        d[str(max(numbers) + 1)] = self.parent
+        return d
+
+    def _magic_spell_string(self):
+        ''' Return all magic spells as a string with numbers.
+            E.g.
+                '1. Fireball\n2. Heal'
+        '''
+        numbers = range(1, len(self.all_magic) + 2)
+        options = self.all_magic + ['Back']
+        all_magic_num = ['{}. {}'.format(x, y.title())
+                         for x, y in zip(numbers, options)]
+        return '\n'.join(all_magic_num)
 
 
-class MainMenu(BaseMenu):
+class TopMenu(Menu):
     ''' Top battle menu which executes the battle sequence.
 
     Attributes:
+        hero (Hero): the players avatar object.
+        enemy (Enemy): the players enemy.
         magic_menu (MagicMenu): submenu for Hero magic.
         item_menu (ItemMenu): submenu for Hero items.
-
-    Usage:
-        battle = MainMenu(hero_obj, enemy_obj)
-        battle()
     '''
+
     def __init__(self, hero, enemy):
-        ''' Parameters:
-                hero (Hero): the players avatar object.
-                enemy (Enemy): the players enemy.
-        '''
+        self.hero = hero
+        self.enemy = enemy
         self.magic_menu = MagicMenu(self, hero, enemy)
         self.item_menu = None
-        # self.main_menu = MainMenu(hero, enemy)
         options = {'1': self.attack,
                    '2': self.magic_menu,
                    '3': self.item_menu,
                    '4': self.flee}
         choices = '1. Attack\n2. Magic\n3. Items\n4. Flee'
-        BaseMenu.__init__(self, hero, enemy, options, choices)
-
-    def __call__(self):
-        ''' Executes battle sequence.'''
-        while not self.hero.dead and not self.enemy.dead:
-            self.construct_battle_screen()
-            option = self.handle_options()
-            choice = option()
-            self.transfer_gold_exp()
-            if choice != self:
-                self.enemy.ai(self.hero)
+        Menu.__init__(self, options, choices)
 
     def attack(self):
         ''' Attack enemy.'''
@@ -146,6 +146,70 @@ class MainMenu(BaseMenu):
             print_centre("{} couldn't get away!\n".format(self.hero.name))
             return
 
+
+class BattleSequence(object):
+    ''' Ititiates battle.
+
+    Attributes:
+        hero (Hero): the players avatar object.
+        enemy (Enemy): the players enemy.
+        main_menu (TopMenu): top level battle menu.
+        magic_menu (MagicMenu): hero magic selection menu.
+        item_menu (ItemMenu): hero item selection menu.
+
+    Usage:
+        battle = BattleSequence(hero_obj, enemy_obj)
+        battle.execute_main_menu()
+    '''
+
+    def __init__(self, hero, enemy):
+        self.hero = hero
+        self.enemy = enemy
+        self.main_menu = TopMenu(hero, enemy)
+        self.magic_menu = self.main_menu.magic_menu
+        self.item_menu = self.main_menu.item_menu
+
+    def construct_battle_screen(self):
+        ''' Clears screen and input, prints characters stats and animations.'''
+        os.system('clear')
+        print_centre(self.enemy.animation)
+        print_centre('\n{}\n{}\n'.format(self.hero, self.enemy))
+        tcflush(sys.stdin, TCIFLUSH)  # clears input
+
+    def execute_main_menu(self):
+        ''' Executes battle sequence.'''
+        while not self.hero.dead and not self.enemy.dead:
+            self.construct_battle_screen()
+            option = self.main_menu.handle_options()
+            choice = None
+            if option == self.magic_menu:
+                choice = self.execute_magic_menu()
+            else:
+                choice = option()
+            if choice != self.main_menu:
+                self.enemy.ai(self.hero)
+            self.transfer_gold_exp()
+
+    def execute_magic_menu(self):
+        ''' Executes player magic spell choice and target selection.'''
+        self.construct_battle_screen()
+        magic = self.magic_menu.handle_options()
+        if magic != self.magic_menu.parent:
+            target = self.select_target()
+            magic(target)
+            self.magic_menu.sleep()
+        else:
+            return self.magic_menu.parent
+
+    def select_target(self):
+        ''' Generates a Menu that asks user to select hero
+            or enemy attribute and returns choice.
+        '''
+        print_centre('Select target:\n')
+        target_menu = Menu.from_list([self.hero, self.enemy])
+        target = target_menu.handle_options()
+        return target
+
     def transfer_gold_exp(self):
         ''' Transfer gold and exp from enemy to hero if enemy is dead.'''
         if self.enemy.dead:
@@ -156,70 +220,6 @@ class MainMenu(BaseMenu):
             self.hero.gold += self.enemy.gold
 
 
-class MagicMenu(BaseMenu):
-    ''' Menu allowing player to select and use Hero magic.
-
-    Attributes:
-        parent (BaseMenu): menu above this menu.
-        all_magic (list: Magic): list of all hero.magic methods available.
-    '''
-    def __init__(self, parent, hero, enemy):
-        ''' Parameters:
-                hero (Hero): the players avatar object.
-                enemy (Enemy): the players enemy.
-        '''
-        self.parent = parent
-        self.all_magic = self._get_all_magic(hero)
-        options = self._magic_spell_dict(hero)
-        choices = self._magic_spell_string()
-        BaseMenu.__init__(self, hero, enemy, options, choices)
-
-    def __call__(self):
-        ''' Executes player magic spell choice and target selection.'''
-        self.construct_battle_screen()
-        magic = self.handle_options()
-        if magic != self.parent:
-            target = self.select_target()
-            magic(target)
-            self.sleep()
-        else:
-            return self.parent
-
-    def _get_all_magic(self, hero):
-        ''' Returns all heros magic spells and stores in a list.
-            E.g.
-                [self.hero.magic.fireball, self.hero.magic.heal]
-        '''
-        all_magic = [x for x in dir(hero.magic)
-                     if not re.search(r'_|hero|character', x)]
-        return all_magic
-
-    def _magic_spell_dict(self, hero):
-        ''' Returns dict that has numbers (k) assigned to
-            heros magic spell methods (v).
-            E.g.
-                {'1': self.hero.magic.fireball,
-                 '2': self.hero.magic.heal}
-        '''
-        numbers = range(1, len(self.all_magic) + 1)
-        d = {str(k): getattr(hero.magic, v)
-             for k, v in zip(numbers, self.all_magic)}
-        # adds an extra option for going back to the battle_menu
-        d[str(max(numbers) + 1)] = self.parent
-        return d
-
-    def _magic_spell_string(self):
-        ''' Return all magic spells as a string with numbers.
-            E.g.
-                '1. Fireball\n2. Heal'
-        '''
-        numbers = range(1, len(self.all_magic) + 2)
-        options = self.all_magic + ['Back']
-        all_magic_num = ['{}. {}'.format(x, y.title())
-                         for x, y in zip(numbers, options)]
-        return '\n'.join(all_magic_num)
-
-
 # Create Objects
 factory = EnemyFactory(2, 'Goblin')
 enemy = factory.generate()
@@ -228,10 +228,10 @@ guy = Hero('Guy', 1)
 # Set HP & MP for Test
 guy.mp = 200
 guy.hp = 200
-guy.st = 10
+guy.st = 5
 enemy.mp = 200
 enemy.exp = 200
 
 
-m = MainMenu(guy, enemy)
-m()
+m = BattleSequence(guy, enemy)
+m.execute_main_menu()
