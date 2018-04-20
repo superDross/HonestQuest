@@ -36,6 +36,8 @@ from animations import animations
 from print_text import print_centre
 from common import weighted_choice
 import operator
+import pickle
+import stats
 import time
 import sys
 import csv
@@ -92,6 +94,7 @@ class Attack(object):
     Attributes:
         target (Character): object to deduct hp from.
     '''
+
     def __init__(self, character):
         self._character = character
 
@@ -165,7 +168,7 @@ class Magic(object):
             return True
         elif self._character.mp < self.mp_cost:
             print_centre("You don't have enough mp to use {}.\n".format(
-                  self.att_name))
+                self.att_name))
             return False
 
     def _alter_stat(self):
@@ -292,12 +295,18 @@ class Hero(Character):
 
     def __init__(self, name, lv):
         Character.__init__(self, name, 1, 1, 1, 1, lv)
+        self._exp = 1
+        self.leveling = stats.leveling
+        self._determine_stats()
 
-    def death(self):
-        ''' Communicate death to user and change state.'''
-        print_centre('{} is dead!'.format(self.name))
-        self.dead = True
-        sys.exit()
+    def _determine_stats(self):
+        ''' Detemine stats from level.'''
+        self.hp = (self.lv * 5) - (self._max_hp - self.hp)
+        self._max_hp = self.lv * 5
+        self.mp = (self.lv * 2) - (self._max_mp - self.mp)
+        self._max_mp = self.lv * 2
+        self.ag = self.lv * 1
+        self.st = self.lv * 1
 
     @property
     def magic(self):
@@ -308,6 +317,49 @@ class Hero(Character):
         for k, v in class_dict.items():
             if k[0] <= self.lv <= k[-1]:
                 return v(self)
+
+    @property
+    def exp(self):
+        return self._exp
+
+    @exp.setter
+    def exp(self, value):
+        ''' Determine level after increasing exp.'''
+        self._exp += value
+        self._determine_level()
+
+    def _determine_level(self):
+        ''' Determine level based upon exp value.'''
+        before_mglv = self.magic
+        next_level_exp = self.leveling.get(self.lv + 1)
+        for leveled, experience in self.leveling.items():
+            if self._exp >= next_level_exp:
+                if experience > self._exp:
+                    self.lv = leveled - 1
+                    msg = '{} has reached level {}!'.format(
+                        self.name, self.lv)
+                    self._determine_stats()
+                    print_centre(msg)
+                    self._determine_new_magic(before_mglv)
+                    break
+
+    def _determine_new_magic(self, before_mglv):
+        ''' Communicate new spell learned after leveling up.'''
+        if type(before_mglv) != type(self.magic):
+            new_spell = set(dir(self.magic)) - \
+                set(dir(before_mglv))
+            print_centre('\nLearned {}!\n'.format(list(new_spell)[0].title()))
+
+    def death(self):
+        ''' Communicate death to user and change state.'''
+        print_centre('{} is dead!'.format(self.name))
+        self.dead = True
+        sys.exit()
+
+    def save(self):
+        ''' Save protagonist attributes to a pickle file.'''
+        with open('save_file.pkl', 'wb') as outfile:
+            pickle.dump(self, outfile, pickle.HIGHEST_PROTOCOL)
 
 
 # character/enemy.py
@@ -347,7 +399,6 @@ class Enemy(Character):
     def death(self):
         ''' Communicate death to user and change state.'''
         print_centre('{} is dead!'.format(self.name))
-        print_centre('I got gold and exp to give!')
         self.dead = True
 
     def ai(self, target):
@@ -453,6 +504,10 @@ guy = Hero('Guy', 7)
 guy.mp = 200
 guy.hp = 200
 enemy.mp = 200
+guy.st = 1
+guy.ag = 1
+guy._max_hp = 1
+guy._max_mp = 1
 print(guy)
 print(enemy)
 
