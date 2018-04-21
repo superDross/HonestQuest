@@ -1,10 +1,9 @@
 from termios import tcflush, TCIFLUSH
 from restructure_test import Hero, EnemyFactory
 from print_text import print_centre
-from common import weighted_choice
+from common import weighted_choice, clear
 import time
 import sys
-import os
 import re
 
 
@@ -199,7 +198,7 @@ class BattleSequence(object):
 
     def construct_battle_screen(self):
         ''' Clears screen and input, prints characters stats and animations.'''
-        os.system('clear')
+        clear()
         print_centre(self.enemy.animation)
         print_centre('\n{}\n{}\n'.format(self.hero, self.enemy))
         tcflush(sys.stdin, TCIFLUSH)  # clears input
