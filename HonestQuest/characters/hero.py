@@ -44,7 +44,10 @@ class Hero(Character):
         ''' Returns magic spells available to players current level.'''
         class_dict = {tuple(range(0, 3)): hero_magic.LV1,
                       tuple(range(3, 6)): hero_magic.LV3,
-                      tuple(range(6, 9)): hero_magic.LV6}
+                      tuple(range(6, 9)): hero_magic.LV6,
+                      tuple(range(10, 14)): hero_magic.LV10,
+                      tuple(range(15, 19)): hero_magic.LV15,
+                      tuple(range(20, 24)): hero_magic.LV20}
         for k, v in class_dict.items():
             if k[0] <= self.lv <= k[-1]:
                 return v(self)
