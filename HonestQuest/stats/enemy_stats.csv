@@ -1,0 +1,8 @@
+species	hp	mp	ag	st	exp	gold	stat	attack_name	buff_name	debuff_name	random
+Goblin	3	2	3	2	6	3	st	Goblin Punch	Anger	Intimidate	7
+Feline	3	5	5	2	10	5	ag	Scratch	Cat Nip	Run Circles	6
+Soldier	4	5	2	3	20	8	hp	Slash	Bandage	Omnislash	2
+Dragon	10	10	10	10	50	15	st	Fire	Rage	Roar	1
+Rat	1	1	1	1	2	2	hp	Bite	Lick Wounds	Jump Attack	10
+Bat	2	2	3	1	3	3	mp	Bite	Drink Fruit	Drain	10
+Christian	2	2	2	2	20	15	hp	Throw Bible	Pray	Highlight Sins	3
