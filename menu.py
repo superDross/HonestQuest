@@ -1,7 +1,6 @@
-from termios import tcflush, TCIFLUSH
 from restructure_test import Hero, EnemyFactory
 from print_text import print_centre
-from common import weighted_choice, clear
+import common
 import time
 import sys
 import re
@@ -74,7 +73,7 @@ class SubMenu(Menu):
         return options
 
     def add_back_to_choices(self, choices):
-        ''' Modify choices to ince back option.'''
+        ''' Modify choices to include back option to parent menu.'''
         num = len(self.options)
         return choices + '\n{}. Back'.format(num)
 
@@ -100,8 +99,7 @@ class MagicMenu(SubMenu):
 
     def _get_all_magic(self):
         ''' Returns all heros magic spells and stores in a list.
-            E.g.
-                [self.hero.magic.fireball, self.hero.magic.heal]
+            e.g. [self.hero.magic.fireball, self.hero.magic.heal]
         '''
         all_magic = [x for x in dir(self.hero.magic)
                      if not re.search(r'_|hero|character', x)]
@@ -110,9 +108,8 @@ class MagicMenu(SubMenu):
     def _magic_spell_options(self):
         ''' Returns dict that has numbers (k) assigned to
             heros magic spell methods (v).
-            E.g.
-                {'1': self.hero.magic.fireball,
-                 '2': self.hero.magic.heal}
+            e.g. {'1': self.hero.magic.fireball,
+                  '2': self.hero.magic.heal}
         '''
         options = {str(k + 1): getattr(self.hero.magic, v)
                    for k, v in enumerate(self.all_magic)}
@@ -120,8 +117,7 @@ class MagicMenu(SubMenu):
 
     def _magic_spell_string(self):
         ''' Return all magic spells as a string with numbers.
-            E.g.
-                '1. Fireball\n2. Heal'
+            e.g. '1. Fireball\n2. Heal'
         '''
         all_magic_num = ['{}. {}'.format(x + 1, y.title())
                          for x, y in enumerate(self.all_magic)]
@@ -131,7 +127,7 @@ class MagicMenu(SubMenu):
 class TopMenu(Menu):
     ''' Top level battle menu.
 
-    Holds all battle sub-menus in its _options
+    Holds all battle SubMenus in its _options
     attribute.
 
     Attributes:
@@ -164,13 +160,12 @@ class TopMenu(Menu):
         self.sleep()
         # 20% chance of fleeing
         weighted_success = {True: 2, False: 8}
-        flee_success = weighted_choice(weighted_success)
+        flee_success = common.weighted_choice(weighted_success)
         if flee_success:
             print_centre('{} successfully ran away!\n'.format(self.hero.name))
             sys.exit()
         else:
             print_centre("{} couldn't get away!\n".format(self.hero.name))
-            return
 
 
 # battle/battle_sequence.py
@@ -196,12 +191,16 @@ class BattleSequence(object):
         self.magic_menu = self.main_menu.magic_menu
         self.item_menu = self.main_menu.item_menu
 
+    def __call__(self):
+        self.execute_main_menu()
+
     def construct_battle_screen(self):
         ''' Clears screen and input, prints characters stats and animations.'''
-        clear()
+        common.clear()
         print_centre(self.enemy.animation)
         print_centre('\n{}\n{}\n'.format(self.hero, self.enemy))
-        tcflush(sys.stdin, TCIFLUSH)  # clears input
+        # tcflush(sys.stdin, TCIFLUSH)  # clears input
+        common.flush_input()
 
     def execute_main_menu(self):
         ''' Executes battle sequence.'''
