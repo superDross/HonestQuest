@@ -1,9 +1,11 @@
-from movement import OverWorld
-from hero import Hero
-from enemies import Enemy
-from battle_menu import BattleMenu
-from animations import animations
-from print_text import print_middle, midscreen, centre_string
+from HonestQuest.overworld.overworld import OverWorld
+from HonestQuest.characters.hero import Hero
+from HonestQuest.characters.enemy import EnemyFactory
+from HonestQuest.battle.battle_sequence import BattleSequence
+from HonestQuest.animations.animations import animations
+from HonestQuest.utils.print_text import print_middle, midscreen, centre_string
+from HonestQuest.utils.common import clear
+from HonestQuest.config import MODULE_PATH
 import pickle
 import random
 import time
@@ -15,54 +17,44 @@ def main():
     h, w = (40, 93)
     resize_terminal(h, w)
     title_animation()
-    guy = generate_hero()
+    hero = generate_hero()
     overworld = intiate_overworld(h, w)
     while True:
-        enemy = enemy_generator(guy)
-        animate_overworld(overworld, guy)
-        battle_animation()
-        battle(guy, enemy)
-        guy.hp = guy._max_hp
-        guy.mp = guy._max_mp
-        guy.save()
-
-
-def title_animation():
-    os.system('clear')
-    print_middle(animations['Title'])
-    time.sleep(4)
+        overworld.animate()
+        enemy_lv = level_randomiser(hero)
+        enemy = enemy_generator(enemy_lv)
+        initiate_battle(hero, enemy)
+        hero.regenerate_max_stats()
+        hero.save()
 
 
 def resize_terminal(height=40, width=93):
     sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=height, cols=width))
 
 
+def title_animation():
+    clear()
+    print_middle(animations['Title'])
+    time.sleep(4)
+
+
 def generate_hero():
-    ''' Create hero object or load hero data from save file.'''
-    loaded_data = load()
+    ''' Create Hero object or load hero data from save file.'''
+    loaded_data = load_hero()
     if loaded_data:
         return loaded_data
     else:
         name = get_name()
-        guy = Hero(name, 1)
-        return guy
+        hero = Hero(name, 1)
+        return hero
 
 
-def load():
-    ''' Load character data from save file.'''
-    if os.path.exists('save_file.pkl'):
-        with open('save_file.pkl', 'rb') as infile:
+def load_hero():
+    ''' Load hero character data from save file.'''
+    save_file = os.path.join(MODULE_PATH, 'save_file.pkl')
+    if os.path.exists(save_file):
+        with open(save_file, 'rb') as infile:
             return pickle.load(infile)
-
-
-def get_name():
-    ''' Ask player for hero name.'''
-    os.system('clear')
-    msg = 'Type your name.\n'
-    print_middle(msg)
-    name = input(midscreen(msg))
-    confirm_name(name)
-    return name
 
 
 def confirm_name(name):
@@ -79,52 +71,50 @@ def confirm_name(name):
         return confirm_name(name)
 
 
+def get_name():
+    ''' Ask player for hero name.'''
+    os.system('clear')
+    msg = 'Type your name.\n'
+    print_middle(msg)
+    name = input(midscreen(msg))
+    confirm_name(name)
+    return name
+
+
 def intiate_overworld(height=40, width=93):
     ''' Initiate OverWorld class using terminal height and width as input.'''
     world = OverWorld(height=int(height * .9),
                       width=int(width / 2))
-    # size = os.get_terminal_size()
-    # world = OverWorld(height=int(size.lines * .9),
-    #                   width=int(size.columns / 2))
     return world
 
 
-def enemy_generator(hero):
-    ''' Random enemy generator.'''
+def battle_animation():
+    ''' Animation that precedes battle.'''
+    for battle in ['battle', 'Battle!', 'BATTLE!!!']:
+        clear()
+        print_middle(battle)
+        time.sleep(0.4)
+
+
+def initiate_battle(hero, enemy):
+    battle_animation()
+    battle = BattleSequence(hero, enemy)
+    battle.execute_main_menu()
+
+
+def level_randomiser(hero):
     if hero.lv >= 3:
         low = hero.lv - 2
         high = hero.lv + 2
         lv = random.randint(low, high)
     else:
         lv = hero.lv
-    return Enemy(lv)
+    return lv
 
 
-def animate_overworld(world, guy):
-    ''' Overworld animation.'''
-    n = 0
-    while n != 1:
-        os.system('clear')
-        print(guy)
-        print(world.x, world.y)
-        print(world.render())
-        world.set_move()
-        world.move()
-        n = random.randint(1, 20)
-
-
-def battle_animation():
-    ''' Animation that precedes battle.'''
-    for battle in ['battle', 'Battle!', 'BATTLE!!!']:
-        os.system('clear')
-        print_middle(battle)
-        time.sleep(0.4)
-
-
-def battle(character, enemy):
-    ''' Initiate battle menu.'''
-    menu = BattleMenu(character, enemy)
-    menu.battle_menu()
+def enemy_generator(lv):
+    ''' Random enemy generator.'''
+    return EnemyFactory(lv).generate()
 
 
 if __name__ == '__main__':

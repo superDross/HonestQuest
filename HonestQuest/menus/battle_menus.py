@@ -1,7 +1,6 @@
 from HonestQuest.menus.menu import Menu, SubMenu
 from HonestQuest.utils.print_text import print_centre
 import HonestQuest.utils.common as common
-import sys
 import re
 
 
@@ -90,6 +89,5 @@ class TopMenu(Menu):
         flee_success = common.weighted_choice(weighted_success)
         if flee_success:
             print_centre('{} successfully ran away!\n'.format(self.hero.name))
-            sys.exit()
         else:
             print_centre("{} couldn't get away!\n".format(self.hero.name))

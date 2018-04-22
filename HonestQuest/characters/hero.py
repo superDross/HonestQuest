@@ -2,8 +2,11 @@ from HonestQuest.characters.character import Character
 from HonestQuest.utils.print_text import print_centre
 import HonestQuest.magic.hero_magic as hero_magic
 import HonestQuest.stats.leveling as leveling
+from HonestQuest.config import MODULE_PATH
 import pickle
+import time
 import sys
+import os
 
 
 # character/hero.py
@@ -36,8 +39,14 @@ class Hero(Character):
 
     def save(self):
         ''' Save protagonist attributes to a pickle file.'''
-        with open('save_file.pkl', 'wb') as outfile:
+        save_file = os.path.join(MODULE_PATH, 'save_file.pkl')
+        with open(save_file, 'wb') as outfile:
             pickle.dump(self, outfile, pickle.HIGHEST_PROTOCOL)
+
+    def regenerate_max_stats(self):
+        ''' Increase HP and MP to maximum values.'''
+        self.hp = self._max_hp
+        self.mp = self._max_mp
 
     @property
     def magic(self):
@@ -45,9 +54,9 @@ class Hero(Character):
         class_dict = {tuple(range(0, 3)): hero_magic.LV1,
                       tuple(range(3, 6)): hero_magic.LV3,
                       tuple(range(6, 9)): hero_magic.LV6,
-                      tuple(range(10, 14)): hero_magic.LV10,
-                      tuple(range(15, 19)): hero_magic.LV15,
-                      tuple(range(20, 24)): hero_magic.LV20}
+                      tuple(range(9, 15)): hero_magic.LV10,
+                      tuple(range(15, 20)): hero_magic.LV15,
+                      tuple(range(20, 25)): hero_magic.LV20}
         for k, v in class_dict.items():
             if k[0] <= self.lv <= k[-1]:
                 return v(self)
@@ -83,12 +92,16 @@ class Hero(Character):
                         self.name, self.lv)
                     self._determine_stats()
                     print_centre(msg)
+                    time.sleep(3)
                     self._determine_new_magic(before_mglv)
                     break
 
     def _determine_new_magic(self, before_mglv):
         ''' Communicate new spell learned after leveling up.'''
         if type(before_mglv) != type(self.magic):
-            new_spell = set(dir(self.magic)) - \
-                set(dir(before_mglv))
-            print_centre('\nLearned {}!\n'.format(list(new_spell)[0].title()))
+            new_spells = set(dir(self.magic)) - set(dir(before_mglv))
+            if len(new_spells) > 1:
+                raise ValueError('More than one new spell: {}'.format(new_spells))
+            new_spell = list(new_spells)[0].replace('_', ' ').title()
+            print_centre('\nLearned {}!\n'.format(new_spell))
+            time.sleep(3)

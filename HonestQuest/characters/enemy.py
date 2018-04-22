@@ -3,6 +3,7 @@ from HonestQuest.utils.print_text import print_centre
 from HonestQuest.animations.animations import animations
 from HonestQuest.magic.enemy_magic import EnemyMagic
 import HonestQuest.utils.common as common
+from HonestQuest.config import MODULE_PATH
 import time
 import csv
 import os
@@ -43,7 +44,7 @@ class Enemy(Character):
 
     def death(self):
         ''' Communicate death to user and change state.'''
-        print_centre('{} is dead!'.format(self.name))
+        print_centre('{} is dead!\n'.format(self.name))
         self.dead = True
 
     def ai(self, target):
@@ -126,8 +127,7 @@ class EnemyFactory(object):
             lv: desired enemy level, used to evaluate stats.
         '''
         all_species_dict = {}
-        here = '/'.join(os.path.realpath(__file__).split('/')[:-2])
-        enemy_stats = os.path.join(here, 'stats/enemy_stats.csv')
+        enemy_stats = os.path.join(MODULE_PATH, 'stats/enemy_stats.csv')
         with open(enemy_stats, mode='r') as infile:
             reader = csv.reader(infile, delimiter='\t')
             header = next(reader)
