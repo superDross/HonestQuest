@@ -81,19 +81,36 @@ class EnemyFactory(object):
 
     Attributes:
         lv (int): desired enemy level.
-        species (str, optional): determines which enemy to create.
+        species (str, optional): determines which Enemy object to create.
         magic_names (dict): names of enemy magic attacks.
+
+    Usage:
+        factory = EnemyFactory()
+        # generate random Enemy object
+        enemy = factory.generate_enemy()
+        # generate Enemy object that is a level 10 Goblin
+        goblin = factory.generate_enemy(species='Goblin', lv=10)
+
     '''
 
-    def __init__(self, lv, species=None):
-        self.lv = lv
-        self.species = self._determine_species(species)
-        self._species_dict = self._species_stats_dict(lv)[self.species]
-        self.magic_names = {k: v for k, v in self._species_dict.items()
-                            if not isinstance(v, int)}
+    def __init__(self):
+        self.lv = 1
+        self._species = None
+        self._species_dict = None
+        self.magic_names = None
 
-    def generate(self):
-        ''' Returns an Enemy object.'''
+    def generate_enemy(self, species=None, lv=None):
+        ''' Returns an Enemy object.
+
+        If the species arg isn't parsed the the Enemy object
+        returned is randomly selected.
+
+        Args:
+            species (str): species name used to generate Enemy object.
+            lv (int): level of Enemy object.
+        '''
+        self.lv = self.lv if not lv else lv
+        self.species = species
         animation = animations[self.species]
         enemy = Enemy(species=self._species_dict['species'],
                       hp=self._species_dict['hp'],
@@ -107,6 +124,21 @@ class EnemyFactory(object):
                       animation=animation,
                       magic_names=self.magic_names)
         return enemy
+
+    @property
+    def species(self):
+        ''' str: sets the species attribute and sets the Enemy species stats
+            as attributes. If a species arg isn't parsed then the species
+            atribute is randomly generated.
+        '''
+        return self._species
+
+    @species.setter
+    def species(self, species):
+        self._species = self._determine_species(species)
+        self._species_dict = self._species_stats_dict(self.lv)[self.species]
+        self.magic_names = {k: v for k, v in self._species_dict.items()
+                            if not isinstance(v, int)}
 
     def _determine_species(self, species):
         ''' Weighted random determination of the enemy species,

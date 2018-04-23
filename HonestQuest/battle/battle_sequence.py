@@ -2,6 +2,7 @@ from HonestQuest.utils.print_text import print_centre
 from HonestQuest.menus.battle_menus import TopMenu
 from HonestQuest.menus.menu import Menu
 from HonestQuest.utils import common
+import time
 
 
 class BattleSequence(object):
@@ -37,7 +38,7 @@ class BattleSequence(object):
         common.flush_input()
 
     def execute_main_menu(self):
-        ''' Executes battle sequence.'''
+        ''' Executes battle sequence starting at the main battle menu.'''
         while not self.hero.dead and not self.enemy.dead:
             self.construct_battle_screen()
             option = self.main_menu.handle_options()
@@ -78,3 +79,4 @@ class BattleSequence(object):
             print_centre(msg)
             self.hero.exp += self.enemy.exp
             self.hero.gold += self.enemy.gold
+            time.sleep(1.5)

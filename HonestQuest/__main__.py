@@ -114,7 +114,9 @@ def level_randomiser(hero):
 
 def enemy_generator(lv):
     ''' Random enemy generator.'''
-    return EnemyFactory(lv).generate()
+    factory = EnemyFactory()
+    enemy = factory.generate_enemy(lv=lv)
+    return enemy
 
 
 if __name__ == '__main__':
