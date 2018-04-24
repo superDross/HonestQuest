@@ -1,27 +1,25 @@
-from HonestQuest.menus.menu import Menu, SubMenu
+from HonestQuest.menus.menu import Menu
 from HonestQuest.utils.print_text import print_centre
 import HonestQuest.utils.common as common
 import re
 
 
-# menu/battle_menu.py
-class MagicMenu(SubMenu):
+class MagicMenu(Menu):
     ''' Menu allowing player to select and use Hero magic.
 
     Attributes:
         hero (Hero): the players avatar object.
         enemy (Enemy): the players enemy.
-        parent (BaseMenu): menu above this menu.
         all_magic (list: Magic): list of all hero.magic methods available.
     '''
 
-    def __init__(self, parent, hero, enemy):
+    def __init__(self, hero, enemy):
         self.hero = hero
         self.enemy = enemy
         self.all_magic = self._get_all_magic()
         options = self._magic_spell_options()
         choices = self._magic_spell_string()
-        SubMenu.__init__(self, options, choices, parent)
+        Menu.__init__(self, options, choices)
 
     def _get_all_magic(self):
         ''' Returns all heros magic spells and stores in a list.

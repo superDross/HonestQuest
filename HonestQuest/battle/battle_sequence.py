@@ -55,12 +55,12 @@ class BattleSequence(object):
         ''' Executes player magic spell choice and target selection.'''
         self.construct_battle_screen()
         magic = self.magic_menu.handle_options()
-        if magic != self.magic_menu.parent:
+        if magic != self.main_menu:
             target = self.select_target()
             magic(target)
             self.magic_menu.sleep()
         else:
-            return self.magic_menu.parent
+            return self.main_menu
 
     def select_target(self):
         ''' Generates a Menu that asks user to select hero
