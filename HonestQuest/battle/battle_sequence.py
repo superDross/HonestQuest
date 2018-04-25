@@ -44,17 +44,20 @@ class BattleSequence(object):
             option = self.main_menu.handle_options()
             choice = None
             if option == self.magic_menu:
-                choice = self.execute_magic_menu()
+                choice = self.execute_magic_menu(self.magic_menu)
+            elif option == self.item_menu:
+                choice = self.execute_magic_menu(self.item_menu)
             else:
                 choice = option()
             if choice != self.main_menu:
                 self.enemy.ai(self.hero)
             self.transfer_gold_exp()
 
-    def execute_magic_menu(self):
+    # rename excutes_submenu() and rename attributes appropriately
+    def execute_magic_menu(self, submenu):
         ''' Executes player magic spell choice and target selection.'''
         self.construct_battle_screen()
-        magic = self.magic_menu.handle_options()
+        magic = submenu.handle_options()
         if magic != self.main_menu:
             target = self.select_target()
             magic(target)

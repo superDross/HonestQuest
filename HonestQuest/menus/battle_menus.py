@@ -1,10 +1,10 @@
-from HonestQuest.menus.menu import Menu
+from HonestQuest.menus.menu import Menu, SubMenu
 from HonestQuest.utils.print_text import print_centre
 import HonestQuest.utils.common as common
 import re
 
 
-class MagicMenu(Menu):
+class MagicMenu(SubMenu):
     ''' Menu allowing player to select and use Hero magic.
 
     Attributes:
@@ -12,14 +12,14 @@ class MagicMenu(Menu):
         enemy (Enemy): the players enemy.
         all_magic (list: Magic): list of all hero.magic methods available.
     '''
+    # self.enemy is not needed
 
-    def __init__(self, hero, enemy):
+    def __init__(self, hero, parent_menu):
         self.hero = hero
-        self.enemy = enemy
         self.all_magic = self._get_all_magic()
         options = self._magic_spell_options()
         choices = self._magic_spell_string()
-        Menu.__init__(self, options, choices)
+        SubMenu.__init__(self, options, choices, parent_menu)
 
     def _get_all_magic(self):
         ''' Returns all heros magic spells and stores in a list.
@@ -48,6 +48,26 @@ class MagicMenu(Menu):
         return '\n'.join(all_magic_num)
 
 
+class ItemMenu(SubMenu):
+    def __init__(self, hero, parent_menu):
+        self.hero = hero
+        choices, options = self._get_choices_options()
+        SubMenu.__init__(self, options, choices, parent_menu)
+        # Below classmethod init doesn't work due to multiple inheritence?
+        # SubMenu.from_list(hero.inventory, parent_menu)
+
+    def _get_choices_options(self):
+        # Menu.from_list() temp replacement
+        if self.hero.inventory:
+            choices = '\n'.join(['{}. {}'.format(x + 1, y.name)
+                                 for x, y in enumerate(self.hero.inventory)])
+            options = {str(k + 1): v
+                       for k, v in enumerate(self.hero.inventory)}
+            return (choices, options)
+        else:
+            return ({}, {})
+
+
 class TopMenu(Menu):
     ''' Top level battle menu.
 
@@ -64,8 +84,9 @@ class TopMenu(Menu):
     def __init__(self, hero, enemy):
         self.hero = hero
         self.enemy = enemy
-        self.magic_menu = MagicMenu(self, hero, enemy)
-        self.item_menu = None
+        # the two submenus need a back button
+        self.magic_menu = MagicMenu(hero, self)
+        self.item_menu = ItemMenu(hero, self)
         options = {'1': self.attack,
                    '2': self.magic_menu,
                    '3': self.item_menu,

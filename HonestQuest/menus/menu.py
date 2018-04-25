@@ -10,7 +10,7 @@ class Menu(object):
         choices (str): string representation of _options
     '''
 
-    def __init__(self, options, choices):
+    def __init__(self,  options, choices):
         self._options = options
         self.choices = choices
 
@@ -70,4 +70,4 @@ class SubMenu(Menu):
     def add_back_to_choices(self, choices):
         ''' Modify choices to include back option to parent menu.'''
         num = len(self.options)
-        return choices + '\n{}. Back'.format(num)
+        return '{}\n{}. Back'.format(choices, num)
