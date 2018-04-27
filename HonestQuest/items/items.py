@@ -1,9 +1,41 @@
 ''' All items player can use.'''
 from HonestQuest.utils.custom_exceptions import StatError
-import operator
+from HonestQuest.utils.print_text import print_centre
+from operator import add, sub
 import time
 
-# The items must be deleteed after used
+
+class Inventory(list):
+    ''' Container for all Item objects stored by a Character class.'''
+
+    def __str__(self):
+        ''' Prints all Item names and descriptions stored in the Inventory.'''
+        all_items = ['The following Items are in your inventory:\n']
+        for item in self:
+            all_items.append('{}:\t{}'.format(item.name, item.description))
+        return '\n'.join(all_items)
+
+    def add_item(self, item):
+        self.append(item)
+
+    def use_item(self, item, target):
+        ''' Selects the Item in the Inventory and then increase/decrease
+            the targets stat/attribute by the given Item value.
+
+        Args:
+            item (str): should match the desired Item classes name attribute.
+            target (Character): object to use the item on.
+        '''
+        item = self._extract_item(item)
+        item.use(target)
+        updown = 'increased' if item.op_func == add else 'decreased'
+        print_centre('{} {} {} by {}\n'.format(target.name, item.stat.upper(),
+                                               updown, item.value))
+        self.remove(item)
+
+    def _extract_item(self, item):
+        index = [x.name for x in self].index(item)
+        return self[index]
 
 
 class Item(object):
@@ -19,16 +51,13 @@ class Item(object):
     '''
 
     def __init__(self, name, stat, operator, value, cost, description):
-        if stat not in ['hp', 'mp', 'st', 'ag']:
-            raise StatError(stat)
-        if operator not in ['+', '-']:
-            raise ValueError('operator must be + or -')
         self.name = name
         self.stat = stat
-        self.operator = operator
+        self.op_func = {'+': add, '-': sub}.get(operator)
         self.value = value
         self.cost = cost
         self.description = description
+        self._error_check()
 
     def __call__(self, target):
         self.use(target)
@@ -40,23 +69,20 @@ class Item(object):
         ''' Increase/decrease the targets stat/attribute by the given value.
 
         Args:
-            target (Character): object to use the item on.
+             target (Character): object to use the item on.
         '''
-        op = {'+': operator.add,
-              '-': operator.sub}
         self._use_msg()
-        op_func = op.get(self.operator)
         target_stat = getattr(target, self.stat)
-        updated_target_stat = op_func(target_stat, self.value)
+        updated_target_stat = self.op_func(target_stat, self.value)
         setattr(target, self.stat, updated_target_stat)
-        updown = 'increased' if self.operator == '+' else 'decreased'
-        print('{} {} {} by {}\n'.format(target.name, self.stat.upper(),
-                                        updown, self.value))
-        time.sleep(1.5)
 
     def _use_msg(self):
-        print('{} has been used!\n'.format(self.name.title()))
+        print_centre('{} has been used!\n'.format(self.name.title()))
         time.sleep(1.5)
+
+    def _error_check(self):
+        if self.stat not in ['hp', 'mp', 'st', 'ag', 'all']:
+            raise StatError(self.stat)
 
 
 class Potion(Item):
@@ -77,7 +103,7 @@ class ProteinShake(Item):
                       value=10, cost=40, description='Increase targets ST')
 
     def _use_msg(self):
-        print('Lets BRO DOWN with a {}!\n'.format(self.name))
+        print_centre('Lets BRO DOWN with a {}!\n'.format(self.name))
         time.sleep(1.5)
 
 
@@ -93,7 +119,7 @@ class Molotov(Item):
                       value=5, cost=5, description='Decrease target HP')
 
     def _use_msg(self):
-        print('You threw a {}!\n'.format(self.name))
+        print_centre('You threw a {}!\n'.format(self.name))
         time.sleep(1.5)
 
 
@@ -103,7 +129,7 @@ class ManaCleaner(Item):
                       value=5, cost=20, description='Decrease target MP')
 
     def _use_msg(self):
-        print('You uncorked a bottle of {}.\n'.format(self.name))
+        print_centre('You uncorked a bottle of {}.\n'.format(self.name))
         time.sleep(1.5)
 
 
@@ -113,13 +139,13 @@ class MegaPhone(Item):
                       value=10, cost=25, description='Decrease target ST')
 
     def _use_msg(self):
-        print('You shrieked into a {}!!!\n'.format(self.name))
+        print_centre('You shrieked into a {}!!!\n'.format(self.name))
         time.sleep(1.5)
 
 
 class VodkaShots(Item):
     def __init__(self):
-        super().__init__(name='Vodka Shots', stat='hp', operator='+',
+        super().__init__(name='Vodka Shots', stat='all', operator='+',
                          value=10, cost=25, description='All stats increase')
 
     def use(self, target):
@@ -128,20 +154,5 @@ class VodkaShots(Item):
             super().use(target)
 
     def _use_msg(self):
-        print('You slammed a {}!\n'.format(self.name[:-1]))
+        print_centre('You slammed a {}!\n'.format(self.name[:-1]))
         time.sleep(1.5)
-
-
-# TESTING
-# from HonestQuest.characters.hero import Hero
-# jim = Hero('jim', 10)
-# print(jim.inventory)
-# # potion = Potion() # Item('potion', 'hp', '+', 2, 10, 'increase HP')
-# # potion.use(jim)
-# # print(jim.hp)
-# 
-# shot = VodkaShots()
-# shot.use(jim)
-# # molotov = Molotov()
-# # molotov.use(jim)
-# # print(jim.hp)
