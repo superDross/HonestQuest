@@ -4,7 +4,6 @@ from HonestQuest.animations.animations import animations
 from HonestQuest.magic.enemy_magic import EnemyMagic
 import HonestQuest.utils.common as common
 from HonestQuest.config import MODULE_PATH
-import time
 import csv
 import os
 
@@ -58,10 +57,10 @@ class Enemy(Character):
                 spell = getattr(self.magic, choice)
                 target = target if choice != 'buff' else self
                 spell(target)
-                time.sleep(1.5)
+                common.sleep()
             else:
                 self.attack(target)
-                time.sleep(1.5)
+                common.sleep()
 
 
 class EnemyFactory(object):

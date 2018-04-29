@@ -1,6 +1,6 @@
 ''' All items player can use.'''
 from HonestQuest.utils.print_text import print_centre
-import time
+from HonestQuest.utils.common import sleep
 
 
 class Inventory(list):
@@ -77,7 +77,7 @@ class Item(object):
 
     def _use_msg(self):
         print_centre('{} has been used!\n'.format(self.name.title()))
-        time.sleep(1.5)
+        sleep()
 
 
 class Potion(Item):
@@ -99,7 +99,7 @@ class ProteinShake(Item):
 
     def _use_msg(self):
         print_centre('Lets BRO DOWN with a {}!\n'.format(self.name))
-        time.sleep(1.5)
+        sleep()
 
 
 class RedBull(Item):
@@ -115,7 +115,7 @@ class Molotov(Item):
 
     def _use_msg(self):
         print_centre('You threw a {}!\n'.format(self.name))
-        time.sleep(1.5)
+        sleep()
 
 
 class ManaCleaner(Item):
@@ -125,7 +125,7 @@ class ManaCleaner(Item):
 
     def _use_msg(self):
         print_centre('You uncorked a bottle of {}.\n'.format(self.name))
-        time.sleep(1.5)
+        sleep()
 
 
 class MegaPhone(Item):
@@ -135,7 +135,7 @@ class MegaPhone(Item):
 
     def _use_msg(self):
         print_centre('You shrieked into a {}!!!\n'.format(self.name))
-        time.sleep(1.5)
+        sleep()
 
 
 class VodkaShots(Item):
@@ -150,4 +150,4 @@ class VodkaShots(Item):
 
     def _use_msg(self):
         print_centre('You slammed a {}!\n'.format(self.name[:-1]))
-        time.sleep(1.5)
+        sleep()

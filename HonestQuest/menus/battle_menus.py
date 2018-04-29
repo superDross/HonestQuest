@@ -12,8 +12,6 @@ class MagicMenu(SubMenu):
         enemy (Enemy): the players enemy.
         all_magic (list: Magic): list of all hero.magic methods available.
     '''
-    # self.enemy is not needed
-
     def __init__(self, hero, parent_menu):
         self.hero = hero
         self.all_magic = self._get_all_magic()
@@ -84,7 +82,6 @@ class TopMenu(Menu):
     def __init__(self, hero, enemy):
         self.hero = hero
         self.enemy = enemy
-        # the two submenus need a back button
         self.magic_menu = MagicMenu(hero, self)
         self.item_menu = ItemMenu(hero, self)
         options = {'1': self.attack,
@@ -97,12 +94,12 @@ class TopMenu(Menu):
     def attack(self):
         ''' Attack enemy.'''
         self.hero.attack(self.enemy)
-        self.sleep()
+        common.sleep()
 
     def flee(self):
         ''' Attempt to run from battle.'''
         print_centre('{} attempts to flee!\n'.format(self.hero.name))
-        self.sleep()
+        common.sleep()
         # 20% chance of fleeing
         weighted_success = {True: 2, False: 8}
         flee_success = common.weighted_choice(weighted_success)

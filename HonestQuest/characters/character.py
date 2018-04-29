@@ -2,6 +2,7 @@ from HonestQuest.utils.print_text import print_centre
 from HonestQuest.magic.attack import Attack
 from HonestQuest.items.items import Inventory, Potion
 from HonestQuest.utils.custom_exceptions import StatError
+from HonestQuest.utils.common import sleep
 from operator import add, sub
 
 
@@ -79,6 +80,7 @@ class Character(object):
         msg = '{} {} {} by {}\n'.format(self.name, stat.upper(),
                                         upordown, value)
         print_centre(msg)
+        sleep()
 
     def _adjust_value(self, stat, value):
         ''' Adjusts the parsed value such that it cannot increase
@@ -93,6 +95,7 @@ class Character(object):
         if current_stat == max_stat:
             msg = '{} is already at the maximum value\n'
             print_centre(msg.format(stat.upper()))
+            sleep()
             return 0
         elif value + current_stat > max_stat:
             return max_stat - current_stat

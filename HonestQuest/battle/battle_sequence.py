@@ -58,7 +58,10 @@ class BattleSequence(object):
         if submenu_selection != self.main_menu:
             target = self.select_target()
             submenu_selection(target)
-            submenu.sleep()
+            # nasty hack
+            # if submenu_selection == self.item_menu:
+            #     self.item_menu = ItemMenu(hero, TopMenu)
+            common.sleep()
         else:
             return self.main_menu
 
@@ -79,4 +82,4 @@ class BattleSequence(object):
             print_centre(msg)
             self.hero.exp += self.enemy.exp
             self.hero.gold += self.enemy.gold
-            time.sleep(1.5)
+            common.sleep()

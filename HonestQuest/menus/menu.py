@@ -1,4 +1,5 @@
 from HonestQuest.utils.print_text import print_centre
+from HonestQuest.config import SLEEP
 import time
 
 
@@ -24,11 +25,8 @@ class Menu(object):
         except KeyError:
             msg = '{} is not a valid choice. Try again.\n'
             print_centre(msg.format(choice))
-            self.sleep()
+            sleep()
             return self.handle_options()
-
-    def sleep(self):
-        time.sleep(1.5)
 
     @classmethod
     def from_list(cls, l):
