@@ -16,6 +16,9 @@ import os
 def resize_terminal(height, width):
     clear()
     sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=height, cols=width))
+    # below code prevents title animation from printing off-centre.
+    print('')
+    time.sleep(0.1)
 
 
 def title_animation():
@@ -44,6 +47,7 @@ def load_hero():
             return pickle.load(infile)
 
 
+# Turn into Menu and place in menu/ dir?
 def confirm_name(name):
     ''' Ask player to confirm name or to re-enter name.'''
     os.system('clear')
@@ -58,6 +62,7 @@ def confirm_name(name):
         return confirm_name(name)
 
 
+# Turn into Menu and place in menu/ dir?
 def get_name():
     ''' Ask player for hero name.'''
     os.system('clear')
@@ -75,6 +80,7 @@ def intiate_overworld(height=40, width=93):
     return world
 
 
+# place in animation dir?
 def battle_animation():
     ''' Animation that precedes battle.'''
     for battle in ['battle', 'Battle!', 'BATTLE!!!']:
