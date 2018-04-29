@@ -9,7 +9,7 @@ import sys
 import os
 
 
-# character/hero.py
+# perhaps split the private stats methods into a new class.
 class Hero(Character):
     ''' Players character.
 
@@ -32,7 +32,7 @@ class Hero(Character):
         self._determine_stats()
 
     def death(self):
-        ''' Communicate death to user and change state.'''
+        ''' Communicate death to user and changes dead attribute.'''
         print_centre('{} is dead!'.format(self.name))
         self.dead = True
         sys.exit()

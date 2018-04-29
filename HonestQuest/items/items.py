@@ -1,7 +1,5 @@
 ''' All items player can use.'''
-from HonestQuest.utils.custom_exceptions import StatError
 from HonestQuest.utils.print_text import print_centre
-from operator import add, sub
 import time
 
 
@@ -16,6 +14,7 @@ class Inventory(list):
         return '\n'.join(all_items)
 
     def add_item(self, item):
+        ''' Wrapper method for append.'''
         self.append(item)
 
     def use_item(self, item, target):
@@ -26,14 +25,16 @@ class Inventory(list):
             item (str): should match the desired Item classes name attribute.
             target (Character): object to use the item on.
         '''
-        item = self._extract_item(item)
+        item = self.extract_item(item)
         item.use(target)
-        updown = 'increased' if item.op_func == add else 'decreased'
-        print_centre('{} {} {} by {}\n'.format(target.name, item.stat.upper(),
-                                               updown, item.value))
         self.remove(item)
 
-    def _extract_item(self, item):
+    def extract_item(self, item):
+        ''' Returns Item from the Inventory.
+
+        Args:
+            item (str): the name attribute of the Item you want to return.
+        '''
         index = [x.name for x in self].index(item)
         return self[index]
 
@@ -53,11 +54,11 @@ class Item(object):
     def __init__(self, name, stat, operator, value, cost, description):
         self.name = name
         self.stat = stat
-        self.op_func = {'+': add, '-': sub}.get(operator)
+        # self.op_func = {'+': add, '-': sub}.get(operator)
+        self.operator = operator
         self.value = value
         self.cost = cost
         self.description = description
-        self._error_check()
 
     def __call__(self, target):
         self.use(target)
@@ -72,17 +73,11 @@ class Item(object):
              target (Character): object to use the item on.
         '''
         self._use_msg()
-        target_stat = getattr(target, self.stat)
-        updated_target_stat = self.op_func(target_stat, self.value)
-        setattr(target, self.stat, updated_target_stat)
+        target.alter_stat(self.stat, self.value, self.operator)
 
     def _use_msg(self):
         print_centre('{} has been used!\n'.format(self.name.title()))
         time.sleep(1.5)
-
-    def _error_check(self):
-        if self.stat not in ['hp', 'mp', 'st', 'ag', 'all']:
-            raise StatError(self.stat)
 
 
 class Potion(Item):

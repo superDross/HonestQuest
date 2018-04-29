@@ -13,29 +13,16 @@ import sys
 import os
 
 
-def main():
-    h, w = (40, 93)
-    resize_terminal(h, w)
-    title_animation()
-    hero = generate_hero()
-    overworld = intiate_overworld(h, w)
-    while True:
-        overworld.animate()
-        enemy_lv = level_randomiser(hero)
-        enemy = enemy_generator(enemy_lv)
-        initiate_battle(hero, enemy)
-        hero.regenerate_max_stats()
-        hero.save()
-
-
-def resize_terminal(height=40, width=93):
+def resize_terminal(height, width):
+    clear()
     sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=height, cols=width))
 
 
 def title_animation():
+    ''' Show game title screen for a few seconds.'''
     clear()
     print_middle(animations['Title'])
-    time.sleep(4)
+    time.sleep(3)
 
 
 def generate_hero():
@@ -97,12 +84,14 @@ def battle_animation():
 
 
 def initiate_battle(hero, enemy):
+    ''' Initiates battle sequence.'''
     battle_animation()
     battle = BattleSequence(hero, enemy)
     battle.execute_main_menu()
 
 
 def level_randomiser(hero):
+    ''' Randomly generates a lv that is +/-2 that of hero.lv'''
     if hero.lv >= 3:
         low = hero.lv - 2
         high = hero.lv + 2
@@ -117,6 +106,21 @@ def enemy_generator(lv):
     factory = EnemyFactory()
     enemy = factory.generate_enemy(lv=lv)
     return enemy
+
+
+def main():
+    h, w = (40, 93)
+    resize_terminal(h, w)
+    title_animation()
+    hero = generate_hero()
+    overworld = intiate_overworld(h, w)
+    while True:
+        overworld.animate()
+        enemy_lv = level_randomiser(hero)
+        enemy = enemy_generator(enemy_lv)
+        initiate_battle(hero, enemy)
+        hero.regenerate_max_stats()
+        hero.save()
 
 
 if __name__ == '__main__':

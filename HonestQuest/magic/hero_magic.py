@@ -14,7 +14,7 @@ class LV1(object):
         ''' Increase HP attribute of target object.'''
 
         mag = Magic(character=self._character, att_name='Heal', stat='hp',
-                    num=1, mp_cost=1, inc=True, target=target)
+                    value=3, mp_cost=1, operator='+', target=target)
         mag()
 
 
@@ -23,7 +23,7 @@ class LV3(LV1):
 
     def rage(self, target):
         mag = Magic(character=self._character, att_name='Rage', stat='st',
-                    num=1, mp_cost=1, inc=True, target=target)
+                    value=1, mp_cost=1, operator='+', target=target)
         mag()
 
 
@@ -32,7 +32,7 @@ class LV6(LV3):
 
     def fireball(self, target):
         mag = Magic(character=self._character, att_name='Fireball', stat='hp',
-                    num=10, mp_cost=10, inc=False, target=target)
+                    value=10, mp_cost=10, operator='-', target=target)
         mag()
 
 
@@ -41,7 +41,7 @@ class LV10(LV6):
 
     def midheal(self, target):
         mag = Magic(character=self._character, att_name='Midheal', stat='hp',
-                    num=5, mp_cost=5, inc=True, target=target)
+                    value=5, mp_cost=5, operator='+', target=target)
         mag()
 
 
@@ -50,7 +50,7 @@ class LV15(LV10):
 
     def snort_coke(self, target):
         mag = Magic(character=self._character, att_name='Snort Coke',
-                    stat='ag', num=5, mp_cost=5, inc=True,
+                    stat='ag', value=5, mp_cost=5, operator='+',
                     target=target)
         mag()
 
@@ -60,6 +60,6 @@ class LV20(LV15):
 
     def firewhirl(self, target):
         mag = Magic(character=self._character, att_name='Fire Whirl',
-                    stat='hp', num=25, mp_cost=25, inc=False,
+                    stat='hp', value=25, mp_cost=25, operator='-',
                     target=target)
         mag()

@@ -31,23 +31,23 @@ class EnemyMagic(object):
     def big_attack(self, target):
         ''' Large magic attack that deducts the enemy targets hp.'''
         mag = Magic(character=self.enemy, att_name=self.attack_name,
-                    stat='hp', num=self.enemy.st * self.enemy.lv,
-                    mp_cost=2 * self.enemy.lv, inc=False,
+                    stat='hp', value=self.enemy.st * self.enemy.lv,
+                    mp_cost=2 * self.enemy.lv, operator='-',
                     target=target)
         mag()
 
     def buff(self, target):
         ''' Increases the enemies statistic attribute (self.stat).'''
         mag = Magic(character=self.enemy, att_name=self.buff_name,
-                    stat=self.stat, num=2 * self.enemy.lv,
-                    mp_cost=2 * self.enemy.lv, inc=True,
+                    stat=self.stat, value=2 * self.enemy.lv,
+                    mp_cost=2 * self.enemy.lv, operator='+',
                     target=target)
         mag()
 
     def debuff(self, target):
         ''' Decreases the enemies target statistic attribute (self.stat).'''
         mag = Magic(character=self.enemy, att_name=self.debuff_name,
-                    stat=self.stat, num=2 * self.enemy.lv,
-                    mp_cost=2 * self.enemy.lv, inc=False,
+                    stat=self.stat, value=2 * self.enemy.lv,
+                    mp_cost=2 * self.enemy.lv, operator='-',
                     target=target)
         mag()
