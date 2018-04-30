@@ -36,12 +36,21 @@ class Character(object):
         self._max_st = 1000
         self.gold = gold
         self.inventory = Inventory([Potion()])
-        self.attack = Attack(self)
         self.dead = False
 
     def __str__(self):
         return '{}(LV={}, HP={}, MP={}, ST={}, AG={})'.format(
             self.name, self.lv, self.hp, self.mp, self.st, self.ag)
+
+    def attack(self, target):
+        ''' Basic physical attack.
+
+        Args:
+            target (Character): object to deduct hp from.
+        '''
+        print_centre('\n{} attacks {}!'.format(self.name, target.name))
+        sleep()
+        target.alter_stat('hp', self.st, '-')
 
     def check_hp(self):
         ''' Determine whether object is dead.'''
