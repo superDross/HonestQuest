@@ -2,7 +2,6 @@ from HonestQuest.utils.print_text import print_centre
 from HonestQuest.menus.battle_menus import TopMenu
 from HonestQuest.menus.menu import Menu
 from HonestQuest.utils import common
-import time
 
 
 class BattleSequence(object):
@@ -24,8 +23,6 @@ class BattleSequence(object):
         self.hero = hero
         self.enemy = enemy
         self.main_menu = TopMenu(hero, enemy)
-        self.magic_menu = self.main_menu.magic_menu
-        self.item_menu = self.main_menu.item_menu
 
     def __call__(self):
         self.execute_main_menu()
@@ -43,13 +40,15 @@ class BattleSequence(object):
             self.construct_battle_screen()
             option = self.main_menu.handle_options()
             choice = None
-            if option in [self.item_menu, self.magic_menu]:
+            if option in [self.main_menu.item_menu, self.main_menu.magic_menu]:
                 choice = self.execute_submenu(option)
             else:
                 choice = option()
             if choice != self.main_menu:
                 self.enemy.ai(self.hero)
             self.transfer_gold_exp()
+            # recontruct all battle menus.
+            self.main_menu = TopMenu(self.hero, self.enemy)
 
     def execute_submenu(self, submenu):
         ''' Executes player submenu choice and target selection.'''
@@ -57,10 +56,11 @@ class BattleSequence(object):
         submenu_selection = submenu.handle_options()
         if submenu_selection != self.main_menu:
             target = self.select_target()
-            submenu_selection(target)
-            # nasty hack
-            # if submenu_selection == self.item_menu:
-            #     self.item_menu = ItemMenu(hero, TopMenu)
+            if submenu == self.main_menu.item_menu:
+                self.hero.inventory.use_item(submenu_selection.name, target)
+            else:
+                print('other')
+                submenu_selection(target)
             common.sleep()
         else:
             return self.main_menu

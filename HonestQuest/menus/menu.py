@@ -1,6 +1,5 @@
 from HonestQuest.utils.print_text import print_centre
-from HonestQuest.config import SLEEP
-import time
+from HonestQuest.utils.common import sleep
 
 
 class Menu(object):
@@ -68,4 +67,7 @@ class SubMenu(Menu):
     def add_back_to_choices(self, choices):
         ''' Modify choices to include back option to parent menu.'''
         num = len(self.options)
-        return '{}\n{}. Back'.format(choices, num)
+        if choices:
+            return '{}\n{}. Back'.format(choices, num)
+        else:
+            return '{}. Back'.format(num)

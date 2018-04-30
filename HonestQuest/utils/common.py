@@ -1,4 +1,5 @@
 import random
+import time
 import sys
 import os
 
@@ -29,3 +30,8 @@ def flush_input():
     else:
         from termios import tcflush, TCIFLUSH
         tcflush(sys.stdin, TCIFLUSH)
+
+
+def sleep():
+    ''' Sleep time used after all printed messages.'''
+    time.sleep(1.5)
