@@ -105,5 +105,9 @@ class TopMenu(Menu):
         flee_success = common.weighted_choice(weighted_success)
         if flee_success:
             print_centre('{} successfully ran away!\n'.format(self.hero.name))
+            common.sleep()
+            return True
         else:
             print_centre("{} couldn't get away!\n".format(self.hero.name))
+            common.sleep()
+            return False

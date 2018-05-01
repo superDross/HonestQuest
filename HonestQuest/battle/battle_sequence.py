@@ -27,6 +27,7 @@ class BattleSequence(object):
 
     def execute(self):
         ''' Executes battle sequence starting at the main battle menu.'''
+        # Would this be better as a function outside the class?
         while not self.hero.dead and not self.enemy.dead:
             self.construct_battle_screen()
             option = self.main_menu.handle_options()
@@ -35,6 +36,9 @@ class BattleSequence(object):
                 choice = self.execute_submenu(option)
             else:
                 choice = option()
+                # If flee was successful then exit battle sequence
+                if option == self.main_menu.flee and choice is True:
+                    break
             if choice != self.main_menu:
                 self.enemy.ai(self.hero)
             self.transfer_gold_exp()
@@ -49,11 +53,15 @@ class BattleSequence(object):
         common.flush_input()
 
     def execute_submenu(self, submenu):
-        ''' Executes player submenu choice and target selection.'''
+        ''' Executes player submenu choice and target selection.
+
+        Args:
+            submenu (SubMenu): am item or magic submenu'''
         self.construct_battle_screen()
         submenu_selection = submenu.handle_options()
         if submenu_selection != self.main_menu:
             target = self.select_target()
+            # I would prefer that all submenus would handled the same here
             if submenu == self.main_menu.item_menu:
                 self.hero.inventory.use_item(submenu_selection.name, target)
             else:
