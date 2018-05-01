@@ -11,12 +11,10 @@ class BattleSequence(object):
         hero (Hero): the players avatar object.
         enemy (Enemy): the players enemy.
         main_menu (TopMenu): top level battle menu.
-        magic_menu (MagicMenu): hero magic selection menu.
-        item_menu (ItemMenu): hero item selection menu.
 
     Usage:
         battle = BattleSequence(hero_obj, enemy_obj)
-        battle.execute_main_menu()
+        battle.execute()
     '''
 
     def __init__(self, hero, enemy):
@@ -25,16 +23,9 @@ class BattleSequence(object):
         self.main_menu = TopMenu(hero, enemy)
 
     def __call__(self):
-        self.execute_main_menu()
+        self.execute()
 
-    def construct_battle_screen(self):
-        ''' Clears screen and input, prints characters stats and animations.'''
-        common.clear()
-        print_centre(self.enemy.animation)
-        print_centre('\n{}\n{}\n'.format(self.hero, self.enemy))
-        common.flush_input()
-
-    def execute_main_menu(self):
+    def execute(self):
         ''' Executes battle sequence starting at the main battle menu.'''
         while not self.hero.dead and not self.enemy.dead:
             self.construct_battle_screen()
@@ -50,6 +41,13 @@ class BattleSequence(object):
             # recontruct all battle menus.
             self.main_menu = TopMenu(self.hero, self.enemy)
 
+    def construct_battle_screen(self):
+        ''' Clears screen and input, prints characters stats and animations.'''
+        common.clear()
+        print_centre(self.enemy.animation)
+        print_centre('\n{}\n{}\n'.format(self.hero, self.enemy))
+        common.flush_input()
+
     def execute_submenu(self, submenu):
         ''' Executes player submenu choice and target selection.'''
         self.construct_battle_screen()
@@ -59,7 +57,6 @@ class BattleSequence(object):
             if submenu == self.main_menu.item_menu:
                 self.hero.inventory.use_item(submenu_selection.name, target)
             else:
-                print('other')
                 submenu_selection(target)
             common.sleep()
         else:

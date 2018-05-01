@@ -1,5 +1,4 @@
 from HonestQuest.utils.print_text import print_centre
-from HonestQuest.magic.attack import Attack
 from HonestQuest.items.items import Inventory, Potion
 from HonestQuest.utils.custom_exceptions import StatError
 from HonestQuest.utils.common import sleep
@@ -49,7 +48,6 @@ class Character(object):
             target (Character): object to deduct hp from.
         '''
         print_centre('\n{} attacks {}!'.format(self.name, target.name))
-        sleep()
         target.alter_stat('hp', self.st, '-')
 
     def check_hp(self):
@@ -90,6 +88,7 @@ class Character(object):
                                         upordown, value)
         print_centre(msg)
         sleep()
+        self.check_hp()
 
     def _adjust_value(self, stat, value):
         ''' Adjusts the parsed value such that it cannot increase

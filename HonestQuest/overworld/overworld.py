@@ -18,6 +18,7 @@ class Field(object):
         self.x (int): row co-ordinate for hero.
         self.y (int): column co-ordinate for hero.
     '''
+
     def __init__(self, height, width, x, y):
         self.hero = u"\U0001F6B6"
         self.store = u"\u2302"
@@ -57,6 +58,7 @@ class Field(object):
 
 class Direction(object):
     ''' Key press representing direction in the overworld.'''
+
     def __init__(self):
         self.direction = None
 
@@ -79,8 +81,11 @@ class Direction(object):
             sys.exit()
         else:
             clear()
-            print('Press WASD to move. Press X to exit.')
+            self.print_controls()
             self.set_key()
+
+    def print_controls(self):
+        print('Press WASD to move. Press X to exit.')
 
 
 class OverWorld(object):
@@ -96,6 +101,7 @@ class OverWorld(object):
         world = OverWorld(height=20, width=20)
         world.animate()
     '''
+
     def __init__(self, height, width):
         self.height = height
         self.width = width
@@ -107,6 +113,7 @@ class OverWorld(object):
         n = 0
         while n != 1:
             clear()
+            self.key_press.print_controls()
             self.field.render_field()
             self.key_press.set_key()
             self.move_hero()
@@ -131,15 +138,3 @@ class OverWorld(object):
     def _min_max(n, minn, maxn):
         ''' Ensures n never goes above or below a give min and max number.'''
         return max(min(maxn, n), minn)
-
-
-# Testing
-
-def intiate_overworld(height=40, width=93):
-    ''' Initiate OverWorld class using terminal height and width as input.'''
-    world = OverWorld(height=int(height * .9),
-                      width=int(width / 2))
-    # size = os.get_terminal_size()
-    # world = OverWorld(height=int(size.lines * .9),
-    #                   width=int(size.columns / 2))
-    return world

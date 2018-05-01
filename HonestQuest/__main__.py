@@ -93,7 +93,7 @@ def initiate_battle(hero, enemy):
     ''' Initiates battle sequence.'''
     battle_animation()
     battle = BattleSequence(hero, enemy)
-    battle.execute_main_menu()
+    battle.execute()
 
 
 def level_randomiser(hero):

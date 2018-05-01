@@ -54,7 +54,6 @@ class Item(object):
     def __init__(self, name, stat, operator, value, cost, description):
         self.name = name
         self.stat = stat
-        # self.op_func = {'+': add, '-': sub}.get(operator)
         self.operator = operator
         self.value = value
         self.cost = cost

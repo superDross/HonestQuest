@@ -98,7 +98,7 @@ class TopMenu(Menu):
 
     def flee(self):
         ''' Attempt to run from battle.'''
-        print_centre('{} attempts to flee!\n'.format(self.hero.name))
+        print_centre('{} attempts to flee!'.format(self.hero.name))
         common.sleep()
         # 20% chance of fleeing
         weighted_success = {True: 2, False: 8}
