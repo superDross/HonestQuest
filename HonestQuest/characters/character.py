@@ -1,5 +1,6 @@
 from HonestQuest.utils.print_text import print_centre
-from HonestQuest.items.items import Inventory, Potion
+from HonestQuest.items.inventory import Inventory
+from HonestQuest.items.items import Potion
 from HonestQuest.utils.custom_exceptions import StatError
 from HonestQuest.utils.common import sleep
 from operator import add, sub
@@ -60,7 +61,7 @@ class Character(object):
         print_centre('{} is dead!'.format(self.name))
         self.dead = True
 
-    # NOTE: everything below here could be its own class StatAlter???
+    # everything below here could be its own class AlterStat???
     def alter_stat(self, stat, value, operator):
         ''' Alter the targets hp, mp, st or ag attribute.
 

@@ -3,42 +3,6 @@ from HonestQuest.utils.print_text import print_centre
 from HonestQuest.utils.common import sleep
 
 
-class Inventory(list):
-    ''' Container for all Item objects stored by a Character class.'''
-
-    def __str__(self):
-        ''' Prints all Item names and descriptions stored in the Inventory.'''
-        all_items = ['The following Items are in your inventory:\n']
-        for item in self:
-            all_items.append('{}:\t{}'.format(item.name, item.description))
-        return '\n'.join(all_items)
-
-    def add_item(self, item):
-        ''' Wrapper method for append.'''
-        self.append(item)
-
-    def use_item(self, item, target):
-        ''' Selects the Item in the Inventory and then increase/decrease
-            the targets stat/attribute by the given Item value.
-
-        Args:
-            item (str): should match the desired Item classes name attribute.
-            target (Character): object to use the item on.
-        '''
-        item = self.extract_item(item)
-        item.use(target)
-        self.remove(item)
-
-    def extract_item(self, item):
-        ''' Returns Item from the Inventory.
-
-        Args:
-            item (str): the name attribute of the Item you want to return.
-        '''
-        index = [x.name for x in self].index(item)
-        return self[index]
-
-
 class Item(object):
     ''' Items stored and used by Character classes.
 
