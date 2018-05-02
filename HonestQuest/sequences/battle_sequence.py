@@ -82,7 +82,7 @@ class BattleSequence(object):
     def transfer_gold_exp(self):
         ''' Transfer gold and exp from enemy to hero if enemy is dead.'''
         if self.enemy.dead:
-            msg = '{} recieved {} exp and {} gold!\n'
+            msg = '{} recieved {} exp and {} gold!'
             msg = msg.format(self.hero.name, self.enemy.exp, self.enemy.gold)
             print_centre(msg)
             self.hero.exp += self.enemy.exp

@@ -12,6 +12,7 @@ class Item(object):
         operator (str): increase ('+') or decrease ('-') the Character stat.
         value (int): the number to increase or decrease the stat by.
         cost (int): amount of gold the item costs to buy.
+        sell (int): amount of gold the item costs to sell.
         description (str): a summary of the items effects.
     '''
 
@@ -21,6 +22,7 @@ class Item(object):
         self.operator = operator
         self.value = value
         self.cost = cost
+        self.sell = int(cost/2)
         self.description = description
 
     def __call__(self, target):
@@ -74,7 +76,7 @@ class RedBull(Item):
 class Molotov(Item):
     def __init__(self):
         Item.__init__(self, name='Molotov Cocktail', stat='hp', operator='-',
-                      value=5, cost=5, description='Decrease target HP')
+                      value=50, cost=100, description='Decrease target HP')
 
     def _use_msg(self):
         print_centre('You threw a {}!\n'.format(self.name))
@@ -104,7 +106,7 @@ class MegaPhone(Item):
 class VodkaShots(Item):
     def __init__(self):
         super().__init__(name='Vodka Shots', stat='all', operator='+',
-                         value=10, cost=25, description='All stats increase')
+                         value=50, cost=2000, description='All stats increase')
 
     def use(self, target):
         for stat in ['hp', 'mp', 'ag', 'st']:

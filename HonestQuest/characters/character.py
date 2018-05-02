@@ -34,8 +34,9 @@ class Character(object):
         self._max_mp = mp
         self._max_ag = 1000
         self._max_st = 1000
-        self.gold = gold
-        self.inventory = Inventory([Potion()])
+        self._gold = gold
+        self.inventory = Inventory()#[Potion(), Potion(), Potion(), Potion(),
+                                    #Potion(), Potion(), Potion(), Potion()])
         self.dead = False
 
     def __str__(self):
@@ -55,6 +56,18 @@ class Character(object):
         ''' Determine whether object is dead.'''
         if self.hp <= 0:
             self.death()
+
+    @property
+    def gold(self):
+        return self._gold
+
+    @gold.setter
+    def gold(self, amount):
+        if amount < 0:
+            print_centre('You do not have enough gold.')
+            sleep()
+        else:
+            self._gold = amount
 
     def death(self):
         ''' Communicate death to user and change state.'''

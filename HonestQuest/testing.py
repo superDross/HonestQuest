@@ -4,8 +4,8 @@ from HonestQuest.battle.battle_sequence import BattleSequence
 
 # TESTING
 # Create Objects
-factory = EnemyFactory(2, 'Goblin')
-enemy = factory.generate()
+factory = EnemyFactory()
+enemy = factory.generate_enemy('Goblin', 2)
 guy = Hero('Guy', 7)
 
 # Set HP & MP for Test
@@ -45,8 +45,12 @@ assert enemy.hp == 5
 # Hero Magic
 guy.magic.rage(guy)
 guy.magic.heal(guy)
+print(enemy.hp)
+print('----------')
 guy.magic.fireball(enemy)
-assert guy.st == 2 and guy.hp == 200
+print(enemy.hp)
+assert guy.st == 2
+assert guy.hp == 200
 assert guy.mp == 189
 assert enemy.dead is True and enemy.hp == -5
 
@@ -63,8 +67,8 @@ assert enemy.st == 8
 assert guy.st == 1
 
 # Create Objects
-factory = EnemyFactory(2, 'Goblin')
-enemy = factory.generate()
+factory = EnemyFactory()
+enemy = factory.generate_enemy('Goblin', 2)
 guy = Hero('Guy', 1)
 
 # Set HP & MP for Test
@@ -75,5 +79,5 @@ enemy.mp = 200
 enemy.exp = 200
 
 
-m = BattleSequence(guy, enemy)
-m.execute_main_menu()
+# m = BattleSequence(guy, enemy)
+# m.execute_main_menu()

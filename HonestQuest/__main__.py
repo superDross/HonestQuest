@@ -1,7 +1,8 @@
 from HonestQuest.overworld.overworld import OverWorld
 from HonestQuest.characters.hero import Hero
 from HonestQuest.characters.enemy import EnemyFactory
-from HonestQuest.battle.battle_sequence import BattleSequence
+from HonestQuest.sequences.battle_sequence import BattleSequence
+from HonestQuest.sequences.store_sequence import StoreSequence
 from HonestQuest.animations.animations import animations
 from HonestQuest.utils.print_text import print_middle, midscreen, centre_string
 from HonestQuest.utils.common import clear
@@ -114,6 +115,21 @@ def enemy_generator(lv):
     return enemy
 
 
+def animate_overworld(overworld, hero):
+    ''' Overworld animation that moves character upon key press.'''
+    n = 0
+    while n != 1:
+        clear()
+        overworld.key_press.print_controls()
+        overworld.field.render_field()
+        overworld.key_press.set_key()
+        overworld.move_hero()
+        if overworld.field.x == overworld.field.x_store and \
+           overworld.field.y == overworld.field.y_store:
+            StoreSequence(hero).execute()
+       # n = random.randint(1, 20)
+
+
 def main():
     h, w = (40, 93)
     resize_terminal(h, w)
@@ -121,7 +137,8 @@ def main():
     hero = generate_hero()
     overworld = intiate_overworld(h, w)
     while True:
-        overworld.animate()
+        # overworld.animate()
+        animate_overworld(overworld, hero)
         enemy_lv = level_randomiser(hero)
         enemy = enemy_generator(enemy_lv)
         initiate_battle(hero, enemy)

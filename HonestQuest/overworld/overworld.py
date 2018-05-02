@@ -27,6 +27,8 @@ class Field(object):
         self.width = width
         self.x = x
         self.y = y
+        self.x_store = int(self.height / 2)
+        self.y_store = int(self.width / 2)
 
     def generate_field_matrix(self):
         ''' Generates a 2D matrix representing the overworld field.'''
@@ -41,7 +43,7 @@ class Field(object):
     def generate_field_objects(self, matrix):
         ''' Places the hero and store on the field matrix.'''
         matrix[self.x][self.y] = self.hero
-        matrix[int(self.height / 2)][int(self.width / 2)] = self.store
+        matrix[self.x_store][self.y_store] = self.store
         return matrix
 
     def render_field(self):
@@ -107,17 +109,6 @@ class OverWorld(object):
         self.width = width
         self.field = Field(height, width, 0, 0)
         self.key_press = Direction()
-
-    def animate(self):
-        ''' Overworld animation that moves character upon key press.'''
-        n = 0
-        while n != 1:
-            clear()
-            self.key_press.print_controls()
-            self.field.render_field()
-            self.key_press.set_key()
-            self.move_hero()
-            n = random.randint(1, 20)
 
     def move_hero(self):
         ''' Moves hero on field according to the users key press.'''

@@ -12,6 +12,7 @@ class MagicMenu(SubMenu):
         enemy (Enemy): the players enemy.
         all_magic (list: Magic): list of all hero.magic methods available.
     '''
+
     def __init__(self, hero, parent_menu):
         self.hero = hero
         self.all_magic = self._get_all_magic()
@@ -47,6 +48,12 @@ class MagicMenu(SubMenu):
 
 
 class ItemMenu(SubMenu):
+    ''' Menu allowing player to select items in their inventory.
+
+    Attributes:
+        hero (Hero): the player avatar object.
+    '''
+
     def __init__(self, hero, parent_menu):
         self.hero = hero
         choices, options = self._get_choices_options()
@@ -90,6 +97,7 @@ class TopMenu(Menu):
                    '4': self.flee}
         choices = '1. Attack\n2. Magic\n3. Items\n4. Flee'
         Menu.__init__(self, options, choices)
+        self.exit = False
 
     def attack(self):
         ''' Attack enemy.'''

@@ -35,3 +35,10 @@ def flush_input():
 def sleep():
     ''' Sleep time used after all printed messages.'''
     time.sleep(1.5)
+
+
+def merge_two_dicts(x, y):
+    ''' Merge two dictionaries together.'''
+    z = x.copy()
+    z.update(y)
+    return z
