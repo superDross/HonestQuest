@@ -1,5 +1,4 @@
 ### Stuff
-- Can't go back in sell\_menu - liekly due to multiple inheritence
 - Combine Menu and SubMenu?
 
 ### New/Missing Features

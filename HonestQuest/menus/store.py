@@ -1,10 +1,9 @@
-from HonestQuest.menus.battle_menus import ItemMenu
-from HonestQuest.menus.menu import Menu, SubMenu
+from HonestQuest.menus.menu import Menu
 from HonestQuest.utils.common import merge_two_dicts
 from HonestQuest.items import items
 
 
-class BuyMenu(SubMenu):
+class BuyMenu(Menu):
     ''' Menu allowing player to select and buy items.
 
     Attributes:
@@ -15,7 +14,7 @@ class BuyMenu(SubMenu):
         self.hero = hero
         options = self._set_options()
         choices = self._set_choices(options)
-        SubMenu.__init__(self, options, choices, parent_menu)
+        Menu.__init__(self, options, choices, parent_menu)
 
     def _set_options(self):
         ''' Set the available items to buy, dependent upon hero level.'''
@@ -44,23 +43,36 @@ class BuyMenu(SubMenu):
         return '\n'.join(choices)
 
 
-class SellMenu(ItemMenu):
+class SellMenu(Menu):
     ''' Menu allowing player to select and sell their inventory items.
 
     Attributes:
         hero (Hero): the player avatar object.
+        parent_menu (Menu): a menu above this one.
     '''
-
     def __init__(self, hero, parent_menu):
-        ItemMenu.__init__(self, hero, parent_menu)
-        self._modify_choices()
+        self.hero = hero
+        choices = self._create_choices()
+        options = self._create_options()
+        Menu.__init__(self, options, choices, parent_menu)
 
-    def _modify_choices(self):
-        new_choices = []
-        for num, item in enumerate(self.hero.inventory, 1):
-            new_choice = '{}. {}   {} gold'.format(num, item.name, item.sell)
-            new_choices.append(new_choice)
-        self.choices = '\n'.join(new_choices)
+    def _create_options(self):
+        if self.hero.inventory:
+            options = {str(k + 1): v
+                       for k, v in enumerate(self.hero.inventory)}
+            return options
+        else:
+            return {}
+
+    def _create_choices(self):
+        if self.hero.inventory:
+            choices = []
+            for num, item in enumerate(self.hero.inventory, 1):
+                choices = '{}. {}   {} gold'.format(num, item.name, item.sell)
+                choices.append(choices)
+            return '\n'.join(choices)
+        else:
+            return {}
 
 
 class StoreMenu(Menu):

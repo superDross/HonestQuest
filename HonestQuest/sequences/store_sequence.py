@@ -1,7 +1,7 @@
 from HonestQuest.animations.animations import animations
 from HonestQuest.utils.print_text import print_centre
 from HonestQuest.menus.store import StoreMenu
-from HonestQuest.menus.menu import SubMenu
+from HonestQuest.menus.menu import Menu
 from HonestQuest.utils import common
 
 
@@ -18,7 +18,7 @@ class StoreSequence(object):
             self.main_menu = StoreMenu(self.hero)
             self.construct_store_screen()
             option = self.main_menu.handle_options()
-            if isinstance(option, SubMenu):
+            if isinstance(option, Menu):
                 self.execute_submenu(option)
             else:
                 # exit

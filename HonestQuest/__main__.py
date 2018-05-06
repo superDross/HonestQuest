@@ -127,7 +127,7 @@ def animate_overworld(overworld, hero):
         if overworld.field.x == overworld.field.x_store and \
            overworld.field.y == overworld.field.y_store:
             StoreSequence(hero).execute()
-       # n = random.randint(1, 20)
+        n = random.randint(1, 20)
 
 
 def main():
