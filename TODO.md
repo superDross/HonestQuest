@@ -1,10 +1,7 @@
-### Stuff
-- Combine Menu and SubMenu?
-
-### New/Missing Features
-- create a store in map (transistions into menu to buy stuff)
+### New/Missing Features 
 - Get it working on Windows and Mac
-- restructure battle\_sequence.py
+- A Sequence() class that BattleSequence and StoreSequence inherit from?
+- execte\_submenu() metod in all sequence classed could be written slightly better.
 - unittesting
 
 #### Non-Essential

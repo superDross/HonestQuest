@@ -46,36 +46,3 @@ class Menu(object):
             return '{}\n{}. Back'.format(choices, num)
         else:
             return '{}. Back'.format(num)
-
-
-# class SubMenu(Menu):
-#     ''' Base class for a Menu underneath a parent Menu.
-# 
-#     Attributes:
-#         parent (Menu): menu object above this sub menu
-#         _options (dict): {option (str): method (func)}
-#         choices (str): string representation of _options
-#     '''
-# 
-#     def __init__(self, options, choices, parent):
-#         self.parent = parent
-#         self.options = self.add_parent_to_options(options)
-#         self.choices = self.add_back_to_choices(choices)
-#         Menu.__init__(self, self.options, self.choices)
-# 
-#     def add_parent_to_options(self, options):
-#         ''' Modify options to include parent menu.'''
-#         if not isinstance(self.parent, Menu):
-#             raise ValueError('{} is not Menu type'.format(self.parent))
-#         number_options = len(options)
-#         new_option_key = str(number_options + 1)
-#         options[new_option_key] = self.parent
-#         return options
-# 
-#     def add_back_to_choices(self, choices):
-#         ''' Modify choices to include back option to parent menu.'''
-#         num = len(self.options)
-#         if choices:
-#             return '{}\n{}. Back'.format(choices, num)
-#         else:
-#             return '{}. Back'.format(num)

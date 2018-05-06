@@ -1,7 +1,5 @@
 from HonestQuest.utils.print_text import print_centre
 from HonestQuest.items.inventory import Inventory
-from HonestQuest.items.items import Potion
-from HonestQuest.utils.custom_exceptions import StatError
 from HonestQuest.utils.common import sleep
 from operator import add, sub
 
@@ -16,7 +14,6 @@ class Character(object):
         st (int): strength.
         ag (int): agility.
         lv (int): level of enemy.
-        attack (Attack): basic physical attack.
         gold (int): money the character is holding.
         inventory (Inventory: Item): all Item objects the character has stored.
         attack (Attack): allows one to attack a target.
@@ -34,9 +31,12 @@ class Character(object):
         self._max_mp = mp
         self._max_ag = 1000
         self._max_st = 1000
+        self._min_hp = 0
+        self._min_mp = 0
+        self._min_st = 1
+        self._min_ag = 1
         self._gold = gold
-        self.inventory = Inventory()#[Potion(), Potion(), Potion(), Potion(),
-                                    #Potion(), Potion(), Potion(), Potion()])
+        self.inventory = Inventory()
         self.dead = False
 
     def __str__(self):
@@ -74,7 +74,6 @@ class Character(object):
         print_centre('{} is dead!'.format(self.name))
         self.dead = True
 
-    # everything below here could be its own class AlterStat???
     def alter_stat(self, stat, value, operator):
         ''' Alter the targets hp, mp, st or ag attribute.
 
@@ -83,28 +82,22 @@ class Character(object):
             value (int): number to increase the stat by.
             operator (str): '+' or '-'
         '''
-        self._error_check(stat)
-        # create operations function
-        op = {'+': add, '-': sub}
-        op_func = op.get(operator)
+        op_func = add if operator == '+' else sub
         # adjust value if operation function is add
         if op_func == add:
-            value = self._adjust_value(stat, value)
+            value = self._adjust_value_around_max(stat, value)
+        else:
+            value = self._adjust_value_around_min(stat, value)
         # set stats new value (ensure above 0 for anything not HP)
         current_stat = getattr(self, stat)
         calc = op_func(current_stat, value)
-        if stat in ['mp', 'ag', 'st'] and calc < 1:
-            calc = 1
+        # if stat in ['mp', 'ag', 'st'] and calc < 1:
+        #     calc = 1
         setattr(self, stat, calc)
-        # communicate stat change to player
-        upordown = 'increases' if op_func == add else 'decreases'
-        msg = '{} {} {} by {}\n'.format(self.name, stat.upper(),
-                                        upordown, value)
-        print_centre(msg)
-        sleep()
+        self._communicate_stat_change(stat, operator, value)
         self.check_hp()
 
-    def _adjust_value(self, stat, value):
+    def _adjust_value_around_max(self, stat, value):
         ''' Adjusts the parsed value such that it cannot increase
             the stat value above its maximum limit.
 
@@ -124,6 +117,18 @@ class Character(object):
         else:
             return value
 
-    def _error_check(self, stat):
-        if stat not in ['hp', 'mp', 'st', 'ag']:
-            raise StatError(self.stat)
+    def _adjust_value_around_min(self, stat, value):
+        current_stat = getattr(self, stat)
+        if current_stat < 1:
+            min_stat = getattr(self, '_min_{}'.format(stat))
+            return min_stat
+        else:
+            return value
+
+    def _communicate_stat_change(self, stat, operator, value):
+        ''' Print character stat changes.'''
+        upordown = 'increases' if operator == '+' else 'decreases'
+        msg = '{} {} {} by {}\n'.format(self.name, stat.upper(),
+                                        upordown, value)
+        print_centre(msg)
+        sleep()
