@@ -34,25 +34,28 @@ class StoreSequence(object):
     def execute_submenu(self, submenu):
         self.construct_store_screen()
         submenu_selection = submenu.handle_options()
-        # perhaps the if-elif statements could be placed into their respective
-        # classes as modified self.handle_options() methods.
         if submenu_selection == self.main_menu:
             return self.main_menu
         elif submenu == self.main_menu.buy_menu:
-            deduction = self.hero.gold - submenu_selection.cost
-            if deduction >= 0:
-                self.hero.inventory.add_items(submenu_selection)
-                if self.hero.inventory.full is False:
-                    self.hero.gold = deduction
-                    print_centre('Enjoy your {}!'.format(
-                        submenu_selection.name))
-                    common.sleep()
-            else:
-                print_centre("You don't have enough gold to purchase that!")
-                common.sleep()
+            self.purchase(submenu_selection)
         elif submenu == self.main_menu.sell_menu:
-            self.hero.inventory.remove_item(submenu_selection.name)
-            self.hero.gold += submenu_selection.sell
-            print_centre('Thank you for selling your {} to me!'.format(
-                submenu_selection.name))
+            self.sell(submenu_selection)
+
+    def purchase(self, item):
+        deduction = self.hero.gold - item.cost
+        if deduction >= 0:
+            self.hero.inventory.add_items(item)
+            if self.hero.inventory.full is False:
+                self.hero.gold = deduction
+                print_centre('Enjoy your {}!'.format(item.name))
+                common.sleep()
+        else:
+            print_centre("You don't have enough gold to purchase that!")
             common.sleep()
+
+    def sell(self, item):
+        self.hero.inventory.remove_item(item.name)
+        self.hero.gold += item.sell
+        print_centre('Thank you for selling your {} to me!'.format(
+            item.name))
+        common.sleep()
