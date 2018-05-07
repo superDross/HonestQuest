@@ -84,8 +84,8 @@ class TestHero(unittest.TestCase):
 
     def test_death(self):
         hero = Hero('Dummy', 1)
-        hero.alter_stat('hp', 700, '-')
-        self.assertEqual(hero.dead, True)
+        with self.assertRaises(SystemExit):
+            hero.alter_stat('hp', 700, '-')
 
     def test_save(self):
         HERO.save()
@@ -93,6 +93,13 @@ class TestHero(unittest.TestCase):
             'test', 'HonestQuest'), 'save_file.pkl')
         exists = os.path.isfile(save_file)
         self.assertTrue(exists)
+
+    def test_min_stats(self):
+        HERO.alter_stat('mp', 200000, '-')
+        HERO.alter_stat('ag', 200000, '-')
+        HERO.alter_stat('st', 200000, '-')
+        min_stats = [HERO._min_mp, HERO._min_st, HERO._min_ag]
+        self.assertEqual(min_stats, [HERO.mp, HERO.st, HERO.ag])
 
     def test_tear_down(self):
         save_file = os.path.join(HERE.replace(

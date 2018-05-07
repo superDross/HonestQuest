@@ -72,6 +72,7 @@ class CharacterMagic(unittest.TestCase):
 
 class GoblinMagic(unittest.TestCase):
     def test_big_attack(self):
+        HERO.hp = 999999999999
         old_hp = HERO.hp
         ENEMY.magic.big_attack(HERO)
         self.assertLess(HERO.hp, old_hp)
