@@ -66,6 +66,7 @@ class Inventory(list):
         '''
         index = [x.name for x in self].index(item)
         self.pop(index)
+        self._check_space()
 
     def _check_space(self):
         ''' Mark the Inventory as full or not full.'''

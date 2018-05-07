@@ -137,7 +137,6 @@ def main():
     hero = generate_hero()
     overworld = intiate_overworld(h, w)
     while True:
-        # overworld.animate()
         animate_overworld(overworld, hero)
         enemy_lv = level_randomiser(hero)
         enemy = enemy_generator(enemy_lv)

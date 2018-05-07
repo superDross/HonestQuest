@@ -50,6 +50,7 @@ class SellMenu(Menu):
         hero (Hero): the player avatar object.
         parent_menu (Menu): a menu above this one.
     '''
+
     def __init__(self, hero, parent_menu):
         self.hero = hero
         choices = self._create_choices()
@@ -68,8 +69,9 @@ class SellMenu(Menu):
         if self.hero.inventory:
             choices = []
             for num, item in enumerate(self.hero.inventory, 1):
-                choices = '{}. {}   {} gold'.format(num, item.name, item.sell)
-                choices.append(choices)
+                menu_item = '{}. {}   {} gold'.format(
+                    num, item.name, item.sell)
+                choices.append(menu_item)
             return '\n'.join(choices)
         else:
             return {}
@@ -81,6 +83,7 @@ class StoreMenu(Menu):
     Attributes:
         hero (Hero): the player avatar object.
     '''
+
     def __init__(self, hero):
         self.hero = hero
         self.buy_menu = BuyMenu(hero, self)

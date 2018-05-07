@@ -2,7 +2,7 @@
 - Get it working on Windows and Mac
 - A Sequence() class that BattleSequence and StoreSequence inherit from?
 - execte\_submenu() metod in all sequence classed could be written slightly better.
-- unittesting
+- unittesting for the refactored sequences
 
 #### Non-Essential
 - create a menu in overworld to display items, stats etc.
