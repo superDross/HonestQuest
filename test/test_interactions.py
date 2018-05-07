@@ -1,4 +1,7 @@
-''' python3 ./test_modules.py -b '''
+''' python3 ./test_modules.py -b
+
+Tests attacking and magic interaction between hero and enemy objects.
+'''
 from HonestQuest.characters.hero import Hero
 from HonestQuest.characters.enemy import EnemyFactory
 import logging

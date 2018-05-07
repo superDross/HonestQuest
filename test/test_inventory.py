@@ -1,6 +1,7 @@
 from HonestQuest.characters.hero import Hero
 from HonestQuest.characters.enemy import EnemyFactory
 from HonestQuest.items import items
+from HonestQuest.items import inventory
 import logging
 import unittest
 
@@ -12,8 +13,39 @@ factory = EnemyFactory()
 ENEMY = factory.generate_enemy('Goblin', 99)
 
 
+class InventoryUsage(unittest.TestCase):
+    def test_add_items(self):
+        HERO.inventory.add_items(items.Potion(), items.Ether(),
+                                 items.ProteinShake(), items.RedBull(),
+                                 items.Molotov(), items.ManaCleaner(),
+                                 items.VodkaShots(), items.MegaPhone())
+        hero_items = sorted([x.name for x in HERO.inventory])
+        expected = ['Potion', 'Ether', 'Protein Shake', 'Red Bull',
+                    'Molotov Cocktail', 'Mana Cleaner', 'Mega Phone',
+                    'Vodka Shots']
+        self.assertEqual(hero_items, sorted(expected))
+
+    def test_extract_item(self):
+        potion = HERO.inventory.extract_item('Potion')
+        self.assertEqual(potion.name, items.Potion().name)
+
+    def test_remove_item(self):
+        HERO.inventory.remove_item('Ether')
+        items = [x.name for x in HERO.inventory]
+        self.assertTrue('Ether' not in items)
+
+    def test_limit(self):
+        HERO.inventory.add_items(items.Potion())
+        self.assertTrue(HERO.inventory.full)
+
+    def test_not_full(self):
+        HERO.inventory.remove_item('Potion')
+        self.assertFalse(HERO.inventory.full)
+
+
 class ItemUsage(unittest.TestCase):
     def setUp(self):
+        HERO.inventory = inventory.Inventory()
         HERO.inventory.add_items(items.Potion(), items.Ether(),
                                  items.ProteinShake(), items.RedBull(),
                                  items.Molotov(), items.ManaCleaner(),
