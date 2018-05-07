@@ -84,6 +84,7 @@ class Character(object):
             value = self._adjust_value_around_min(stat, value)
         current_stat = getattr(self, stat)
         calc = op_func(current_stat, value)
+        setattr(self, stat, calc)
         self._communicate_stat_change(stat, operator, value)
         self.check_hp()
 
