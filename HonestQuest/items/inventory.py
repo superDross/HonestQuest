@@ -36,7 +36,6 @@ class Inventory(list):
             self._check_space()
             if self.full is False:
                 self.append(item)
-                break
 
     def use_item(self, item, target):
         ''' Selects the Item in the Inventory and then increase/decrease

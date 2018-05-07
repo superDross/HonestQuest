@@ -46,3 +46,15 @@ class Menu(object):
             return '{}\n{}. Back'.format(choices, num)
         else:
             return '{}. Back'.format(num)
+
+    @classmethod
+    def from_list(cls, l):
+        ''' Constructs self._options and self.choices from a list.
+
+        Args:
+            l (list: str): list of strings to transform into a Menu.
+        '''
+        options = {str(k + 1): i for k, i in enumerate(l)}
+        choices = '\n'.join('{}. {}'.format(k, i)
+                            for k, i in sorted(options.items()))
+        return cls(options, choices)

@@ -56,7 +56,7 @@ class Hero(Character):
                       tuple(range(6, 9)): hero_magic.LV6,
                       tuple(range(9, 15)): hero_magic.LV10,
                       tuple(range(15, 20)): hero_magic.LV15,
-                      tuple(range(20, 25)): hero_magic.LV20}
+                      tuple(range(20, 100)): hero_magic.LV20}
         for k, v in class_dict.items():
             if k[0] <= self.lv <= k[-1]:
                 return v(self)

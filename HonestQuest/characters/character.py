@@ -55,7 +55,7 @@ class Character(object):
     def check_hp(self):
         ''' Determine whether object is dead.'''
         if self.hp <= 0:
-            self.death()
+            self._death()
 
     @property
     def gold(self):
@@ -69,11 +69,6 @@ class Character(object):
         else:
             self._gold = amount
 
-    def death(self):
-        ''' Communicate death to user and change state.'''
-        print_centre('{} is dead!'.format(self.name))
-        self.dead = True
-
     def alter_stat(self, stat, value, operator):
         ''' Alter the targets hp, mp, st or ag attribute.
 
@@ -83,19 +78,20 @@ class Character(object):
             operator (str): '+' or '-'
         '''
         op_func = add if operator == '+' else sub
-        # adjust value if operation function is add
         if op_func == add:
             value = self._adjust_value_around_max(stat, value)
         else:
             value = self._adjust_value_around_min(stat, value)
-        # set stats new value (ensure above 0 for anything not HP)
         current_stat = getattr(self, stat)
         calc = op_func(current_stat, value)
-        # if stat in ['mp', 'ag', 'st'] and calc < 1:
-        #     calc = 1
         setattr(self, stat, calc)
         self._communicate_stat_change(stat, operator, value)
         self.check_hp()
+
+    def _death(self):
+        ''' Communicate death to user and change state.'''
+        print_centre('{} is dead!'.format(self.name))
+        self.dead = True
 
     def _adjust_value_around_max(self, stat, value):
         ''' Adjusts the parsed value such that it cannot increase
