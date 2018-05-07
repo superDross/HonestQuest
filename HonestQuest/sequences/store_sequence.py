@@ -40,7 +40,7 @@ class StoreSequence(object):
             return self.main_menu
         elif submenu == self.main_menu.buy_menu:
             deduction = self.hero.gold - submenu_selection.cost
-            if deduction > 0:
+            if deduction >= 0:
                 self.hero.inventory.add_items(submenu_selection)
                 if self.hero.inventory.full is False:
                     self.hero.gold = deduction
