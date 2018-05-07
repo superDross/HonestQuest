@@ -31,7 +31,7 @@ class Hero(Character):
         self.leveling = leveling.leveling
         self._determine_stats()
 
-    def death(self):
+    def _death(self):
         ''' Communicate death to user and changes dead attribute.'''
         print_centre('{} is dead!'.format(self.name))
         self.dead = True
