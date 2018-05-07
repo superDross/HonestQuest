@@ -84,7 +84,6 @@ class Character(object):
             value = self._adjust_value_around_min(stat, value)
         current_stat = getattr(self, stat)
         calc = op_func(current_stat, value)
-        setattr(self, stat, calc)
         self._communicate_stat_change(stat, operator, value)
         self.check_hp()
 
@@ -115,9 +114,10 @@ class Character(object):
 
     def _adjust_value_around_min(self, stat, value):
         current_stat = getattr(self, stat)
-        if current_stat < 1:
+        deducted_stat = current_stat - value
+        if deducted_stat < 1 and stat in ['mp', 'ag', 'st']:
             min_stat = getattr(self, '_min_{}'.format(stat))
-            return min_stat
+            return current_stat - min_stat
         else:
             return value
 
