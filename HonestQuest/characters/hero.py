@@ -63,16 +63,16 @@ class Hero(Character):
 
     @property
     def exp(self):
+        ''' Determine level after increasing exp.'''
         return self._exp
 
     @exp.setter
     def exp(self, value):
-        ''' Determine level after increasing exp.'''
         self._exp += value
         self._determine_level()
 
     def _determine_stats(self):
-        ''' Detemine stats from level.'''
+        ''' Determine stats based on current level.'''
         self.hp = (self.lv * 5) - (self._max_hp - self.hp)
         self._max_hp = self.lv * 5
         self.mp = (self.lv * 2) - (self._max_mp - self.mp)
@@ -97,11 +97,15 @@ class Hero(Character):
                     break
 
     def _determine_new_magic(self, before_mglv):
-        ''' Communicate new spell learned after leveling up.'''
+        ''' Communicate new spell learned after leveling up.
+        Args:
+            before_mglv (HeroMagic): magic class before level up.
+        '''
         if type(before_mglv) != type(self.magic):
             new_spells = set(dir(self.magic)) - set(dir(before_mglv))
             if len(new_spells) > 1:
-                raise ValueError('More than one new spell: {}'.format(new_spells))
+                raise ValueError(
+                    'More than one new spell: {}'.format(new_spells))
             new_spell = list(new_spells)[0].replace('_', ' ').title()
             print_centre('\nLearned {}!\n'.format(new_spell))
             time.sleep(3)

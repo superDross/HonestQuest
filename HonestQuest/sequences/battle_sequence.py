@@ -5,7 +5,7 @@ from HonestQuest.utils import common
 
 
 class BattleSequence(object):
-    ''' Ititiates battle.
+    ''' Initiates battle.
 
     Attributes:
         hero (Hero): the players avatar object.
@@ -27,7 +27,6 @@ class BattleSequence(object):
 
     def execute(self):
         ''' Executes battle sequence starting at the main battle menu.'''
-        # Would this be better as a function outside the class?
         while not self.hero.dead and not self.enemy.dead:
             self.construct_battle_screen()
             option = self.main_menu.handle_options()
@@ -56,19 +55,27 @@ class BattleSequence(object):
         ''' Executes player submenu choice and target selection.
 
         Args:
-            submenu (SubMenu): am item or magic submenu'''
+            submenu (Menu): am item or magic submenu'''
         self.construct_battle_screen()
         submenu_selection = submenu.handle_options()
         if submenu_selection != self.main_menu:
             target = self.select_target()
-            # I would prefer that all submenus would handled the same here
             if submenu == self.main_menu.item_menu:
-                self.hero.inventory.use_item(submenu_selection.name, target)
+                self.use_item(submenu_selection, target)
             else:
                 submenu_selection(target)
             common.sleep()
         else:
             return self.main_menu
+
+    def use_item(self, item, target):
+        ''' Use the item on the target character
+
+        Args:
+            item (Item): the item to use.
+            target (Character): the object to use the item on.
+        '''
+        self.hero.inventory.use_item(item.name, target)
 
     def select_target(self):
         ''' Generates a Menu that asks user to select hero

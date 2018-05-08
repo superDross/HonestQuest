@@ -58,6 +58,7 @@ class SellMenu(Menu):
         Menu.__init__(self, options, choices, parent_menu)
 
     def _create_options(self):
+        ''' Set the items from inventory that can be sold to the store.'''
         if self.hero.inventory:
             options = {str(k + 1): v
                        for k, v in enumerate(self.hero.inventory)}
@@ -66,6 +67,7 @@ class SellMenu(Menu):
             return {}
 
     def _create_choices(self):
+        ''' Set the items on can choose to be sold.'''
         if self.hero.inventory:
             choices = []
             for num, item in enumerate(self.hero.inventory, 1):

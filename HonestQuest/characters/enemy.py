@@ -47,7 +47,11 @@ class Enemy(Character):
         self.dead = True
 
     def ai(self, target):
-        ''' Enemy action determined by if else block.'''
+        ''' Enemy action determined by if else block.
+
+        Args:
+            target (Character): object to target.
+        '''
         if not self.dead:
             actions = {'attack': 10, 'magic': 3}
             action = common.weighted_choice(actions)
@@ -142,6 +146,9 @@ class EnemyFactory(object):
     def _determine_species(self, species):
         ''' Weighted random determination of the enemy species,
             if a species name is not given.
+
+        Args:
+            species (str): valid species described in species stats csv file.
         '''
         if not species:
             species2rate = {k: int(v['random'])

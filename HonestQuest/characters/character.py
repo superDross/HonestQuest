@@ -59,6 +59,7 @@ class Character(object):
 
     @property
     def gold(self):
+        ''' Returns the amount of gold or adds it to the gold attr.'''
         return self._gold
 
     @gold.setter
@@ -99,7 +100,7 @@ class Character(object):
 
         Args:
             stat (str): hp, mp, st or ag.
-            value (int): valueber to increase the stat by.
+            value (int): number to increase the stat by.
         '''
         max_stat = getattr(self, '_max_{}'.format(stat))
         current_stat = getattr(self, stat)
@@ -114,6 +115,13 @@ class Character(object):
             return value
 
     def _adjust_value_around_min(self, stat, value):
+        ''' Adjusts the parsed value such that it cannot decrease
+            the stat value below its minimum limit.
+
+        Args:
+            stat (str); hp, mp, st or ag.
+            value (int): number to decrease the stat by.
+        '''
         current_stat = getattr(self, stat)
         deducted_stat = current_stat - value
         if deducted_stat < 1 and stat in ['mp', 'ag', 'st']:
@@ -123,7 +131,13 @@ class Character(object):
             return value
 
     def _communicate_stat_change(self, stat, operator, value):
-        ''' Print character stat changes.'''
+        ''' Print character stat changes.
+
+        Args:
+            stat (str): hp, mp, st or ag.
+            operator (str): '+' or '-'.
+            value (int): number to alter the stat by.
+        '''
         upordown = 'increases' if operator == '+' else 'decreases'
         msg = '{} {} {} by {}\n'.format(self.name, stat.upper(),
                                         upordown, value)
