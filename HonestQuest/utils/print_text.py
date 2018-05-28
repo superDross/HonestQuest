@@ -28,6 +28,7 @@ def print_centre(string):
 
 def centre_string(string):
     ''' Place the string in the middle of a terminal line.'''
+    # NOTE: this code be replaced with str.centre()
     nothing = midscreen(string)
     centered_string = nothing + string + nothing
     return centered_string
