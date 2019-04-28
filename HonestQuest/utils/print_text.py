@@ -1,9 +1,9 @@
-''' A set of functions to aid printing strings.'''
+""" A set of functions to aid printing strings."""
 import os
 
 
 def print_middle(text):
-    ''' Prints a text/list at the center of the terminal.'''
+    """ Prints a text/list at the center of the terminal."""
     if isinstance(text, list):
         print_middle(text[0])
         for s in text[1:]:
@@ -11,14 +11,14 @@ def print_middle(text):
     else:
         h = get_terminal_height()
         centered = centre_string(text)
-        nl = '\n' * (int(h / 2))
+        nl = "\n" * (int(h / 2))
         print(nl + centered)
 
 
 def print_centre(string):
-    ''' Print the string in the middle of a terminal line.'''
-    if '\n' in string:
-        string = [x for x in string.split('\n')]
+    """ Print the string in the middle of a terminal line."""
+    if "\n" in string:
+        string = [x for x in string.split("\n")]
     if isinstance(string, list):
         for s in string:
             print(centre_string(s))
@@ -27,7 +27,7 @@ def print_centre(string):
 
 
 def centre_string(string):
-    ''' Place the string in the middle of a terminal line.'''
+    """ Place the string in the middle of a terminal line."""
     # NOTE: this code be replaced with str.centre()
     nothing = midscreen(string)
     centered_string = nothing + string + nothing
@@ -35,10 +35,10 @@ def centre_string(string):
 
 
 def midscreen(string):
-    ''' Return a string of whitespace to centre a
-        text on the terminals line.'''
+    """ Return a string of whitespace to centre a
+        text on the terminals line."""
     w = get_terminal_width()
-    nothing = ' ' * int(((int(w - len(string)) - 1) / 2))
+    nothing = " " * int(((int(w - len(string)) - 1) / 2))
     return nothing
 
 

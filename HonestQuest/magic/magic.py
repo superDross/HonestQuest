@@ -2,7 +2,7 @@ from HonestQuest.utils.print_text import print_centre
 
 
 class Magic(object):
-    ''' Base class for a magic spell.
+    """ Base class for a magic spell.
 
     Attributes:
         character (Character): object whom the spell will be assigned to.
@@ -12,10 +12,9 @@ class Magic(object):
         value (int): number to add/subtract from targets stat.
         mp_cost (int): number to deduct from character mp.
         operator (bool): whether to operatorrease or decrease stat.
-    '''
+    """
 
-    def __init__(self, character, att_name, stat,
-                 value, mp_cost, operator, target):
+    def __init__(self, character, att_name, stat, value, mp_cost, operator, target):
         self._character = character
         self.att_name = att_name
         self.stat = stat
@@ -28,20 +27,18 @@ class Magic(object):
         self._magic()
 
     def _magic(self):
-        ''' Performs magic and depletes _character mp.'''
+        """ Performs magic and depletes _character mp."""
         per = self._reduce_mp()
         if per:
             self.target.alter_stat(self.stat, self.value, self.operator)
             self.target.check_hp()
 
     def _reduce_mp(self):
-        ''' Lower _character mp by a given value.'''
+        """ Lower _character mp by a given value."""
         if self._character.mp >= self.mp_cost:
             self._character.mp -= self.mp_cost
-            print_centre('{} uses {}!'.format(self._character.name,
-                                              self.att_name))
+            print_centre("{} uses {}!".format(self._character.name, self.att_name))
             return True
         elif self._character.mp < self.mp_cost:
-            print_centre("You don't have enough mp to use {}.\n".format(
-                self.att_name))
+            print_centre("You don't have enough mp to use {}.\n".format(self.att_name))
             return False

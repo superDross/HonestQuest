@@ -7,6 +7,10 @@ from HonestQuest.menus.menu import Menu
 from HonestQuest.menus import store
 from unittest.mock import patch
 import unittest
+import sys
+import os
+
+sys.stdout = open(os.devnull, 'w')
 
 # Create a menu for testing
 option = {'1': 'A', '2': 'B'}

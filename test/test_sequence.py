@@ -1,12 +1,16 @@
-from HonestQuest.sequences.store_sequence import StoreSequence
-from HonestQuest.characters.hero import Hero
-from HonestQuest.items import items
+import os
+import sys
+import unittest
 from unittest.mock import patch
 
-import unittest
+from HonestQuest.characters.hero import Hero
+from HonestQuest.items import items
+from HonestQuest.sequences.store_sequence import StoreSequence
+
+sys.stdout = open(os.devnull, "w")
 
 
-hero = Hero('Dummy', 1)
+hero = Hero("Dummy", 1)
 hero.gold += 1000
 
 STORE = StoreSequence(hero)
@@ -16,7 +20,7 @@ class TestStoreBuyingSelling(unittest.TestCase):
     def test_buying_transfer(self):
         STORE.purchase(items.Potion())
         inv_list = [x.name for x in hero.inventory]
-        self.assertTrue('Potion' in inv_list)
+        self.assertTrue("Potion" in inv_list)
 
     def test_buying_cost(self):
         old_gold = hero.gold
@@ -39,19 +43,19 @@ class TestStoreBuyingSelling(unittest.TestCase):
 
 class TestStoreSubMenus(unittest.TestCase):
     def test_sell_menu_sale(self):
-        with patch('builtins.input', lambda _: '1'):
+        with patch("builtins.input", lambda _: "1"):
             old_inv_len = len(hero.inventory)
             STORE.execute_submenu(STORE.main_menu.sell_menu)
             new_inv_len = len(hero.inventory)
             # self.assertEqual(new_inv_len, (old_inv_len - 1))
 
     def test_buy_menu_purchase(self):
-        with patch('builtins.input', lambda _: '1'):
+        with patch("builtins.input", lambda _: "1"):
             STORE.execute_submenu(STORE.main_menu.buy_menu)
             inv_list = [x.name for x in hero.inventory]
-            statements = all(['Potion' in inv_list, len(hero.inventory) == 1])
+            statements = all(["Potion" in inv_list, len(hero.inventory) == 1])
             self.assertTrue(statements)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

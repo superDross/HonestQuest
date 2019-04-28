@@ -1,0 +1,319 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BATTLE	test/test_menu.py	/^BATTLE = battle_menus.TopMenu(hero, enemy)$/;"	v
+BattleSequence	HonestQuest/sequences/battle_sequence.py	/^class BattleSequence(object):$/;"	c
+BuyMenu	HonestQuest/menus/store.py	/^class BuyMenu(Menu):$/;"	c
+Character	HonestQuest/characters/character.py	/^class Character(object):$/;"	c
+CharacterAttack	test/test_interactions.py	/^class CharacterAttack(unittest.TestCase):$/;"	c
+CharacterMagic	test/test_interactions.py	/^class CharacterMagic(unittest.TestCase):$/;"	c
+Direction	HonestQuest/overworld/overworld.py	/^class Direction(object):$/;"	c
+ENEMY	test/test_interactions.py	/^ENEMY = factory.generate_enemy("Goblin", 99)$/;"	v
+ENEMY	test/test_inventory.py	/^ENEMY = factory.generate_enemy("Goblin", 99)$/;"	v
+ENEMY	test/test_magic.py	/^ENEMY = factory.generate_enemy("Goblin", 1)$/;"	v
+Enemy	HonestQuest/characters/enemy.py	/^class Enemy(Character):$/;"	c
+EnemyFactory	HonestQuest/characters/enemy.py	/^class EnemyFactory(object):$/;"	c
+EnemyMagic	HonestQuest/magic/enemy_magic.py	/^class EnemyMagic(object):$/;"	c
+Ether	HonestQuest/items/items.py	/^class Ether(Item):$/;"	c
+Field	HonestQuest/overworld/overworld.py	/^class Field(object):$/;"	c
+GoblinMagic	test/test_interactions.py	/^class GoblinMagic(unittest.TestCase):$/;"	c
+HERE	test/test_characters.py	/^HERE = os.path.dirname(os.path.realpath(__file__))$/;"	v
+HERO	test/test_characters.py	/^HERO = Hero("Dummy", 10)$/;"	v
+HERO	test/test_interactions.py	/^HERO = Hero("Dummy", 99)$/;"	v
+HERO	test/test_inventory.py	/^HERO = Hero("Dummy", 99)$/;"	v
+HERO	test/test_magic.py	/^HERO = Hero("Dummy", 1)$/;"	v
+Hero	HonestQuest/characters/hero.py	/^class Hero(Character):$/;"	c
+InvalidTarget	HonestQuest/utils/custom_exceptions.py	/^class InvalidTarget(Exception):$/;"	c
+Inventory	HonestQuest/items/inventory.py	/^class Inventory(list):$/;"	c
+InventoryUsage	test/test_inventory.py	/^class InventoryUsage(unittest.TestCase):$/;"	c
+Item	HonestQuest/items/items.py	/^class Item(object):$/;"	c
+ItemMenu	HonestQuest/menus/battle_menus.py	/^class ItemMenu(Menu):$/;"	c
+ItemUsage	test/test_inventory.py	/^class ItemUsage(unittest.TestCase):$/;"	c
+LV1	HonestQuest/magic/hero_magic.py	/^class LV1(object):$/;"	c
+LV10	HonestQuest/magic/hero_magic.py	/^class LV10(LV6):$/;"	c
+LV15	HonestQuest/magic/hero_magic.py	/^class LV15(LV10):$/;"	c
+LV20	HonestQuest/magic/hero_magic.py	/^class LV20(LV15):$/;"	c
+LV3	HonestQuest/magic/hero_magic.py	/^class LV3(LV1):$/;"	c
+LV6	HonestQuest/magic/hero_magic.py	/^class LV6(LV3):$/;"	c
+M	test/test_menu.py	/^M = Menu(option, choices)$/;"	v
+MODULE_PATH	HonestQuest/config.py	/^MODULE_PATH = os.path.split(os.path.realpath(__file__))[0]$/;"	v
+Magic	HonestQuest/magic/magic.py	/^class Magic(object):$/;"	c
+MagicMenu	HonestQuest/menus/battle_menus.py	/^class MagicMenu(Menu):$/;"	c
+ManaCleaner	HonestQuest/items/items.py	/^class ManaCleaner(Item):$/;"	c
+MegaPhone	HonestQuest/items/items.py	/^class MegaPhone(Item):$/;"	c
+Menu	HonestQuest/menus/menu.py	/^class Menu(object):$/;"	c
+Molotov	HonestQuest/items/items.py	/^class Molotov(Item):$/;"	c
+OverWorld	HonestQuest/overworld/overworld.py	/^class OverWorld(object):$/;"	c
+Potion	HonestQuest/items/items.py	/^class Potion(Item):$/;"	c
+ProteinShake	HonestQuest/items/items.py	/^class ProteinShake(Item):$/;"	c
+RedBull	HonestQuest/items/items.py	/^class RedBull(Item):$/;"	c
+SM	test/test_menu.py	/^SM = Menu(options, choices, M)$/;"	v
+STORE	test/test_menu.py	/^STORE = store.StoreMenu(hero)$/;"	v
+STORE	test/test_sequence.py	/^STORE = StoreSequence(hero)$/;"	v
+SellMenu	HonestQuest/menus/store.py	/^class SellMenu(Menu):$/;"	c
+StatError	HonestQuest/utils/custom_exceptions.py	/^class StatError(Exception):$/;"	c
+StoreMenu	HonestQuest/menus/store.py	/^class StoreMenu(Menu):$/;"	c
+StoreSequence	HonestQuest/sequences/store_sequence.py	/^class StoreSequence(object):$/;"	c
+TestBattleMenu	test/test_menu.py	/^class TestBattleMenu(unittest.TestCase):$/;"	c
+TestEnemyFactory	test/test_characters.py	/^class TestEnemyFactory(unittest.TestCase):$/;"	c
+TestHero	test/test_characters.py	/^class TestHero(unittest.TestCase):$/;"	c
+TestMagic	test/test_magic.py	/^class TestMagic(unittest.TestCase):$/;"	c
+TestMenu	test/test_menu.py	/^class TestMenu(unittest.TestCase):$/;"	c
+TestStoreBuyingSelling	test/test_sequence.py	/^class TestStoreBuyingSelling(unittest.TestCase):$/;"	c
+TestStoreMenu	test/test_menu.py	/^class TestStoreMenu(unittest.TestCase):$/;"	c
+TestStoreSubMenus	test/test_sequence.py	/^class TestStoreSubMenus(unittest.TestCase):$/;"	c
+TestSubMenu	test/test_menu.py	/^class TestSubMenu(unittest.TestCase):$/;"	c
+TestWorld	test/test_overworld.py	/^class TestWorld(unittest.TestCase):$/;"	c
+TopMenu	HonestQuest/menus/battle_menus.py	/^class TopMenu(Menu):$/;"	c
+VodkaShots	HonestQuest/items/items.py	/^class VodkaShots(Item):$/;"	c
+WORLD	test/test_overworld.py	/^WORLD = overworld.OverWorld(4, 5)$/;"	v
+__call__	HonestQuest/items/items.py	/^    def __call__(self, target):$/;"	m	class:Item	file:
+__call__	HonestQuest/magic/magic.py	/^    def __call__(self):$/;"	m	class:Magic	file:
+__call__	HonestQuest/sequences/battle_sequence.py	/^    def __call__(self):$/;"	m	class:BattleSequence	file:
+__call__	HonestQuest/sequences/store_sequence.py	/^    def __call__(self):$/;"	m	class:StoreSequence	file:
+__init__	HonestQuest/characters/character.py	/^    def __init__(self, name, hp, mp, st, ag, lv, gold=0):$/;"	m	class:Character
+__init__	HonestQuest/characters/enemy.py	/^    def __init__($/;"	m	class:Enemy
+__init__	HonestQuest/characters/enemy.py	/^    def __init__(self):$/;"	m	class:EnemyFactory
+__init__	HonestQuest/characters/hero.py	/^    def __init__(self, name, lv):$/;"	m	class:Hero
+__init__	HonestQuest/items/inventory.py	/^    def __init__(self):$/;"	m	class:Inventory
+__init__	HonestQuest/items/items.py	/^    def __init__(self):$/;"	m	class:Ether
+__init__	HonestQuest/items/items.py	/^    def __init__(self):$/;"	m	class:ManaCleaner
+__init__	HonestQuest/items/items.py	/^    def __init__(self):$/;"	m	class:MegaPhone
+__init__	HonestQuest/items/items.py	/^    def __init__(self):$/;"	m	class:Molotov
+__init__	HonestQuest/items/items.py	/^    def __init__(self):$/;"	m	class:Potion
+__init__	HonestQuest/items/items.py	/^    def __init__(self):$/;"	m	class:ProteinShake
+__init__	HonestQuest/items/items.py	/^    def __init__(self):$/;"	m	class:RedBull
+__init__	HonestQuest/items/items.py	/^    def __init__(self):$/;"	m	class:VodkaShots
+__init__	HonestQuest/items/items.py	/^    def __init__(self, name, stat, operator, value, cost, description):$/;"	m	class:Item
+__init__	HonestQuest/magic/enemy_magic.py	/^    def __init__(self, enemy, magic_names):$/;"	m	class:EnemyMagic
+__init__	HonestQuest/magic/hero_magic.py	/^    def __init__(self, character):$/;"	m	class:LV1
+__init__	HonestQuest/magic/magic.py	/^    def __init__(self, character, att_name, stat, value, mp_cost, operator, target):$/;"	m	class:Magic
+__init__	HonestQuest/menus/battle_menus.py	/^    def __init__(self, hero, enemy):$/;"	m	class:TopMenu
+__init__	HonestQuest/menus/battle_menus.py	/^    def __init__(self, hero, parent_menu):$/;"	m	class:ItemMenu
+__init__	HonestQuest/menus/battle_menus.py	/^    def __init__(self, hero, parent_menu):$/;"	m	class:MagicMenu
+__init__	HonestQuest/menus/menu.py	/^    def __init__(self, options, choices, parent=None):$/;"	m	class:Menu
+__init__	HonestQuest/menus/store.py	/^    def __init__(self, hero):$/;"	m	class:StoreMenu
+__init__	HonestQuest/menus/store.py	/^    def __init__(self, hero, parent_menu):$/;"	m	class:BuyMenu
+__init__	HonestQuest/menus/store.py	/^    def __init__(self, hero, parent_menu):$/;"	m	class:SellMenu
+__init__	HonestQuest/overworld/overworld.py	/^    def __init__(self):$/;"	m	class:Direction
+__init__	HonestQuest/overworld/overworld.py	/^    def __init__(self, height, width):$/;"	m	class:OverWorld
+__init__	HonestQuest/overworld/overworld.py	/^    def __init__(self, height, width, x, y):$/;"	m	class:Field
+__init__	HonestQuest/sequences/battle_sequence.py	/^    def __init__(self, hero, enemy):$/;"	m	class:BattleSequence
+__init__	HonestQuest/sequences/store_sequence.py	/^    def __init__(self, hero):$/;"	m	class:StoreSequence
+__init__	HonestQuest/utils/custom_exceptions.py	/^    def __init__(self, stat, stats=["hp", "mp", "ag", "st"], msg=None):$/;"	m	class:StatError
+__init__	HonestQuest/utils/custom_exceptions.py	/^    def __init__(self, target, valid_targets, msg=None):$/;"	m	class:InvalidTarget
+__str__	HonestQuest/characters/character.py	/^    def __str__(self):$/;"	m	class:Character	file:
+__str__	HonestQuest/items/inventory.py	/^    def __str__(self):$/;"	m	class:Inventory	file:
+__str__	HonestQuest/items/items.py	/^    def __str__(self):$/;"	m	class:Item	file:
+_add_back_to_choices	HonestQuest/menus/menu.py	/^    def _add_back_to_choices(self, choices):$/;"	m	class:Menu
+_add_parent_to_options	HonestQuest/menus/menu.py	/^    def _add_parent_to_options(self, options):$/;"	m	class:Menu
+_adjust_value_around_max	HonestQuest/characters/character.py	/^    def _adjust_value_around_max(self, stat, value):$/;"	m	class:Character
+_adjust_value_around_min	HonestQuest/characters/character.py	/^    def _adjust_value_around_min(self, stat, value):$/;"	m	class:Character
+_check_item_type	HonestQuest/items/inventory.py	/^    def _check_item_type(self, item):$/;"	m	class:Inventory
+_check_space	HonestQuest/items/inventory.py	/^    def _check_space(self):$/;"	m	class:Inventory
+_communicate_stat_change	HonestQuest/characters/character.py	/^    def _communicate_stat_change(self, stat, operator, value):$/;"	m	class:Character
+_create_choices	HonestQuest/menus/battle_menus.py	/^    def _create_choices(self):$/;"	m	class:ItemMenu
+_create_choices	HonestQuest/menus/store.py	/^    def _create_choices(self):$/;"	m	class:SellMenu
+_create_options	HonestQuest/menus/battle_menus.py	/^    def _create_options(self):$/;"	m	class:ItemMenu
+_create_options	HonestQuest/menus/store.py	/^    def _create_options(self):$/;"	m	class:SellMenu
+_death	HonestQuest/characters/character.py	/^    def _death(self):$/;"	m	class:Character
+_death	HonestQuest/characters/hero.py	/^    def _death(self):$/;"	m	class:Hero
+_determine_level	HonestQuest/characters/hero.py	/^    def _determine_level(self):$/;"	m	class:Hero
+_determine_new_magic	HonestQuest/characters/hero.py	/^    def _determine_new_magic(self, before_mglv):$/;"	m	class:Hero
+_determine_species	HonestQuest/characters/enemy.py	/^    def _determine_species(self, species):$/;"	m	class:EnemyFactory
+_determine_stats	HonestQuest/characters/hero.py	/^    def _determine_stats(self):$/;"	m	class:Hero
+_get_all_magic	HonestQuest/menus/battle_menus.py	/^    def _get_all_magic(self):$/;"	m	class:MagicMenu
+_magic	HonestQuest/magic/magic.py	/^    def _magic(self):$/;"	m	class:Magic
+_magic_spell_options	HonestQuest/menus/battle_menus.py	/^    def _magic_spell_options(self):$/;"	m	class:MagicMenu
+_magic_spell_string	HonestQuest/menus/battle_menus.py	/^    def _magic_spell_string(self):$/;"	m	class:MagicMenu
+_min_max	HonestQuest/overworld/overworld.py	/^    def _min_max(n, minn, maxn):$/;"	m	class:OverWorld
+_reduce_mp	HonestQuest/magic/magic.py	/^    def _reduce_mp(self):$/;"	m	class:Magic
+_set_attributes	HonestQuest/magic/enemy_magic.py	/^    def _set_attributes(self, magic_names):$/;"	m	class:EnemyMagic
+_set_choices	HonestQuest/menus/store.py	/^    def _set_choices(self, options):$/;"	m	class:BuyMenu
+_set_options	HonestQuest/menus/store.py	/^    def _set_options(self):$/;"	m	class:BuyMenu
+_species_stats_dict	HonestQuest/characters/enemy.py	/^    def _species_stats_dict(lv=None):$/;"	m	class:EnemyFactory
+_use_msg	HonestQuest/items/items.py	/^    def _use_msg(self):$/;"	m	class:Item
+_use_msg	HonestQuest/items/items.py	/^    def _use_msg(self):$/;"	m	class:ManaCleaner
+_use_msg	HonestQuest/items/items.py	/^    def _use_msg(self):$/;"	m	class:MegaPhone
+_use_msg	HonestQuest/items/items.py	/^    def _use_msg(self):$/;"	m	class:Molotov
+_use_msg	HonestQuest/items/items.py	/^    def _use_msg(self):$/;"	m	class:ProteinShake
+_use_msg	HonestQuest/items/items.py	/^    def _use_msg(self):$/;"	m	class:VodkaShots
+add_items	HonestQuest/items/inventory.py	/^    def add_items(self, *items):$/;"	m	class:Inventory
+ai	HonestQuest/characters/enemy.py	/^    def ai(self, target):$/;"	m	class:Enemy
+alter_stat	HonestQuest/characters/character.py	/^    def alter_stat(self, stat, value, operator):$/;"	m	class:Character
+animate_overworld	HonestQuest/__main__.py	/^def animate_overworld(overworld, hero):$/;"	f
+animations	HonestQuest/animations/animations.py	/^animations = {$/;"	v
+attack	HonestQuest/characters/character.py	/^    def attack(self, target):$/;"	m	class:Character
+attack	HonestQuest/menus/battle_menus.py	/^    def attack(self):$/;"	m	class:TopMenu
+bat	HonestQuest/animations/animations.py	/^bat = [$/;"	v
+battle_animation	HonestQuest/__main__.py	/^def battle_animation():$/;"	f
+big_attack	HonestQuest/magic/enemy_magic.py	/^    def big_attack(self, target):$/;"	m	class:EnemyMagic
+buff	HonestQuest/magic/enemy_magic.py	/^    def buff(self, target):$/;"	m	class:EnemyMagic
+centre_string	HonestQuest/utils/print_text.py	/^def centre_string(string):$/;"	f
+check_hp	HonestQuest/characters/character.py	/^    def check_hp(self):$/;"	m	class:Character
+check_minus_gold	test/test_characters.py	/^    def check_minus_gold(self):$/;"	m	class:TestHero
+check_transfer_gold	test/test_characters.py	/^    def check_transfer_gold(self):$/;"	m	class:TestHero
+choices	test/test_menu.py	/^choices = '1. A\\n2. B'$/;"	v
+choices	test/test_menu.py	/^choices = '1. C\\n2. D'$/;"	v
+christian	HonestQuest/animations/animations.py	/^christian = [$/;"	v
+clear	HonestQuest/utils/common.py	/^def clear():$/;"	f
+confirm_name	HonestQuest/__main__.py	/^def confirm_name(name):$/;"	f
+construct_battle_screen	HonestQuest/sequences/battle_sequence.py	/^    def construct_battle_screen(self):$/;"	m	class:BattleSequence
+construct_store_screen	HonestQuest/sequences/store_sequence.py	/^    def construct_store_screen(self):$/;"	m	class:StoreSequence
+death	HonestQuest/characters/enemy.py	/^    def death(self):$/;"	m	class:Enemy
+debuff	HonestQuest/magic/enemy_magic.py	/^    def debuff(self, target):$/;"	m	class:EnemyMagic
+dragon	HonestQuest/animations/animations.py	/^dragon = [$/;"	v
+enemy	test/test_menu.py	/^enemy = factory.generate_enemy('Goblin', 1)$/;"	v
+enemy_generator	HonestQuest/__main__.py	/^def enemy_generator(lv):$/;"	f
+execute	HonestQuest/sequences/battle_sequence.py	/^    def execute(self):$/;"	m	class:BattleSequence
+execute	HonestQuest/sequences/store_sequence.py	/^    def execute(self):$/;"	m	class:StoreSequence
+execute_submenu	HonestQuest/sequences/battle_sequence.py	/^    def execute_submenu(self, submenu):$/;"	m	class:BattleSequence
+execute_submenu	HonestQuest/sequences/store_sequence.py	/^    def execute_submenu(self, submenu):$/;"	m	class:StoreSequence
+exit	HonestQuest/menus/store.py	/^    def exit(self):$/;"	m	class:StoreMenu
+exp	HonestQuest/characters/hero.py	/^    def exp(self):$/;"	m	class:Hero
+exp	HonestQuest/characters/hero.py	/^    def exp(self, value):$/;"	m	class:Hero
+extract_item	HonestQuest/items/inventory.py	/^    def extract_item(self, item):$/;"	m	class:Inventory
+factory	test/test_characters.py	/^factory = EnemyFactory()$/;"	v
+factory	test/test_interactions.py	/^factory = EnemyFactory()$/;"	v
+factory	test/test_inventory.py	/^factory = EnemyFactory()$/;"	v
+factory	test/test_magic.py	/^factory = EnemyFactory()$/;"	v
+factory	test/test_menu.py	/^factory = EnemyFactory()$/;"	v
+feline	HonestQuest/animations/animations.py	/^feline = [$/;"	v
+fireball	HonestQuest/magic/hero_magic.py	/^    def fireball(self, target):$/;"	m	class:LV6
+firewhirl	HonestQuest/magic/hero_magic.py	/^    def firewhirl(self, target):$/;"	m	class:LV20
+flee	HonestQuest/menus/battle_menus.py	/^    def flee(self):$/;"	m	class:TopMenu
+flush_input	HonestQuest/utils/common.py	/^def flush_input():$/;"	f
+from_list	HonestQuest/menus/menu.py	/^    def from_list(cls, l):$/;"	m	class:Menu
+generate_enemy	HonestQuest/characters/enemy.py	/^    def generate_enemy(self, species=None, lv=None):$/;"	m	class:EnemyFactory
+generate_field_matrix	HonestQuest/overworld/overworld.py	/^    def generate_field_matrix(self):$/;"	m	class:Field
+generate_field_objects	HonestQuest/overworld/overworld.py	/^    def generate_field_objects(self, matrix):$/;"	m	class:Field
+generate_hero	HonestQuest/__main__.py	/^def generate_hero():$/;"	f
+get_name	HonestQuest/__main__.py	/^def get_name():$/;"	f
+get_terminal_height	HonestQuest/utils/print_text.py	/^def get_terminal_height():$/;"	f
+get_terminal_width	HonestQuest/utils/print_text.py	/^def get_terminal_width():$/;"	f
+goblin	HonestQuest/animations/animations.py	/^goblin = [$/;"	v
+gold	HonestQuest/characters/character.py	/^    def gold(self):$/;"	m	class:Character
+gold	HonestQuest/characters/character.py	/^    def gold(self, amount):$/;"	m	class:Character
+handle_options	HonestQuest/menus/menu.py	/^    def handle_options(self):$/;"	m	class:Menu
+heal	HonestQuest/magic/hero_magic.py	/^    def heal(self, target):$/;"	m	class:LV1
+hero	test/test_menu.py	/^hero = Hero('Dummy', 1)$/;"	v
+hero	test/test_sequence.py	/^hero = Hero("Dummy", 1)$/;"	v
+initiate_battle	HonestQuest/__main__.py	/^def initiate_battle(hero, enemy):$/;"	f
+intiate_overworld	HonestQuest/__main__.py	/^def intiate_overworld(height=40, width=93):$/;"	f
+level_randomiser	HonestQuest/__main__.py	/^def level_randomiser(hero):$/;"	f
+leveling	HonestQuest/stats/leveling.py	/^leveling = {$/;"	v
+load_hero	HonestQuest/__main__.py	/^def load_hero():$/;"	f
+log	test/test_characters.py	/^log = logging.getLogger()$/;"	v
+log	test/test_interactions.py	/^log = logging.getLogger()$/;"	v
+log	test/test_inventory.py	/^log = logging.getLogger()$/;"	v
+log	test/test_magic.py	/^log = logging.getLogger()$/;"	v
+magic	HonestQuest/characters/hero.py	/^    def magic(self):$/;"	m	class:Hero
+main	HonestQuest/__main__.py	/^def main():$/;"	f
+merge_two_dicts	HonestQuest/utils/common.py	/^def merge_two_dicts(x, y):$/;"	f
+midheal	HonestQuest/magic/hero_magic.py	/^    def midheal(self, target):$/;"	m	class:LV10
+midscreen	HonestQuest/utils/print_text.py	/^def midscreen(string):$/;"	f
+move_hero	HonestQuest/overworld/overworld.py	/^    def move_hero(self):$/;"	m	class:OverWorld
+option	test/test_menu.py	/^option = {'1': 'A', '2': 'B'}$/;"	v
+options	test/test_menu.py	/^options = {'1': 'C', '2': 'D'}$/;"	v
+print_centre	HonestQuest/utils/print_text.py	/^def print_centre(string):$/;"	f
+print_controls	HonestQuest/overworld/overworld.py	/^    def print_controls(self):$/;"	m	class:Direction
+print_middle	HonestQuest/utils/print_text.py	/^def print_middle(text):$/;"	f
+purchase	HonestQuest/sequences/store_sequence.py	/^    def purchase(self, item):$/;"	m	class:StoreSequence
+rage	HonestQuest/magic/hero_magic.py	/^    def rage(self, target):$/;"	m	class:LV3
+rat	HonestQuest/animations/animations.py	/^rat = [$/;"	v
+record_keypress	HonestQuest/overworld/overworld.py	/^    def record_keypress(self):$/;"	m	class:Direction
+regenerate_max_stats	HonestQuest/characters/hero.py	/^    def regenerate_max_stats(self):$/;"	m	class:Hero
+remove_item	HonestQuest/items/inventory.py	/^    def remove_item(self, item):$/;"	m	class:Inventory
+render_field	HonestQuest/overworld/overworld.py	/^    def render_field(self):$/;"	m	class:Field
+resize_terminal	HonestQuest/__main__.py	/^def resize_terminal(height, width):$/;"	f
+save	HonestQuest/characters/hero.py	/^    def save(self):$/;"	m	class:Hero
+select_target	HonestQuest/sequences/battle_sequence.py	/^    def select_target(self):$/;"	m	class:BattleSequence
+sell	HonestQuest/sequences/store_sequence.py	/^    def sell(self, item):$/;"	m	class:StoreSequence
+setUp	test/test_interactions.py	/^    def setUp(self):$/;"	m	class:CharacterMagic
+setUp	test/test_inventory.py	/^    def setUp(self):$/;"	m	class:ItemUsage
+set_key	HonestQuest/overworld/overworld.py	/^    def set_key(self):$/;"	m	class:Direction
+shopkeep	HonestQuest/animations/animations.py	/^shopkeep = [$/;"	v
+sleep	HonestQuest/utils/common.py	/^def sleep():$/;"	f
+snort_coke	HonestQuest/magic/hero_magic.py	/^    def snort_coke(self, target):$/;"	m	class:LV15
+soldier	HonestQuest/animations/animations.py	/^soldier = [$/;"	v
+species	HonestQuest/characters/enemy.py	/^    def species(self):$/;"	m	class:EnemyFactory
+species	HonestQuest/characters/enemy.py	/^    def species(self, species):$/;"	m	class:EnemyFactory
+tearDown	test/test_interactions.py	/^    def tearDown(self):$/;"	m	class:CharacterAttack
+tearDown	test/test_interactions.py	/^    def tearDown(self):$/;"	m	class:CharacterMagic
+tearDown	test/test_interactions.py	/^    def tearDown(self):$/;"	m	class:GoblinMagic
+test_add_items	test/test_inventory.py	/^    def test_add_items(self):$/;"	m	class:InventoryUsage
+test_attack	test/test_menu.py	/^    def test_attack(self):$/;"	m	class:TestBattleMenu
+test_back	test/test_menu.py	/^    def test_back(self):$/;"	m	class:TestSubMenu
+test_back_button	test/test_menu.py	/^    def test_back_button(self):$/;"	m	class:TestStoreMenu
+test_bat_stats	test/test_characters.py	/^    def test_bat_stats(self):$/;"	m	class:TestEnemyFactory
+test_big_attack	test/test_interactions.py	/^    def test_big_attack(self):$/;"	m	class:GoblinMagic
+test_buff	test/test_interactions.py	/^    def test_buff(self):$/;"	m	class:GoblinMagic
+test_buy_menu_purchase	test/test_sequence.py	/^    def test_buy_menu_purchase(self):$/;"	m	class:TestStoreSubMenus
+test_buying_cost	test/test_sequence.py	/^    def test_buying_cost(self):$/;"	m	class:TestStoreBuyingSelling
+test_buying_potion	test/test_menu.py	/^    def test_buying_potion(self):$/;"	m	class:TestStoreMenu
+test_buying_transfer	test/test_sequence.py	/^    def test_buying_transfer(self):$/;"	m	class:TestStoreBuyingSelling
+test_coke	test/test_interactions.py	/^    def test_coke(self):$/;"	m	class:CharacterMagic
+test_death	test/test_characters.py	/^    def test_death(self):$/;"	m	class:TestHero
+test_debuff	test/test_interactions.py	/^    def test_debuff(self):$/;"	m	class:GoblinMagic
+test_dragon_stats	test/test_characters.py	/^    def test_dragon_stats(self):$/;"	m	class:TestEnemyFactory
+test_enemy_attack_hero	test/test_interactions.py	/^    def test_enemy_attack_hero(self):$/;"	m	class:CharacterAttack
+test_enter_buy_menu	test/test_menu.py	/^    def test_enter_buy_menu(self):$/;"	m	class:TestStoreMenu
+test_enter_sell_menu	test/test_menu.py	/^    def test_enter_sell_menu(self):$/;"	m	class:TestStoreMenu
+test_ether	test/test_inventory.py	/^    def test_ether(self):$/;"	m	class:ItemUsage
+test_exit	test/test_menu.py	/^    def test_exit(self):$/;"	m	class:TestStoreMenu
+test_extract_item	test/test_inventory.py	/^    def test_extract_item(self):$/;"	m	class:InventoryUsage
+test_fireball	test/test_interactions.py	/^    def test_fireball(self):$/;"	m	class:CharacterMagic
+test_firewhirl	test/test_interactions.py	/^    def test_firewhirl(self):$/;"	m	class:CharacterMagic
+test_flee	test/test_menu.py	/^    def test_flee(self):$/;"	m	class:TestBattleMenu
+test_from_list	test/test_menu.py	/^    def test_from_list(self):$/;"	m	class:TestMenu
+test_goblin_stats	test/test_characters.py	/^    def test_goblin_stats(self):$/;"	m	class:TestEnemyFactory
+test_hero_attack_enemy	test/test_interactions.py	/^    def test_hero_attack_enemy(self):$/;"	m	class:CharacterAttack
+test_hero_heal	test/test_interactions.py	/^    def test_hero_heal(self):$/;"	m	class:CharacterMagic
+test_hero_midheal	test/test_interactions.py	/^    def test_hero_midheal(self):$/;"	m	class:CharacterMagic
+test_hero_rage	test/test_interactions.py	/^    def test_hero_rage(self):$/;"	m	class:CharacterMagic
+test_item	test/test_menu.py	/^    def test_item(self):$/;"	m	class:TestBattleMenu
+test_level10_magic	test/test_characters.py	/^    def test_level10_magic(self):$/;"	m	class:TestHero
+test_level10_stats	test/test_characters.py	/^    def test_level10_stats(self):$/;"	m	class:TestHero
+test_level20_magic	test/test_characters.py	/^    def test_level20_magic(self):$/;"	m	class:TestHero
+test_level_up	test/test_characters.py	/^    def test_level_up(self):$/;"	m	class:TestHero
+test_level_up_magic	test/test_characters.py	/^    def test_level_up_magic(self):$/;"	m	class:TestHero
+test_limit	test/test_inventory.py	/^    def test_limit(self):$/;"	m	class:InventoryUsage
+test_lv20_buy	test/test_menu.py	/^    def test_lv20_buy(self):$/;"	m	class:TestBattleMenu
+test_lv20_buy	test/test_menu.py	/^    def test_lv20_buy(self):$/;"	m	class:TestStoreMenu
+test_magic	test/test_menu.py	/^    def test_magic(self):$/;"	m	class:TestBattleMenu
+test_magic_creation	test/test_magic.py	/^    def test_magic_creation(self):$/;"	m	class:TestMagic
+test_manacleaner	test/test_inventory.py	/^    def test_manacleaner(self):$/;"	m	class:ItemUsage
+test_megaphone	test/test_inventory.py	/^    def test_megaphone(self):$/;"	m	class:ItemUsage
+test_menu_option_1	test/test_menu.py	/^    def test_menu_option_1(self):$/;"	m	class:TestMenu
+test_menu_option_2	test/test_menu.py	/^    def test_menu_option_2(self):$/;"	m	class:TestMenu
+test_min_stats	test/test_characters.py	/^    def test_min_stats(self):$/;"	m	class:TestHero
+test_molotov	test/test_inventory.py	/^    def test_molotov(self):$/;"	m	class:ItemUsage
+test_move_down	test/test_overworld.py	/^    def test_move_down(self):$/;"	m	class:TestWorld
+test_move_left	test/test_overworld.py	/^    def test_move_left(self):$/;"	m	class:TestWorld
+test_move_right	test/test_overworld.py	/^    def test_move_right(self):$/;"	m	class:TestWorld
+test_move_up	test/test_overworld.py	/^    def test_move_up(self):$/;"	m	class:TestWorld
+test_not_full	test/test_inventory.py	/^    def test_not_full(self):$/;"	m	class:InventoryUsage
+test_potion	test/test_inventory.py	/^    def test_potion(self):$/;"	m	class:ItemUsage
+test_protein	test/test_inventory.py	/^    def test_protein(self):$/;"	m	class:ItemUsage
+test_redbull	test/test_inventory.py	/^    def test_redbull(self):$/;"	m	class:ItemUsage
+test_regeneration	test/test_characters.py	/^    def test_regeneration(self):$/;"	m	class:TestHero
+test_remove_item	test/test_inventory.py	/^    def test_remove_item(self):$/;"	m	class:InventoryUsage
+test_rendered_world	test/test_overworld.py	/^    def test_rendered_world(self):$/;"	m	class:TestWorld
+test_save	test/test_characters.py	/^    def test_save(self):$/;"	m	class:TestHero
+test_sell_menu_sale	test/test_sequence.py	/^    def test_sell_menu_sale(self):$/;"	m	class:TestStoreSubMenus
+test_selling_cost	test/test_sequence.py	/^    def test_selling_cost(self):$/;"	m	class:TestStoreBuyingSelling
+test_selling_potion	test/test_menu.py	/^    def test_selling_potion(self):$/;"	m	class:TestStoreMenu
+test_selling_transfer	test/test_sequence.py	/^    def test_selling_transfer(self):$/;"	m	class:TestStoreBuyingSelling
+test_tear_down	test/test_characters.py	/^    def test_tear_down(self):$/;"	m	class:TestHero
+test_vodka	test/test_inventory.py	/^    def test_vodka(self):$/;"	m	class:ItemUsage
+title	HonestQuest/animations/animations.py	/^title = [$/;"	v
+title_animation	HonestQuest/__main__.py	/^def title_animation():$/;"	f
+transfer_gold_exp	HonestQuest/sequences/battle_sequence.py	/^    def transfer_gold_exp(self):$/;"	m	class:BattleSequence
+use	HonestQuest/items/items.py	/^    def use(self, target):$/;"	m	class:Item
+use	HonestQuest/items/items.py	/^    def use(self, target):$/;"	m	class:VodkaShots
+use_item	HonestQuest/items/inventory.py	/^    def use_item(self, item, target):$/;"	m	class:Inventory
+use_item	HonestQuest/sequences/battle_sequence.py	/^    def use_item(self, item, target):$/;"	m	class:BattleSequence
+weighted_choice	HonestQuest/utils/common.py	/^def weighted_choice(d):$/;"	f

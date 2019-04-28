@@ -1,22 +1,34 @@
-''' python3 ./test_modules.py -b '''
-from HonestQuest.characters.hero import Hero
-from HonestQuest.characters.enemy import EnemyFactory
-from HonestQuest.magic.magic import Magic
+""" python3 ./test_modules.py -b """
 import logging
+import os
+import sys
 import unittest
+
+from HonestQuest.characters.enemy import EnemyFactory
+from HonestQuest.characters.hero import Hero
+from HonestQuest.magic.magic import Magic
+
+sys.stdout = open(os.devnull, "w")
 
 log = logging.getLogger()
 log.disabled = True
 
-HERO = Hero('Dummy', 1)
+HERO = Hero("Dummy", 1)
 factory = EnemyFactory()
-ENEMY = factory.generate_enemy('Goblin', 1)
+ENEMY = factory.generate_enemy("Goblin", 1)
 
 
 class TestMagic(unittest.TestCase):
     def test_magic_creation(self):
-        new_magic = Magic(character=HERO, att_name='Elbow Smash', stat='hp',
-                          value=2, mp_cost=1, operator='-', target=ENEMY)
+        new_magic = Magic(
+            character=HERO,
+            att_name="Elbow Smash",
+            stat="hp",
+            value=2,
+            mp_cost=1,
+            operator="-",
+            target=ENEMY,
+        )
         old_hp = ENEMY.hp
         old_mp = HERO.mp
         new_magic()
@@ -24,5 +36,5 @@ class TestMagic(unittest.TestCase):
         self.assertTrue(test)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

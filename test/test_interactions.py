@@ -1,18 +1,23 @@
-''' python3 ./test_modules.py -b
+""" python3 ./test_modules.py -b
 
 Tests attacking and magic interaction between hero and enemy objects.
-'''
-from HonestQuest.characters.hero import Hero
-from HonestQuest.characters.enemy import EnemyFactory
+"""
 import logging
+import os
+import sys
 import unittest
+
+from HonestQuest.characters.enemy import EnemyFactory
+from HonestQuest.characters.hero import Hero
+
+sys.stdout = open(os.devnull, "w")
 
 log = logging.getLogger()
 log.disabled = True
 
-HERO = Hero('Dummy', 99)
+HERO = Hero("Dummy", 99)
 factory = EnemyFactory()
-ENEMY = factory.generate_enemy('Goblin', 99)
+ENEMY = factory.generate_enemy("Goblin", 99)
 
 
 class CharacterAttack(unittest.TestCase):
@@ -94,5 +99,5 @@ class GoblinMagic(unittest.TestCase):
         ENEMY.hp = ENEMY._max_hp
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
